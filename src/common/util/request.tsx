@@ -1,5 +1,5 @@
 // Default api host for requests
-export const DEFAULT_HOST: string = 'http://localhost:5000/api';
+export const DEFAULT_HOST: string = 'http://localhost:8080/api';
 
 /**
  * Utility function for finding the api host
