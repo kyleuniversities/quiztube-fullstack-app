@@ -1,13 +1,17 @@
 import { RequestContainer } from '../RequestContainer';
 import { SitePage } from '../SitePage';
+import { ViewListDataItemsPage } from '../dataitem/ViewListDataItemsPage';
 
 /**
  * The Home Page for the app
  */
 export const HomePage = () => {
   return (
-    <SitePage>
-      <RequestContainer />
-    </SitePage>
+    <ViewListDataItemsPage
+      headerTitle="Questions"
+      dataToken="question"
+      getTitle={(item: any) => item.question}
+      getDescription={(item: any) => item.answer}
+    />
   );
 };
