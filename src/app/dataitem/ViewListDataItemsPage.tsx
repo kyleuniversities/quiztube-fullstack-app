@@ -69,6 +69,9 @@ export const ViewListDataItemsPage = (
         query={query}
       />
       <DataItemsMenuListColumnContainer>
+        <Link to={`/${props.dataToken}/add`}>
+          <Button icon="plus" color="blue" content="New Question" />
+        </Link>
         <DataItemsListColumn
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
@@ -123,7 +126,11 @@ const DataItemsSearchSegment = (props: {
  * Grid for displaying data items along with filter menu
  */
 const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
-  return <Container fluid>{props.children}</Container>;
+  return (
+    <Container style={{ paddingLeft: '20px', paddingRight: '20px' }} fluid>
+      {props.children}
+    </Container>
+  );
 };
 
 /**
@@ -199,7 +206,25 @@ const DataListItem = (props: {
       <List.Content>
         <List.Header>{props.itemTitle}</List.Header>
         <List.Description>{props.itemDescription}</List.Description>
+        <Container style={{ paddingTop: '10px' }}>
+          <Link to={`/questions/edit/${props.itemId}`}>
+            <Button icon="pencil alternate" color="green" content="Edit" />
+          </Link>
+          <Button
+            icon="trash"
+            color="red"
+            content="Delete"
+            onClick={() => deleteDataItem(props.dataToken, props.itemId)}
+          />
+        </Container>
       </List.Content>
     </List.Item>
   );
+};
+
+const deleteDataItem = (dataToken: string, id: string): void => {
+  request(`/${dataToken}/${id}`, { method: 'DELETE' }).then((data) => {
+    alert(data);
+    window.location.reload();
+  });
 };

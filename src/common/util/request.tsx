@@ -25,6 +25,7 @@ export const fullRequest = async (
   options: any = {}
 ): Promise<any> => {
   alert('REQUEST: ' + fullUrl);
+  alert('OPTIONS: ' + JSON.stringify(options));
   return fetch(fullUrl, {
     ...options,
   }).then((data) => {

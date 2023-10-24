@@ -9,7 +9,7 @@ export const HomePage = () => {
   return (
     <ViewListDataItemsPage
       headerTitle="Questions"
-      dataToken="question"
+      dataToken="questions"
       getTitle={(item: any) => item.question}
       getDescription={(item: any) => item.answer}
     />
