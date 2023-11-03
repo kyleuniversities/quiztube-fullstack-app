@@ -3,11 +3,14 @@ import {
   Button,
   Card,
   Container,
+  Grid,
   Header,
   Image,
   ItemImage,
   List,
+  Menu,
   Search,
+  Segment,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../../common/util/request';
@@ -151,14 +154,12 @@ const DataItemsListColumn = (props: {
   return (
     <List
       size="huge"
-      divided
       relaxed
       style={{
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        backgroundColor: 'white',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        paddingTop: '0px',
+        paddingBottom: '0px',
       }}
     >
       {props.dataItems.map((item) => {
@@ -195,29 +196,55 @@ const DataListItem = (props: {
   return (
     <List.Item
       style={{
-        marginTop: 20,
-        marginBottom: 20,
-        marginLeft: 11,
-        marginRight: 11,
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: 0,
+        marginRight: 0,
         color: 'black',
       }}
     >
-      <Image src={`${props.itemImage}`} />
-      <List.Content>
-        <List.Header>{props.itemTitle}</List.Header>
-        <List.Description>{props.itemDescription}</List.Description>
-        <Container style={{ paddingTop: '10px' }}>
-          <Link to={`/questions/edit/${props.itemId}`}>
-            <Button icon="pencil alternate" color="green" content="Edit" />
-          </Link>
-          <Button
-            icon="trash"
-            color="red"
-            content="Delete"
-            onClick={() => deleteDataItem(props.dataToken, props.itemId)}
-          />
-        </Container>
-      </List.Content>
+      <Segment
+        fluid
+        style={{
+          marginLeft: 0,
+          paddingLeft: '10px',
+          borderColor: 'black',
+          borderWidth: '3px',
+          borderRadius: '3px',
+        }}
+      >
+        <List.Content>
+          <Container fluid>
+            <Image
+              style={{ float: 'left', width: '100px', height: '100px' }}
+              src={`${props.itemImage}`}
+            />
+            <div>
+              <div style={{ marginLeft: '100px', paddingTop: '5px' }}>
+                <List.Header>{props.itemTitle}</List.Header>
+                <List.Description>{props.itemDescription}</List.Description>
+              </div>
+              <Container fluid style={{ paddingTop: '5px' }}>
+                <Link to={`/questions/edit/${props.itemId}`}>
+                  <Button
+                    inline
+                    icon="pencil alternate"
+                    color="green"
+                    content="Edit"
+                  />
+                </Link>
+                <Button
+                  inline
+                  icon="trash"
+                  color="red"
+                  content="Delete"
+                  onClick={() => deleteDataItem(props.dataToken, props.itemId)}
+                />
+              </Container>
+            </div>
+          </Container>
+        </List.Content>
+      </Segment>
     </List.Item>
   );
 };

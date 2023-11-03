@@ -1,14 +1,27 @@
-import { Icon, Image, Menu } from 'semantic-ui-react';
+import { Container, Icon, Image, Menu, Segment } from 'semantic-ui-react';
+import { ConditionalContent } from './ConditionalContent';
+import { LinkButton } from './Component';
 
 /**
  * A header component for all site pages
  */
 export const SiteHeader = (): JSX.Element => {
   return (
-    <Menu secondary borderless>
-      <SiteHeaderHomeIconItem />
-      <SiteHeaderTitleItem />
-    </Menu>
+    <Segment
+      style={{
+        backgroundColor: 'rgb(160,255,160)',
+        paddingLeft: '5px',
+        borderColor: 'black',
+        borderBottom: '5px solid black',
+        borderRadius: '0px',
+      }}
+    >
+      <Menu secondary borderless>
+        <SiteHeaderHomeIconItem />
+        <SiteHeaderTitleItem />
+        <SiteHeaderUserContent />
+      </Menu>
+    </Segment>
   );
 };
 
@@ -23,7 +36,7 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 };
 
 // The title for the website
-const SiteHeaderTitleItem = () => {
+const SiteHeaderTitleItem = (): JSX.Element => {
   const headerTitleStyle = {
     color: 'black',
     fontFamily: 'Helvetica Neue',
@@ -33,6 +46,25 @@ const SiteHeaderTitleItem = () => {
   return (
     <Menu.Item>
       <span style={headerTitleStyle}>Quizzical</span>
+    </Menu.Item>
+  );
+};
+
+// The content relating to the user using the website
+const SiteHeaderUserContent = (): JSX.Element => {
+  return (
+    <ConditionalContent condition={true}>
+      <SiteHeaderUserSignedOutContent />
+    </ConditionalContent>
+  );
+};
+
+// The content relating to the user whilst signed out
+const SiteHeaderUserSignedOutContent = (): JSX.Element => {
+  return (
+    <Menu.Item position="right">
+      <LinkButton to="/login">Login</LinkButton>
+      <LinkButton to="/registration">Sign Up</LinkButton>
     </Menu.Item>
   );
 };
