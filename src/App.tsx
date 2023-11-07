@@ -7,6 +7,7 @@ import { SiteHeader } from './app/SiteHeader';
 import { HomePage } from './app/home/HomePage';
 import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
 import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
+import { RegistrationPage } from './app/entryform/RegistrationPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/questions/add" element={<AddQuestionPage />} />
         <Route path="/questions/edit/:id" element={<EditQuestionPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
       </Routes>
     </BrowserRouter>
   );

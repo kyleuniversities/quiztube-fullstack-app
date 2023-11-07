@@ -75,7 +75,7 @@ const addUser = (
     };
     const requestUrl = `/users`;
     request(requestUrl, options).then((data) => {
-      if (!data.question || !data.answer) {
+      if (!data.username || !data.email) {
         alert(method + ' User failed!');
         alert('Error: ' + JSON.stringify(data));
         return;
