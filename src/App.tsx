@@ -1,25 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Header, Icon, Segment } from 'semantic-ui-react';
+import { SiteHeader } from './app/SiteHeader';
+import { HomePage } from './app/home/HomePage';
+import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
+import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
+import { RegistrationPage } from './app/entryform/RegistrationPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="/questions/add" element={<AddQuestionPage />} />
+        <Route path="/questions/edit/:id" element={<EditQuestionPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
