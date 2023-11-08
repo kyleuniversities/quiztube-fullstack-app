@@ -28,6 +28,11 @@ export const fullRequest = async (
   alert('OPTIONS: ' + JSON.stringify(options));
   return fetch(fullUrl, {
     ...options,
+    headers: {
+      'Content-Type': 'application-json',
+      Authorization: 'Basic ' + btoa('user:pass'),
+    },
+    mode: 'cors',
   }).then((data) => {
     return data.json();
   });
