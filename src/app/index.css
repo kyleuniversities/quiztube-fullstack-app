@@ -20,6 +20,29 @@
     font-weight: bold;
 }
 
+.siteHeaderSignedOutButton {
+    background-color: rgb(255, 230, 210);
+    color: black;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 0.5em;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 5px;
+    font-family: Helvetica Neue;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+
+.siteHeaderSignedOutButton:hover {
+    background-color: rgb(128, 115, 105);
+    color: white;
+}
+
 .sitePage {
     background-color: rgb(60,255,60);
     min-height: 100vh;

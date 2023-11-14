@@ -2,6 +2,8 @@ import { Container, Icon, Image, Menu, Segment } from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
 import './index.css';
+import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
 
 /**
  * A header component for all site pages
@@ -50,8 +52,22 @@ const SiteHeaderUserContent = (): JSX.Element => {
 const SiteHeaderUserSignedOutContent = (): JSX.Element => {
   return (
     <Menu.Item position="right">
-      <LinkButton to="/login">Login</LinkButton>
-      <LinkButton to="/registration">Sign Up</LinkButton>
+      <SiteHeaderSignedOutButton to="/login">Login</SiteHeaderSignedOutButton>
+      <SiteHeaderSignedOutButton to="/registration">
+        Sign Up
+      </SiteHeaderSignedOutButton>
     </Menu.Item>
+  );
+};
+
+// Link Button for Site Header Signed Out Content
+const SiteHeaderSignedOutButton = (props: {
+  to: string;
+  children: ReactNode;
+}): JSX.Element => {
+  return (
+    <LinkButton to={props.to} className="siteHeaderSignedOutButton">
+      {props.children}
+    </LinkButton>
   );
 };
