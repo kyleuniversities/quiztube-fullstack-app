@@ -25,7 +25,9 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
   const logo = require('./resources/logo.png');
   return (
     <Menu.Item>
-      <Image src={logo} />
+      <Link to="/">
+        <Image src={logo} />
+      </Link>
     </Menu.Item>
   );
 };
@@ -34,7 +36,9 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 const SiteHeaderTitleItem = (): JSX.Element => {
   return (
     <Menu.Item>
-      <span className="siteHeaderTitleItem">Quizzical</span>
+      <Link to="/">
+        <span className="siteHeaderTitleItem">Quizzical</span>
+      </Link>
     </Menu.Item>
   );
 };
