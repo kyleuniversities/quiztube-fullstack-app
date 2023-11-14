@@ -5,6 +5,7 @@ import { MultilineBreak } from '../../MultilineBreak';
 import { ExceptionHelper } from '../../../common/helper/ExceptionHelper';
 import { request } from '../../../common/util/request';
 import { useNavigate, useParams } from 'react-router';
+import '../../index.css';
 
 /**
  * Page for adding or modifying a Question
@@ -32,7 +33,7 @@ export const AddModifyQuestionPage = (props: {
   const navigate = useNavigate();
   return (
     <SitePage>
-      <Container fluid style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+      <Container fluid className="formContainer">
         <Header>Edit Question</Header>
         <Form>
           <Form.Input

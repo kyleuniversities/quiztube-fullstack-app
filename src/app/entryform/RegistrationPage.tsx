@@ -4,6 +4,7 @@ import { SitePage } from '../SitePage';
 import { MultilineBreak } from '../MultilineBreak';
 import { request } from '../../common/util/request';
 import { useState } from 'react';
+import '../index.css';
 
 /**
  * Page for registering as a user into the site
@@ -15,7 +16,7 @@ export const RegistrationPage = (): JSX.Element => {
   const [password, setPassword] = useState('');
   return (
     <SitePage>
-      <Container fluid style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+      <Container fluid className="formContainer">
         <Header>Create an Account</Header>
         <Form>
           <Form.Input

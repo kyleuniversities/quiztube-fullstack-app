@@ -17,6 +17,7 @@ import { request } from '../../common/util/request';
 import { MultilineBreak } from '../MultilineBreak';
 import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
+import './index.css';
 
 export type ViewListDataItemsPageProps = {
   headerTitle: string;
@@ -102,15 +103,7 @@ const DataItemsSearchSegment = (props: {
   query: string;
 }) => {
   return (
-    <Container
-      fluid
-      style={{
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-      }}
-    >
+    <Container fluid className="dataItemsSearchSegment">
       <Header as="h1">{props.headerTitle}</Header>
       <Search
         size="big"
@@ -130,7 +123,7 @@ const DataItemsSearchSegment = (props: {
  */
 const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
   return (
-    <Container style={{ paddingLeft: '20px', paddingRight: '20px' }} fluid>
+    <Container className="dataItemsMenuListColumnContainer" fluid>
       {props.children}
     </Container>
   );
@@ -152,16 +145,7 @@ const DataItemsListColumn = (props: {
 }) => {
   const questionImage = require('../resources/question-image.png');
   return (
-    <List
-      size="huge"
-      relaxed
-      style={{
-        paddingLeft: '0px',
-        paddingRight: '0px',
-        paddingTop: '0px',
-        paddingBottom: '0px',
-      }}
-    >
+    <List size="huge" relaxed className="dataItemsListColumn">
       {props.dataItems.map((item) => {
         return (
           <DataListItem
@@ -194,37 +178,17 @@ const DataListItem = (props: {
   itemDescription: string;
 }) => {
   return (
-    <List.Item
-      style={{
-        marginTop: 0,
-        marginBottom: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        color: 'black',
-      }}
-    >
-      <Segment
-        fluid
-        style={{
-          marginLeft: 0,
-          paddingLeft: '10px',
-          borderColor: 'black',
-          borderWidth: '3px',
-          borderRadius: '3px',
-        }}
-      >
+    <List.Item className="dataItem">
+      <div className="dataItemSegment">
         <List.Content>
           <Container fluid>
-            <Image
-              style={{ float: 'left', width: '100px', height: '100px' }}
-              src={`${props.itemImage}`}
-            />
+            <Image className="dataItemImage" src={`${props.itemImage}`} />
             <div>
-              <div style={{ marginLeft: '100px', paddingTop: '5px' }}>
+              <div className="dataItemText">
                 <List.Header>{props.itemTitle}</List.Header>
                 <List.Description>{props.itemDescription}</List.Description>
               </div>
-              <Container fluid style={{ paddingTop: '5px' }}>
+              <Container fluid className="dataItemButtonContainer">
                 <Link to={`/questions/edit/${props.itemId}`}>
                   <Button
                     inline
@@ -244,7 +208,7 @@ const DataListItem = (props: {
             </div>
           </Container>
         </List.Content>
-      </Segment>
+      </div>
     </List.Item>
   );
 };

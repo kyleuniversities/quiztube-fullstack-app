@@ -1,27 +1,20 @@
 import { Container, Icon, Image, Menu, Segment } from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
+import './index.css';
 
 /**
  * A header component for all site pages
  */
 export const SiteHeader = (): JSX.Element => {
   return (
-    <Segment
-      style={{
-        backgroundColor: 'rgb(160,255,160)',
-        paddingLeft: '5px',
-        borderColor: 'black',
-        borderBottom: '5px solid black',
-        borderRadius: '0px',
-      }}
-    >
+    <div className="siteHeaderSegment">
       <Menu secondary borderless>
         <SiteHeaderHomeIconItem />
         <SiteHeaderTitleItem />
         <SiteHeaderUserContent />
       </Menu>
-    </Segment>
+    </div>
   );
 };
 
@@ -37,15 +30,9 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 
 // The title for the website
 const SiteHeaderTitleItem = (): JSX.Element => {
-  const headerTitleStyle = {
-    color: 'black',
-    fontFamily: 'Helvetica Neue',
-    fontSize: '50px',
-    fontWeight: 'bold',
-  };
   return (
     <Menu.Item>
-      <span style={headerTitleStyle}>Quizzical</span>
+      <span className="siteHeaderTitleItem">Quizzical</span>
     </Menu.Item>
   );
 };
