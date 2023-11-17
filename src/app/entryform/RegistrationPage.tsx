@@ -71,7 +71,7 @@ const addUser = (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
+      data: JSON.stringify(user),
     };
     const requestUrl = `/users`;
     request(requestUrl, options).then((data) => {
