@@ -9,7 +9,7 @@ export const loginRequest = async (
   credentials: UserCredentials
 ): Promise<any> => {
   try {
-    return await request('/users/login', {
+    return await request('/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

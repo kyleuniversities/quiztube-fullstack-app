@@ -5,6 +5,7 @@ import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
 import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
 import { RegistrationPage } from './app/entryform/RegistrationPage';
 import { AuthorizationContextManager } from './app/auth/AuthorizationContextManager';
+import { LoginPage } from './app/entryform/LoginPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/questions/add" element={<AddQuestionPage />} />
           <Route path="/questions/edit/:id" element={<EditQuestionPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </AuthorizationContextManager>

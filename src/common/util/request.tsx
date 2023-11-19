@@ -38,6 +38,7 @@ export const fullRequest = async (
     url: fullUrl,
   };
   return axios(fullOptions).then((data) => {
+    alert('DATA: ' + JSON.stringify(data));
     return data.data;
   });
 };

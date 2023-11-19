@@ -45,9 +45,11 @@ export const AuthorizationContextManager = (props: {
     return new Promise((resolve, reject) => {
       loginRequest(credentials)
         .then((res) => {
-          const jwtToken = res.headers['authorization'];
+          alert('HEADERS: ' + JSON.stringify(res));
+          const jwtToken = res.token;
           localStorage.setItem('access_token', jwtToken);
           const decodedToken = jwtDecode(jwtToken);
+          alert('DECODED: ' + JSON.stringify(decodedToken));
           setUser({
             username: decodedToken.sub,
             roles: null,
