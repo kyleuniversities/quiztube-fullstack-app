@@ -10,6 +10,8 @@ import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
 import './index.css';
 import { useAuthorization } from './auth/AuthorizationContextManager';
+import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
 
 /**
  * A header component for all site pages
@@ -31,7 +33,9 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
   const logo = require('./resources/logo.png');
   return (
     <Menu.Item>
-      <Image src={logo} />
+      <Link to="/">
+        <Image src={logo} />
+      </Link>
     </Menu.Item>
   );
 };
@@ -40,7 +44,9 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 const SiteHeaderTitleItem = (): JSX.Element => {
   return (
     <Menu.Item>
-      <span className="siteHeaderTitleItem">Quizzical</span>
+      <Link to="/">
+        <span className="siteHeaderTitleItem">Quizzical</span>
+      </Link>
     </Menu.Item>
   );
 };
@@ -64,8 +70,22 @@ const SiteHeaderUserSignedOutContent = (): JSX.Element => {
   return (
     <Menu.Item position="right">
       <Header as="h2">Hello "{username}".</Header>
-      <LinkButton to="/login">Login</LinkButton>
-      <LinkButton to="/registration">Sign Up</LinkButton>
+      <SiteHeaderSignedOutButton to="/login">Login</SiteHeaderSignedOutButton>
+      <SiteHeaderSignedOutButton to="/registration">
+        Sign Up
+      </SiteHeaderSignedOutButton>
     </Menu.Item>
+  );
+};
+
+// Link Button for Site Header Signed Out Content
+const SiteHeaderSignedOutButton = (props: {
+  to: string;
+  children: ReactNode;
+}): JSX.Element => {
+  return (
+    <LinkButton to={props.to} className="siteHeaderSignedOutButton">
+      {props.children}
+    </LinkButton>
   );
 };

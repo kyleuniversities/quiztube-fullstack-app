@@ -10,29 +10,12 @@ import { Button } from 'semantic-ui-react';
  */
 export const LinkButton = (props: {
   to: string;
+  className: string;
   children: ReactNode;
 }): JSX.Element => {
   return (
     <Link to={props.to}>
-      <button
-        style={{
-          backgroundColor: 'rgb(255, 230, 210)',
-          color: 'black',
-          paddingLeft: '8px',
-          paddingRight: '8px',
-          paddingTop: '5px',
-          paddingBottom: '5px',
-          marginLeft: '0.5em',
-          borderColor: 'black',
-          borderWidth: '3px',
-          borderRadius: '5px',
-          fontFamily: 'Helvetica Neue',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      >
-        {props.children}
-      </button>
+      <button className={props.className}>{props.children}</button>
     </Link>
   );
 };
