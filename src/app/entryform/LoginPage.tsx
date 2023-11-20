@@ -58,6 +58,10 @@ const loginAction = (
 ): void => {
   const logIn = userContext.logIn;
   logIn({ username, password }).then((data: any) => {
+    if (!data.token) {
+      alert('ERROR: Incorrect username or password');
+      return;
+    }
     alert('Login Response: ' + JSON.stringify(data));
     navigate('/');
     window.location.reload();

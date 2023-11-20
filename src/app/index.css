@@ -20,7 +20,7 @@
     font-weight: bold;
 }
 
-.siteHeaderSignedOutButton {
+.siteHeaderUserButton {
     background-color: rgb(255, 230, 210);
     color: black;
     padding-left: 8px;
@@ -36,9 +36,7 @@
     font-weight: bold;
 }
 
-
-
-.siteHeaderSignedOutButton:hover {
+.siteHeaderUserButton:hover {
     background-color: rgb(128, 115, 105);
     color: white;
 }

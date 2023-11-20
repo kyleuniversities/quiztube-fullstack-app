@@ -9,6 +9,9 @@ import exp from 'constants';
  */
 export const AuthorizationContext = React.createContext(null);
 
+// Export null username constant
+export const NULL_USERNAME = '#signedOutUser';
+
 type AuthorizationUser = {
   username: string | undefined;
   roles: any;
@@ -17,7 +20,7 @@ type AuthorizationUser = {
 /**
  * Constant for null user
  */
-const NULL_USER: AuthorizationUser = { username: '#signedOut', roles: null };
+const NULL_USER: AuthorizationUser = { username: NULL_USERNAME, roles: null };
 
 /**
  * Wrapper for Managing User Authorization around components
@@ -31,7 +34,7 @@ export const AuthorizationContextManager = (props: {
   // Sets up user from token
   const setUserFromToken = () => {
     const token = localStorage.getItem('access_token');
-    if (token) {
+    if (token && token !== 'undefined') {
       const decodedToken = jwtDecode(token);
       setUser({
         username: decodedToken.sub,
@@ -47,6 +50,10 @@ export const AuthorizationContextManager = (props: {
         .then((res) => {
           alert('HEADERS: ' + JSON.stringify(res));
           const jwtToken = res.token;
+          if (!jwtToken || jwtToken == 'undefined') {
+            resolve(res);
+            return;
+          }
           localStorage.setItem('access_token', jwtToken);
           const decodedToken = jwtDecode(jwtToken);
           alert('DECODED: ' + JSON.stringify(decodedToken));
@@ -105,3 +112,11 @@ export const AuthorizationContextManager = (props: {
 
 // Export useAuthorization Hook
 export const useAuthorization = () => useContext(AuthorizationContext);
+
+// Export useUsername Hook
+export const useUsername = () => {
+  const userContext: any = useAuthorization();
+  return userContext && userContext.user && userContext.user.username
+    ? userContext.user.username
+    : NULL_USERNAME;
+};
