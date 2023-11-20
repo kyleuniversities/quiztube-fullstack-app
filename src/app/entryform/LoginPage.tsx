@@ -4,20 +4,20 @@ import { SitePage } from '../SitePage';
 import { MultilineBreak } from '../MultilineBreak';
 import { request } from '../../common/util/request';
 import { useState } from 'react';
-import '../index.css';
+import { useAuthorization } from '../auth/AuthorizationContextManager';
 
 /**
- * Page for registering as a user into the site
+ * Page for logging in as a user into the site
  */
-export const RegistrationPage = (): JSX.Element => {
+export const LoginPage = (): JSX.Element => {
   const navigate = useNavigate();
+  const userContext: any = useAuthorization();
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>Create an Account</Header>
+        <Header>Log In</Header>
         <Form>
           <Form.Input
             fluid
@@ -25,13 +25,6 @@ export const RegistrationPage = (): JSX.Element => {
             placeholder="Enter a Username"
             value={username}
             onChange={(e: any) => setUsername(e.target.value)}
-          />
-          <Form.Input
-            fluid
-            label="Email"
-            placeholder="Enter an Email"
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
           />
           <Form.Input
             fluid
@@ -47,37 +40,50 @@ export const RegistrationPage = (): JSX.Element => {
           fluid
           color="blue"
           content="Submit"
-          onClick={() => addUser(navigate, username, email, password)}
+          onClick={() => loginAction(navigate, userContext, username, password)}
         />
       </Container>
     </SitePage>
   );
 };
 
-const addUser = (
+/**
+ * Function to login to the site
+ */
+const loginAction = (
   navigate: any,
+  userContext: any,
   username: string,
-  email: string,
   password: string
 ): void => {
-  const method = 'POST';
+  const logIn = userContext.logIn;
+  logIn({ username, password }).then((data: any) => {
+    alert('Login Response: ' + JSON.stringify(data));
+    navigate('/');
+    window.location.reload();
+  });
+  /*const method = 'POST';
   try {
     const user = {
       username,
-      email,
       password,
     };
     const options = {
       method: method,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Basic ' + btoa('user:pass'),
       },
-      data: JSON.stringify(user),
+      body: JSON.stringify(user),
     };
-    const requestUrl = `/users`;
+    const requestUrl = `/users/login`;
     request(requestUrl, options).then((data) => {
+      alert('Login Response: ' + JSON.stringify(data));
+      navigate('/');
+      window.location.reload();
+      return;
       if (!data.username || !data.email) {
-        alert(method + ' User failed!');
+        alert('Login User failed!');
         alert('Error: ' + JSON.stringify(data));
         return;
       }
@@ -88,5 +94,5 @@ const addUser = (
     });
   } catch (error: any) {
     alert('User could not be ' + method + "'ed");
-  }
+  }/**/
 };

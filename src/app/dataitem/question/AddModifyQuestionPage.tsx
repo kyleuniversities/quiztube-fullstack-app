@@ -101,7 +101,7 @@ const addModifyQuestion = (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(question),
+      data: JSON.stringify(question),
     };
     const requestUrl = isEditing ? `/questions/${id}` : `/questions`;
     request(requestUrl, options).then((data) => {

@@ -1,7 +1,15 @@
-import { Container, Icon, Image, Menu, Segment } from 'semantic-ui-react';
+import {
+  Container,
+  Header,
+  Icon,
+  Image,
+  Menu,
+  Segment,
+} from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
 import './index.css';
+import { useAuthorization } from './auth/AuthorizationContextManager';
 
 /**
  * A header component for all site pages
@@ -48,8 +56,14 @@ const SiteHeaderUserContent = (): JSX.Element => {
 
 // The content relating to the user whilst signed out
 const SiteHeaderUserSignedOutContent = (): JSX.Element => {
+  const userContext: any = useAuthorization();
+  const username =
+    userContext && userContext.user && userContext.user.username
+      ? userContext.user.username
+      : '#nullUser';
   return (
     <Menu.Item position="right">
+      <Header as="h2">Hello "{username}".</Header>
       <LinkButton to="/login">Login</LinkButton>
       <LinkButton to="/registration">Sign Up</LinkButton>
     </Menu.Item>
