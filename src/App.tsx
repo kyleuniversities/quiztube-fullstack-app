@@ -9,6 +9,7 @@ import { LoginPage } from './app/entryform/LoginPage';
 import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
 import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
 import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
+import { TakeQuizPage } from './app/dataitem/quiz/TakeQuizPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             path="/questions/by/:quizId/edit/:id"
             element={<EditQuestionPage />}
           />
+          <Route path="/questions/by/:quizId/take" element={<TakeQuizPage />} />
           <Route path="/quizzes/:id" element={<ViewQuizPage />} />
           <Route path="/quizzes/add" element={<AddQuizPage />} />
           <Route path="/quizzes/edit/:id" element={<EditQuizPage />} />

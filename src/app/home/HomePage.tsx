@@ -27,6 +27,7 @@ export const HomePage = () => {
           getTitle={(item: any) => item.title}
           getDescription={(item: any) => item.description}
           getViewUrl={(parentId: string, id: string) => `/quizzes`}
+          takingIsEnabled={false}
         />
       </ConditionalContent>
       <ConditionalContent condition={!usernameIsPresent}>

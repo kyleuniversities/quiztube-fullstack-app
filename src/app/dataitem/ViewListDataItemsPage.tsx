@@ -30,6 +30,7 @@ export type ViewListDataItemsPageProps = {
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
   getViewUrl: ViewUrlFunction;
+  takingIsEnabled: boolean;
 };
 
 /**
@@ -81,6 +82,11 @@ export const ViewListDataItemsPage = (
         query={query}
       />
       <DataItemsMenuListColumnContainer>
+        <ConditionalContent condition={props.takingIsEnabled}>
+          <Link to={`${viewUrl}/take`}>
+            <Button icon="bolt" color="brown" content="Take Quiz" />
+          </Link>
+        </ConditionalContent>
         <Link to={`${viewUrl}/add`}>
           <Button icon="plus" color="blue" content="New Question" />
         </Link>

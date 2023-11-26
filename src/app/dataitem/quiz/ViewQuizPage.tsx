@@ -14,6 +14,7 @@ export const ViewQuizPage = (): JSX.Element => {
       getTitle={(item: any) => item.question}
       getDescription={(item: any) => item.answer}
       getViewUrl={(parentId: string, id: string) => `/questions/by/${parentId}`}
+      takingIsEnabled={true}
     />
   );
 };
