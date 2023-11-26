@@ -190,7 +190,7 @@ const DataListItem = (props: {
                 <List.Description>{props.itemDescription}</List.Description>
               </div>
               <Container fluid className="dataItemButtonContainer">
-                <Link to={`/questions/edit/${props.itemId}`}>
+                <Link to={`/${props.dataToken}/edit/${props.itemId}`}>
                   <Button
                     inline
                     icon="pencil alternate"
