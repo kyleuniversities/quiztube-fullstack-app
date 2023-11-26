@@ -8,6 +8,6 @@ import { useNavigate, useParams } from 'react-router';
 import { AddModifyQuestionPage } from './AddModifyQuestionPage';
 
 export const EditQuestionPage = (): JSX.Element => {
-  const { id } = useParams();
-  return <AddModifyQuestionPage id={id} />;
+  const { quizId, id } = useParams();
+  return <AddModifyQuestionPage quizId={quizId} id={id} />;
 };

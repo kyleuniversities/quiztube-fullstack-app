@@ -19,12 +19,15 @@ import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
 import './index.css';
 
+export type ViewUrlFunction = (parentId: string, id: string) => string;
+
 export type ViewListDataItemsPageProps = {
   headerTitle: string;
   dataToken: string;
   parentId: string;
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
+  getViewUrl: ViewUrlFunction;
 };
 
 /**
@@ -64,6 +67,8 @@ export const ViewListDataItemsPage = (
     return true; // getTitle(item).match(new RegExp(`${query}`));
   });
 
+  const viewUrl = props.getViewUrl(props.parentId, '');
+
   return (
     <SitePage>
       <DataItemsSearchSegment
@@ -74,14 +79,16 @@ export const ViewListDataItemsPage = (
         query={query}
       />
       <DataItemsMenuListColumnContainer>
-        <Link to={`/${props.dataToken}/add`}>
+        <Link to={`${viewUrl}/add`}>
           <Button icon="plus" color="blue" content="New Question" />
         </Link>
         <DataItemsListColumn
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
+          parentId={props.parentId}
           getTitle={props.getTitle}
           getDescription={props.getDescription}
+          getViewUrl={props.getViewUrl}
         />
       </DataItemsMenuListColumnContainer>
     </SitePage>
@@ -141,8 +148,10 @@ const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
 const DataItemsListColumn = (props: {
   dataToken: string;
   dataItems: any[];
+  parentId: string;
   getTitle: (e: any) => string;
   getDescription: (e: any) => string;
+  getViewUrl: ViewUrlFunction;
 }) => {
   const questionImage = require('../resources/question-image.png');
   return (
@@ -151,10 +160,12 @@ const DataItemsListColumn = (props: {
         return (
           <DataListItem
             dataToken={props.dataToken}
+            parentId={props.parentId}
             itemId={item.id}
             itemImage={questionImage}
             itemTitle={props.getTitle(item)}
             itemDescription={props.getDescription(item)}
+            getViewUrl={props.getViewUrl}
           />
         );
       })}
@@ -173,11 +184,14 @@ const DataItemsListColumn = (props: {
  */
 const DataListItem = (props: {
   dataToken: string;
+  parentId: string;
   itemId: string;
   itemImage: string;
   itemTitle: string;
   itemDescription: string;
+  getViewUrl: ViewUrlFunction;
 }) => {
+  const viewUrl: string = props.getViewUrl(props.parentId, props.itemId);
   return (
     <List.Item className="dataItem">
       <div className="dataItemSegment">
@@ -186,11 +200,13 @@ const DataListItem = (props: {
             <Image className="dataItemImage" src={`${props.itemImage}`} />
             <div>
               <div className="dataItemText">
-                <List.Header>{props.itemTitle}</List.Header>
+                <Link to={`${viewUrl}/${props.itemId}`}>
+                  <List.Header>{props.itemTitle}</List.Header>
+                </Link>
                 <List.Description>{props.itemDescription}</List.Description>
               </div>
               <Container fluid className="dataItemButtonContainer">
-                <Link to={`/${props.dataToken}/edit/${props.itemId}`}>
+                <Link to={`${viewUrl}/edit/${props.itemId}`}>
                   <Button
                     inline
                     icon="pencil alternate"

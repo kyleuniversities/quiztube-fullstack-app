@@ -13,6 +13,7 @@ import '../../index.css';
  * @param string id - The id of the question
  */
 export const AddModifyQuestionPage = (props: {
+  quizId: string | undefined;
   id: string | undefined;
 }): JSX.Element => {
   const isEditing = props.id !== undefined;
@@ -64,7 +65,14 @@ export const AddModifyQuestionPage = (props: {
           color="blue"
           content={isEditing ? 'Save' : 'Submit'}
           onClick={() =>
-            addModifyQuestion(navigate, question, answer, time, props.id)
+            addModifyQuestion(
+              navigate,
+              question,
+              answer,
+              time,
+              props.quizId,
+              props.id
+            )
           }
         />
       </Container>
@@ -85,6 +93,7 @@ const addModifyQuestion = (
   questionText: string,
   answerText: string,
   time: string,
+  quizId: string | undefined,
   id: string | undefined
 ): void => {
   const isEditing = id !== undefined;
@@ -95,6 +104,7 @@ const addModifyQuestion = (
       question: questionText,
       answer: answerText,
       numberOfMilliseconds: numberOfMilliseconds,
+      quizId,
     };
     const options = {
       method: method,
@@ -112,7 +122,7 @@ const addModifyQuestion = (
       }
       alert(method + ' Operation success!');
       alert('Question: ' + JSON.stringify(data));
-      navigate('/');
+      navigate(`/quizzes/${quizId}`);
       window.location.reload();
     });
   } catch (error: any) {

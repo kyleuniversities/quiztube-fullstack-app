@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { ExceptionHelper } from '../../../common/helper/ExceptionHelper';
 import { request } from '../../../common/util/request';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { AddModifyQuestionPage } from './AddModifyQuestionPage';
 
 export const AddQuestionPage = (): JSX.Element => {
-  return <AddModifyQuestionPage id={undefined} />;
+  const { quizId } = useParams();
+  return <AddModifyQuestionPage quizId={quizId} id={undefined} />;
 };

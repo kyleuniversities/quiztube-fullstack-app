@@ -25,6 +25,7 @@ export const HomePage = () => {
           parentId={userId}
           getTitle={(item: any) => item.title}
           getDescription={(item: any) => item.description}
+          getViewUrl={(parentId: string, id: string) => `/quizzes`}
         />
       </ConditionalContent>
       <ConditionalContent condition={!usernameIsPresent}>
