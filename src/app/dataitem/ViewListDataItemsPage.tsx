@@ -82,7 +82,11 @@ export const ViewListDataItemsPage = (
         query={query}
       />
       <DataItemsMenuListColumnContainer>
-        <ConditionalContent condition={props.takingIsEnabled}>
+        <ConditionalContent
+          condition={
+            props.takingIsEnabled && searchFilteredDataItems.length > 0
+          }
+        >
           <Link to={`${viewUrl}/take`}>
             <Button icon="bolt" color="brown" content="Take Quiz" />
           </Link>
