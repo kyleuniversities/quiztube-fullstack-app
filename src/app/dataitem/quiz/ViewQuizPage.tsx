@@ -10,6 +10,7 @@ export const ViewQuizPage = (): JSX.Element => {
       headerTitle="Questions"
       dataToken="questions"
       parentId={quizId}
+      itemsAreLinked={false}
       getTitle={(item: any) => item.question}
       getDescription={(item: any) => item.answer}
       getViewUrl={(parentId: string, id: string) => `/questions/by/${parentId}`}

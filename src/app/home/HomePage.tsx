@@ -23,6 +23,7 @@ export const HomePage = () => {
           headerTitle="Quizzes"
           dataToken="quizzes"
           parentId={userId}
+          itemsAreLinked={true}
           getTitle={(item: any) => item.title}
           getDescription={(item: any) => item.description}
           getViewUrl={(parentId: string, id: string) => `/quizzes`}

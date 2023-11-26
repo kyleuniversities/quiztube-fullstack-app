@@ -18,6 +18,7 @@ import { MultilineBreak } from '../MultilineBreak';
 import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
 import './index.css';
+import { ConditionalContent } from '../ConditionalContent';
 
 export type ViewUrlFunction = (parentId: string, id: string) => string;
 
@@ -25,6 +26,7 @@ export type ViewListDataItemsPageProps = {
   headerTitle: string;
   dataToken: string;
   parentId: string;
+  itemsAreLinked: boolean;
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
   getViewUrl: ViewUrlFunction;
@@ -86,6 +88,7 @@ export const ViewListDataItemsPage = (
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
           parentId={props.parentId}
+          itemsAreLinked={props.itemsAreLinked}
           getTitle={props.getTitle}
           getDescription={props.getDescription}
           getViewUrl={props.getViewUrl}
@@ -149,6 +152,7 @@ const DataItemsListColumn = (props: {
   dataToken: string;
   dataItems: any[];
   parentId: string;
+  itemsAreLinked: boolean;
   getTitle: (e: any) => string;
   getDescription: (e: any) => string;
   getViewUrl: ViewUrlFunction;
@@ -161,6 +165,7 @@ const DataItemsListColumn = (props: {
           <DataListItem
             dataToken={props.dataToken}
             parentId={props.parentId}
+            itemIsLinked={props.itemsAreLinked}
             itemId={item.id}
             itemImage={questionImage}
             itemTitle={props.getTitle(item)}
@@ -185,6 +190,7 @@ const DataItemsListColumn = (props: {
 const DataListItem = (props: {
   dataToken: string;
   parentId: string;
+  itemIsLinked: boolean;
   itemId: string;
   itemImage: string;
   itemTitle: string;
@@ -200,9 +206,14 @@ const DataListItem = (props: {
             <Image className="dataItemImage" src={`${props.itemImage}`} />
             <div>
               <div className="dataItemText">
-                <Link to={`${viewUrl}/${props.itemId}`}>
+                <ConditionalContent condition={props.itemIsLinked}>
+                  <Link to={`${viewUrl}/${props.itemId}`}>
+                    <List.Header>{props.itemTitle}</List.Header>
+                  </Link>
+                </ConditionalContent>
+                <ConditionalContent condition={!props.itemIsLinked}>
                   <List.Header>{props.itemTitle}</List.Header>
-                </Link>
+                </ConditionalContent>
                 <List.Description>{props.itemDescription}</List.Description>
               </div>
               <Container fluid className="dataItemButtonContainer">
