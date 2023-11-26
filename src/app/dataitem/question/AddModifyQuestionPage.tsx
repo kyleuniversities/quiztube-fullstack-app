@@ -51,13 +51,13 @@ export const AddModifyQuestionPage = (props: {
             value={answer}
             onChange={(e: any) => setAnswer(e.target.value)}
           />
-          <Form.Input
+          {/*<Form.Input
             fluid
             label="Time"
             placeholder="Enter a number of milliseconds"
             value={time}
             onChange={(e: any) => setTime(e.target.value)}
-          />
+  />*/}
         </Form>
         <MultilineBreak lines={1} />
         <Button
