@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router';
 import { AddModifyQuizPage } from './AddModifyQuizPage';
 import { ConditionalContent } from '../../ConditionalContent';
 import { CentralContainer } from '../../Component';
+import { Link } from 'react-router-dom';
 
 /**
  * Page for taking a Quiz
@@ -20,6 +21,8 @@ export const TakeQuizPage = (): JSX.Element => {
   const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0);
   const [enteredAnswer, setEnteredAnswer] = useState('');
   const [answerIsSubmitted, setAnswerIsSubmitted] = useState(false);
+  const [quizIsFinished, setQuizIsFinished] = useState(false);
+  const navigate = useNavigate();
 
   // Loads the quiz on render
   useEffect(
@@ -38,67 +41,94 @@ export const TakeQuizPage = (): JSX.Element => {
   return (
     <SitePage>
       <CentralContainer>
-        <ConditionalContent condition={question === null}>
-          <p>Hello</p>
-        </ConditionalContent>
-        <ConditionalContent condition={question !== null}>
-          <Header as="h3">
-            <b>Question: </b>
-            {question ? question.question : 'Loading...'}
-          </Header>
-          <Transition
-            visible={answerIsSubmitted}
-            animation="slide left"
-            duration={500}
-          >
-            <Header as="h3">
-              <b>Answer: </b>
-              {question ? question.answer : 'Loading...'}
-            </Header>
-          </Transition>
-          <Form.Input
-            value={enteredAnswer}
-            disabled={answerIsSubmitted}
-            onChange={(e: any) => setEnteredAnswer(e.target.value)}
+        <ConditionalContent condition={quizIsFinished}>
+          <h3>
+            Quiz is Done! You scored {numberOfCorrectAnswers} out of{' '}
+            {questions.length}.
+          </h3>
+          <Button
+            icon="bolt"
+            color="brown"
+            content="Retake Quiz"
+            onClick={() => {
+              window.location.reload();
+            }}
           />
-          <MultilineBreak lines={1} />
-          <ConditionalContent condition={answerIsSubmitted}>
-            <Button
-              content={'Correct '}
-              onClick={() =>
-                nextQuestion(
-                  questions,
-                  questionIndex,
-                  numberOfCorrectAnswers,
-                  setQuestionIndex,
-                  setNumberOfCorrectAnswers,
-                  setEnteredAnswer,
-                  setAnswerIsSubmitted,
-                  true
-                )
-              }
-            />
-            <Button
-              content={'Incorrect '}
-              onClick={() =>
-                nextQuestion(
-                  questions,
-                  questionIndex,
-                  numberOfCorrectAnswers,
-                  setQuestionIndex,
-                  setNumberOfCorrectAnswers,
-                  setEnteredAnswer,
-                  setAnswerIsSubmitted,
-                  false
-                )
-              }
-            />
+          <Button
+            icon="delete"
+            color="red"
+            content="Leave Quiz"
+            onClick={() => {
+              navigate(`/quizzes/${quizId}`);
+              window.location.reload();
+            }}
+          />
+        </ConditionalContent>
+        <ConditionalContent condition={!quizIsFinished}>
+          <ConditionalContent condition={question === null}>
+            <p>Loading...</p>
           </ConditionalContent>
-          <ConditionalContent condition={!answerIsSubmitted}>
-            <Button
-              content={'Check '}
-              onClick={() => setAnswerIsSubmitted(true)}
+          <ConditionalContent condition={question !== null}>
+            <Header as="h3">
+              <b>Question: </b>
+              {question ? question.question : 'Loading...'}
+            </Header>
+            <Transition
+              visible={answerIsSubmitted}
+              animation="slide left"
+              duration={500}
+            >
+              <Header as="h3">
+                <b>Answer: </b>
+                {question ? question.answer : 'Loading...'}
+              </Header>
+            </Transition>
+            <Form.Input
+              value={enteredAnswer}
+              disabled={answerIsSubmitted}
+              onChange={(e: any) => setEnteredAnswer(e.target.value)}
             />
+            <MultilineBreak lines={1} />
+            <ConditionalContent condition={answerIsSubmitted}>
+              <Button
+                content={'Correct '}
+                onClick={() =>
+                  nextQuestion(
+                    questions,
+                    questionIndex,
+                    numberOfCorrectAnswers,
+                    setQuestionIndex,
+                    setNumberOfCorrectAnswers,
+                    setEnteredAnswer,
+                    setAnswerIsSubmitted,
+                    setQuizIsFinished,
+                    true
+                  )
+                }
+              />
+              <Button
+                content={'Incorrect '}
+                onClick={() =>
+                  nextQuestion(
+                    questions,
+                    questionIndex,
+                    numberOfCorrectAnswers,
+                    setQuestionIndex,
+                    setNumberOfCorrectAnswers,
+                    setEnteredAnswer,
+                    setAnswerIsSubmitted,
+                    setQuizIsFinished,
+                    false
+                  )
+                }
+              />
+            </ConditionalContent>
+            <ConditionalContent condition={!answerIsSubmitted}>
+              <Button
+                content={'Check '}
+                onClick={() => setAnswerIsSubmitted(true)}
+              />
+            </ConditionalContent>
           </ConditionalContent>
         </ConditionalContent>
       </CentralContainer>
@@ -115,22 +145,19 @@ const nextQuestion = (
   setNumberOfCorrectAnswers: (amount: number) => void,
   setEnteredAnswer: (answer: string) => void,
   setAnswerIsSubmitted: (answerIsSubmitted: boolean) => void,
+  setQuizIsFinished: (quizIsFinished: boolean) => void,
   answerIsCorrect: boolean
 ): void => {
-  if (questionIndex == questions.length - 1) {
-    const newNumberOfCorrectAnswers =
-      numberOfCorrectAnswers + (answerIsCorrect ? 1 : 0);
-    alert(
-      `Quiz Done!  Scored ${newNumberOfCorrectAnswers} out of ${questions.length}.`
-    );
-    return;
-  }
-  setQuestionIndex(questionIndex + 1);
-  setEnteredAnswer('');
-  setAnswerIsSubmitted(false);
   if (answerIsCorrect) {
     setNumberOfCorrectAnswers(numberOfCorrectAnswers + 1);
   }
+  setEnteredAnswer('');
+  setAnswerIsSubmitted(false);
+  if (questionIndex == questions.length - 1) {
+    setQuizIsFinished(true);
+    return;
+  }
+  setQuestionIndex(questionIndex + 1);
 };
 
 // Function for loading the quiz data
