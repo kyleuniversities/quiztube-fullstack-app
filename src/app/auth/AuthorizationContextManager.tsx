@@ -2,7 +2,6 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { request } from '../../common/util/request';
 import { jwtDecode } from 'jwt-decode';
 import { UserCredentials, loginRequest } from './AuthorizationInterface';
-import exp from 'constants';
 
 /**
  * Constant for context for the user's authorization
@@ -10,17 +9,34 @@ import exp from 'constants';
 export const AuthorizationContext = React.createContext(null);
 
 // Export null username constant
-export const NULL_USERNAME = '#signedOutUser';
+export const NULL_USERNAME = '#signedOut';
+
+// Export null username id
+export const NULL_ID = 'null';
+
+// Function for extracting id
+const getId = (decodedToken: any): string => {
+  try {
+    return decodedToken.id;
+  } catch (e: any) {
+    return NULL_ID;
+  }
+};
 
 type AuthorizationUser = {
   username: string | undefined;
+  userId: string | undefined;
   roles: any;
 };
 
 /**
  * Constant for null user
  */
-const NULL_USER: AuthorizationUser = { username: NULL_USERNAME, roles: null };
+const NULL_USER: AuthorizationUser = {
+  username: NULL_USERNAME,
+  userId: NULL_ID,
+  roles: null,
+};
 
 /**
  * Wrapper for Managing User Authorization around components
@@ -35,9 +51,10 @@ export const AuthorizationContextManager = (props: {
   const setUserFromToken = () => {
     const token = localStorage.getItem('access_token');
     if (token && token !== 'undefined') {
-      const decodedToken = jwtDecode(token);
+      const decodedToken: any = jwtDecode(token);
       setUser({
         username: decodedToken.sub,
+        userId: getId(decodedToken),
         roles: null,
       });
     }
@@ -55,10 +72,11 @@ export const AuthorizationContextManager = (props: {
             return;
           }
           localStorage.setItem('access_token', jwtToken);
-          const decodedToken = jwtDecode(jwtToken);
+          const decodedToken: any = jwtDecode(jwtToken);
           alert('DECODED: ' + JSON.stringify(decodedToken));
           setUser({
             username: decodedToken.sub,
+            userId: getId(decodedToken),
             roles: null,
           });
           resolve(res);
@@ -119,4 +137,12 @@ export const useUsername = () => {
   return userContext && userContext.user && userContext.user.username
     ? userContext.user.username
     : NULL_USERNAME;
+};
+
+// Export useUserId Hook
+export const useUserId = () => {
+  const userContext: any = useAuthorization();
+  return userContext && userContext.user && userContext.user.userId
+    ? userContext.user.userId
+    : NULL_ID;
 };

@@ -22,6 +22,7 @@ import './index.css';
 export type ViewListDataItemsPageProps = {
   headerTitle: string;
   dataToken: string;
+  parentId: string;
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
 };
@@ -53,7 +54,7 @@ export const ViewListDataItemsPage = (
 
   // Load data items on render
   useEffect(() => {
-    request(`/${props.dataToken}`).then((data) => {
+    request(`/${props.dataToken}/by/${props.parentId}`).then((data) => {
       setDataItems(data);
     });
   }, []);
