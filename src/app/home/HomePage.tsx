@@ -1,13 +1,7 @@
 import { Header } from 'semantic-ui-react';
 import { ConditionalContent } from '../ConditionalContent';
-import { RequestContainer } from '../RequestContainer';
 import { SitePage } from '../SitePage';
-import {
-  NULL_ID,
-  NULL_USERNAME,
-  useUserId,
-  useUsername,
-} from '../auth/AuthorizationContextManager';
+import { NULL_ID, useUserId } from '../auth/AuthorizationContextManager';
 import { ViewListDataItemsPage } from '../dataitem/ViewListDataItemsPage';
 
 /**

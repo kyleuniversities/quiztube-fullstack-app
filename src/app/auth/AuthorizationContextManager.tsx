@@ -1,5 +1,4 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { request } from '../../common/util/request';
 import { jwtDecode } from 'jwt-decode';
 import { UserCredentials, loginRequest } from './AuthorizationInterface';
 
@@ -67,7 +66,7 @@ export const AuthorizationContextManager = (props: {
         .then((res) => {
           alert('HEADERS: ' + JSON.stringify(res));
           const jwtToken = res.token;
-          if (!jwtToken || jwtToken == 'undefined') {
+          if (!jwtToken || jwtToken === 'undefined') {
             resolve(res);
             return;
           }

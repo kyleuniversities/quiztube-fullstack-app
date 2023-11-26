@@ -1,14 +1,11 @@
-import { Button, Container, Form, Header, Transition } from 'semantic-ui-react';
+import { Button, Form, Header, Transition } from 'semantic-ui-react';
 import { SitePage } from '../../SitePage';
-import { Consumer, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
-import { ExceptionHelper } from '../../../common/helper/ExceptionHelper';
 import { request } from '../../../common/util/request';
 import { useNavigate, useParams } from 'react-router';
-import { AddModifyQuizPage } from './AddModifyQuizPage';
 import { ConditionalContent } from '../../ConditionalContent';
 import { CentralContainer } from '../../Component';
-import { Link } from 'react-router-dom';
 
 /**
  * Page for taking a Quiz
@@ -185,7 +182,7 @@ const nextQuestion = (
   }
   setEnteredAnswer('');
   setAnswerIsSubmitted(false);
-  if (questionIndex == questions.length - 1) {
+  if (questionIndex === questions.length - 1) {
     setQuizIsFinished(true);
     return;
   }

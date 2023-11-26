@@ -1,20 +1,14 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import {
   Button,
-  Card,
   Container,
-  Grid,
   Header,
   Image,
-  ItemImage,
   List,
-  Menu,
   Search,
-  Segment,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../../common/util/request';
-import { MultilineBreak } from '../MultilineBreak';
 import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -63,7 +57,7 @@ export const ViewListDataItemsPage = (
     request(`/${props.dataToken}/by/${props.parentId}`).then((data) => {
       setDataItems(data);
     });
-  }, []);
+  }, [props.dataToken, props.parentId]);
 
   // Filter data items by the search query
   const searchFilteredDataItems = dataItems.filter((item) => {

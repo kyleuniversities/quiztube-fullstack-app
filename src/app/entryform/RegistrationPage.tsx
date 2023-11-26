@@ -1,5 +1,5 @@
 import { Button, Container, Form, Header } from 'semantic-ui-react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { SitePage } from '../SitePage';
 import { MultilineBreak } from '../MultilineBreak';
 import { request } from '../../common/util/request';

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { ExceptionHelper } from '../../../common/helper/ExceptionHelper';
 import { request } from '../../../common/util/request';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import '../../index.css';
 
 /**
@@ -29,7 +29,7 @@ export const AddModifyQuestionPage = (props: {
         setTime(questionItem.numberOfMilliseconds);
       });
     }
-  }, []);
+  }, [isEditing, props.id]);
 
   const navigate = useNavigate();
   return (
