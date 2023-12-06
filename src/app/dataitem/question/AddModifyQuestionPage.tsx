@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { ExceptionHelper } from '../../../common/helper/ExceptionHelper';
 import { request } from '../../../common/util/request';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
+import '../../index.css';
 
 /**
  * Page for adding or modifying a Question
@@ -12,6 +13,7 @@ import { useNavigate, useParams } from 'react-router';
  * @param string id - The id of the question
  */
 export const AddModifyQuestionPage = (props: {
+  quizId: string | undefined;
   id: string | undefined;
 }): JSX.Element => {
   const isEditing = props.id !== undefined;
@@ -27,12 +29,12 @@ export const AddModifyQuestionPage = (props: {
         setTime(questionItem.numberOfMilliseconds);
       });
     }
-  }, []);
+  }, [isEditing, props.id]);
 
   const navigate = useNavigate();
   return (
     <SitePage>
-      <Container fluid style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+      <Container fluid className="formContainer">
         <Header>Edit Question</Header>
         <Form>
           <Form.Input
@@ -49,13 +51,13 @@ export const AddModifyQuestionPage = (props: {
             value={answer}
             onChange={(e: any) => setAnswer(e.target.value)}
           />
-          <Form.Input
+          {/*<Form.Input
             fluid
             label="Time"
             placeholder="Enter a number of milliseconds"
             value={time}
             onChange={(e: any) => setTime(e.target.value)}
-          />
+  />*/}
         </Form>
         <MultilineBreak lines={1} />
         <Button
@@ -63,7 +65,14 @@ export const AddModifyQuestionPage = (props: {
           color="blue"
           content={isEditing ? 'Save' : 'Submit'}
           onClick={() =>
-            addModifyQuestion(navigate, question, answer, time, props.id)
+            addModifyQuestion(
+              navigate,
+              question,
+              answer,
+              time,
+              props.quizId,
+              props.id
+            )
           }
         />
       </Container>
@@ -84,6 +93,7 @@ const addModifyQuestion = (
   questionText: string,
   answerText: string,
   time: string,
+  quizId: string | undefined,
   id: string | undefined
 ): void => {
   const isEditing = id !== undefined;
@@ -94,13 +104,14 @@ const addModifyQuestion = (
       question: questionText,
       answer: answerText,
       numberOfMilliseconds: numberOfMilliseconds,
+      quizId,
     };
     const options = {
       method: method,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(question),
+      data: JSON.stringify(question),
     };
     const requestUrl = isEditing ? `/questions/${id}` : `/questions`;
     request(requestUrl, options).then((data) => {
@@ -111,7 +122,7 @@ const addModifyQuestion = (
       }
       alert(method + ' Operation success!');
       alert('Question: ' + JSON.stringify(data));
-      navigate('/');
+      navigate(`/quizzes/${quizId}`);
       window.location.reload();
     });
   } catch (error: any) {

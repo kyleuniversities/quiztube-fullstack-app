@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Default api host for requests
 export const DEFAULT_HOST: string = 'http://localhost:8080/api';
 
@@ -26,9 +28,17 @@ export const fullRequest = async (
 ): Promise<any> => {
   alert('REQUEST: ' + fullUrl);
   alert('OPTIONS: ' + JSON.stringify(options));
-  return fetch(fullUrl, {
+  const fullOptions = {
     ...options,
-  }).then((data) => {
-    return data.json();
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Basic ' + btoa('user:pass'),
+    },
+    mode: 'cors',
+    url: fullUrl,
+  };
+  return axios(fullOptions).then((data) => {
+    alert('DATA: ' + JSON.stringify(data));
+    return data.data;
   });
 };

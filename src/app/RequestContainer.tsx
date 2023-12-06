@@ -1,5 +1,5 @@
 import { Button, Container, Form, Segment, TextArea } from 'semantic-ui-react';
-import { Consumer, Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { deriveApiHost, fullRequest } from '../common/util/request';
 import { MultilineBreak } from './MultilineBreak';
 

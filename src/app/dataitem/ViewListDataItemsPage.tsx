@@ -1,28 +1,30 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import {
   Button,
-  Card,
   Container,
-  Grid,
   Header,
   Image,
-  ItemImage,
   List,
-  Menu,
   Search,
-  Segment,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../../common/util/request';
-import { MultilineBreak } from '../MultilineBreak';
 import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
+import './index.css';
+import { ConditionalContent } from '../ConditionalContent';
+
+export type ViewUrlFunction = (parentId: string, id: string) => string;
 
 export type ViewListDataItemsPageProps = {
   headerTitle: string;
   dataToken: string;
+  parentId: string;
+  itemsAreLinked: boolean;
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
+  getViewUrl: ViewUrlFunction;
+  takingIsEnabled: boolean;
 };
 
 /**
@@ -52,15 +54,17 @@ export const ViewListDataItemsPage = (
 
   // Load data items on render
   useEffect(() => {
-    request(`/${props.dataToken}`).then((data) => {
+    request(`/${props.dataToken}/by/${props.parentId}`).then((data) => {
       setDataItems(data);
     });
-  }, []);
+  }, [props.dataToken, props.parentId]);
 
   // Filter data items by the search query
   const searchFilteredDataItems = dataItems.filter((item) => {
     return true; // getTitle(item).match(new RegExp(`${query}`));
   });
+
+  const viewUrl = props.getViewUrl(props.parentId, '');
 
   return (
     <SitePage>
@@ -72,14 +76,26 @@ export const ViewListDataItemsPage = (
         query={query}
       />
       <DataItemsMenuListColumnContainer>
-        <Link to={`/${props.dataToken}/add`}>
+        <ConditionalContent
+          condition={
+            props.takingIsEnabled && searchFilteredDataItems.length > 0
+          }
+        >
+          <Link to={`${viewUrl}/take`}>
+            <Button icon="bolt" color="brown" content="Take Quiz" />
+          </Link>
+        </ConditionalContent>
+        <Link to={`${viewUrl}/add`}>
           <Button icon="plus" color="blue" content="New Question" />
         </Link>
         <DataItemsListColumn
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
+          parentId={props.parentId}
+          itemsAreLinked={props.itemsAreLinked}
           getTitle={props.getTitle}
           getDescription={props.getDescription}
+          getViewUrl={props.getViewUrl}
         />
       </DataItemsMenuListColumnContainer>
     </SitePage>
@@ -102,15 +118,7 @@ const DataItemsSearchSegment = (props: {
   query: string;
 }) => {
   return (
-    <Container
-      fluid
-      style={{
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-      }}
-    >
+    <Container fluid className="dataItemsSearchSegment">
       <Header as="h1">{props.headerTitle}</Header>
       <Search
         size="big"
@@ -130,7 +138,7 @@ const DataItemsSearchSegment = (props: {
  */
 const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
   return (
-    <Container style={{ paddingLeft: '20px', paddingRight: '20px' }} fluid>
+    <Container className="dataItemsMenuListColumnContainer" fluid>
       {props.children}
     </Container>
   );
@@ -147,29 +155,26 @@ const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
 const DataItemsListColumn = (props: {
   dataToken: string;
   dataItems: any[];
+  parentId: string;
+  itemsAreLinked: boolean;
   getTitle: (e: any) => string;
   getDescription: (e: any) => string;
+  getViewUrl: ViewUrlFunction;
 }) => {
   const questionImage = require('../resources/question-image.png');
   return (
-    <List
-      size="huge"
-      relaxed
-      style={{
-        paddingLeft: '0px',
-        paddingRight: '0px',
-        paddingTop: '0px',
-        paddingBottom: '0px',
-      }}
-    >
+    <List size="huge" relaxed className="dataItemsListColumn">
       {props.dataItems.map((item) => {
         return (
           <DataListItem
             dataToken={props.dataToken}
+            parentId={props.parentId}
+            itemIsLinked={props.itemsAreLinked}
             itemId={item.id}
             itemImage={questionImage}
             itemTitle={props.getTitle(item)}
             itemDescription={props.getDescription(item)}
+            getViewUrl={props.getViewUrl}
           />
         );
       })}
@@ -188,44 +193,35 @@ const DataItemsListColumn = (props: {
  */
 const DataListItem = (props: {
   dataToken: string;
+  parentId: string;
+  itemIsLinked: boolean;
   itemId: string;
   itemImage: string;
   itemTitle: string;
   itemDescription: string;
+  getViewUrl: ViewUrlFunction;
 }) => {
+  const viewUrl: string = props.getViewUrl(props.parentId, props.itemId);
   return (
-    <List.Item
-      style={{
-        marginTop: 0,
-        marginBottom: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        color: 'black',
-      }}
-    >
-      <Segment
-        fluid
-        style={{
-          marginLeft: 0,
-          paddingLeft: '10px',
-          borderColor: 'black',
-          borderWidth: '3px',
-          borderRadius: '3px',
-        }}
-      >
+    <List.Item className="dataItem">
+      <div className="dataItemSegment">
         <List.Content>
           <Container fluid>
-            <Image
-              style={{ float: 'left', width: '100px', height: '100px' }}
-              src={`${props.itemImage}`}
-            />
+            <Image className="dataItemImage" src={`${props.itemImage}`} />
             <div>
-              <div style={{ marginLeft: '100px', paddingTop: '5px' }}>
-                <List.Header>{props.itemTitle}</List.Header>
+              <div className="dataItemText">
+                <ConditionalContent condition={props.itemIsLinked}>
+                  <Link to={`${viewUrl}/${props.itemId}`}>
+                    <List.Header>{props.itemTitle}</List.Header>
+                  </Link>
+                </ConditionalContent>
+                <ConditionalContent condition={!props.itemIsLinked}>
+                  <List.Header>{props.itemTitle}</List.Header>
+                </ConditionalContent>
                 <List.Description>{props.itemDescription}</List.Description>
               </div>
-              <Container fluid style={{ paddingTop: '5px' }}>
-                <Link to={`/questions/edit/${props.itemId}`}>
+              <Container fluid className="dataItemButtonContainer">
+                <Link to={`${viewUrl}/edit/${props.itemId}`}>
                   <Button
                     inline
                     icon="pencil alternate"
@@ -244,7 +240,7 @@ const DataListItem = (props: {
             </div>
           </Container>
         </List.Content>
-      </Segment>
+      </div>
     </List.Item>
   );
 };
