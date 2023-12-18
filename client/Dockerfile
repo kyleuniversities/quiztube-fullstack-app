@@ -17,4 +17,22 @@ COPY . .
 EXPOSE 3000
 
 # Run build command
-CMD ["npm", "run", "build"]
+RUN npm run build
+
+# Import nginx image
+FROM nginx:stable-alpine
+
+# Set up nginx
+RUN mkdir /usr/share/nginx/buffer
+
+COPY --from=builder /app/out /user/share/nginx/html
+COPY --from=builder /app/public /user/share/nginx/html
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN mkdir /usr/share/nginx/ log
+
+# Expose the HTTP Port
+EXPOSE 80
+
+# Run NGINX
+CMD ["nginx", "-g", "daemon off;"]
