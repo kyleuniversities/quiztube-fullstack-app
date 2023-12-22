@@ -10,6 +10,7 @@ import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
 import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
 import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
 import { TakeQuizPage } from './app/dataitem/quiz/TakeQuizPage';
+import { RequestPage } from './app/request/RequestPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/quizzes/edit/:id" element={<EditQuizPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/request" element={<RequestPage />} />
         </Routes>
       </BrowserRouter>
     </AuthorizationContextManager>

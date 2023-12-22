@@ -6,7 +6,7 @@ NOTE: An "application.properties" goes in this directory, but it is ignored to s
 This is what the application.properties file looks like:
 
 # Api Prefixes
-server.servlet.context-path=/api
+### (Omitted) server.servlet.context-path=/api
 
 # Data Source Configuration
 spring.datasource.url=${dataSourceUrl}
