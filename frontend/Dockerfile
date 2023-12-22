@@ -46,10 +46,8 @@ RUN cat /srv/certificates/full-bundle-1.crt
 # Set up nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
-COPY scripts /srv/scripts
 
 ### Test
-RUN cat /srv/scripts/run.sh
 RUN ls /srv
 
 # Expose the HTTP Port

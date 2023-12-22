@@ -33,6 +33,7 @@ spec:
       containers:
         - name: frontend
           image: kyleuniversities/quiztube-frontend-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: http
@@ -41,7 +42,5 @@ spec:
           env:
             - name: REACT_APP_API_FULL_HOST
               value: /api
-            - name: TEST_KEY_1
-              value: test-value-1
-            - name: TEST_KEY_2
-              value: test-value-2
+            - name: TIME
+              value: '2023-12-22T22:02:01.335300806Z'
