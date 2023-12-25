@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: kyleuniversities/quiztube-backend-app:latest
+          env:
+            - name: QUIZTUBE_DATABASE_FULL_HOST
+              value: quizzical-database.c6dx3fotc2zo.us-west-1.rds.amazonaws.com:3306
+            - name: TEST_KEY_1
+              value: test-value-1
+            - name: TEST_KEY_2
+              value: test-value-2

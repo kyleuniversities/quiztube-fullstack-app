@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Default api host for requests
-export const DEFAULT_HOST: string = 'http://localhost:8080/api';
+export const DEFAULT_HOST: string = 'http://localhost:8080';
 
 /**
  * Utility function for finding the api host
