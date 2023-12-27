@@ -27,7 +27,7 @@ export const HomePage = () => {
       <ConditionalContent condition={!usernameIsPresent}>
         <SitePage>
           <Header as="h3">
-            Welcome to Quizzical A1! Log In to Make Quizzes! A1
+            Welcome to Quizzical A2! Log In to Make Quizzes! A1
           </Header>
         </SitePage>
       </ConditionalContent>
