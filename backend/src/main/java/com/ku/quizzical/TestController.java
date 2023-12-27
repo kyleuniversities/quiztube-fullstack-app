@@ -11,6 +11,6 @@ public final class TestController {
 
     @GetMapping("/test")
     public String test() {
-        return "\"Time 2 >> " + Instant.now().toString() + "\"";
+        return "\"Time A1 >> " + Instant.now().toString() + "\"";
     }
 }
