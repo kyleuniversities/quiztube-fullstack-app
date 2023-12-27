@@ -31,7 +31,7 @@ spec:
           env:
             - name: QUIZTUBE_DATABASE_FULL_HOST
               value: quizzical-database.c6dx3fotc2zo.us-west-1.rds.amazonaws.com:3306
-            - name: TEST_KEY_1
-              value: test-value-1
-            - name: TEST_KEY_2
-              value: test-value-2
+            - name: QUIZTUBE_DATABASE_USERNAME
+              value: admin
+            - name: QUIZTUBE_DATABASE_PASSWORD
+              value: Pizza123!
