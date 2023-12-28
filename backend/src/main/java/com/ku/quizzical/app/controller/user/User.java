@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.ku.quizzical.app.controller.comment.Comment;
+import com.ku.quizzical.app.controller.like.Like;
 import com.ku.quizzical.app.controller.quiz.Quiz;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,14 +33,26 @@ public final class User implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "email", unique=true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "profile_picture", nullable = false)
+    private String profilePicture;
+
+    @Column(name = "thumbnail", nullable = false)
+    private String thumbnail;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Quiz> quizzes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     // Operant Methods
     @Override

@@ -1,6 +1,7 @@
-package com.ku.quizzical.app.controller.question;
+package com.ku.quizzical.app.controller.comment;
 
 import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.controller.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,38 +9,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Model class for Quiz Questions
+ * Model class for Comments
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "question")
-public final class Question {
+@Table(name = "comment")
+public final class Comment {
 
     // Instance Fields
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "question", nullable = false)
-    private String question;
-
-    @Column(name = "answer", nullable = false)
-    private String answer;
-
-    @Column(name = "number_of_milliseconds", nullable = false)
-    private int numberOfMilliseconds;
+    @Column(name = "text", nullable = false)
+    private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id")
     public Quiz quiz;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    public User user;
+
     // To String Method
     @Override
     public String toString() {
-        return String.format("Question(\"%s\", \"%s\", %d, \"%s\")", this.question, this.answer,
-                this.numberOfMilliseconds, this.id);
+        return String.format("Comment(\"%s\", \"%s\")", this.text, this.id);
     }
 }
