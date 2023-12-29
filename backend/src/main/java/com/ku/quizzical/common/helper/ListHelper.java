@@ -91,6 +91,14 @@ public final class ListHelper {
     }
 
     /**
+     * Gets an element if it exists on the list
+     */
+    public static <T> T getApparentValue(List<T> list, int index) {
+        return ConditionalHelper.newTernaryOperation(index < list.size(), () -> list.get(index),
+                () -> null);
+    }
+
+    /**
      * Gets an element from the perspective of index backwards from the last index
      */
     public static <T> T getWithReverseIndex(List<T> list, int reverseIndex) {
