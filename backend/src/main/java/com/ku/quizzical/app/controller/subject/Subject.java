@@ -27,8 +27,8 @@ public final class Subject {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Column(name = "profile_picture", nullable = false)
-    private String profilePicture;
+    @Column(name = "picture", nullable = false)
+    private String picture;
 
     @Column(name = "thumbnail", nullable = false)
     private String thumbnail;

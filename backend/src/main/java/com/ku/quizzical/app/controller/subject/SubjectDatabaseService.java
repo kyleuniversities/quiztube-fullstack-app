@@ -11,7 +11,7 @@ public interface SubjectDatabaseService {
 
     SubjectDto getSubjectByText(String text);
 
-    void updateSubject(String id, SubjectDto subject);
+    void updateSubject(String id, SubjectUpdateRequest subject);
 
     void deleteSubject(String id);
 }
