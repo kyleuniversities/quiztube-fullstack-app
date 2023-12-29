@@ -22,14 +22,17 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     // Interface Methods
     @Override
-    public void saveQuiz(String userId, QuizDto quizDto) {
+    public QuizDto saveQuiz(QuizDto quizDto) {
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?)
                 """;
         int result = this.jdbcTemplate.update(sql, quizDto.id(), quizDto.title(),
-                quizDto.description(), quizDto.picture(), quizDto.thumbnail());
+                quizDto.description(), quizDto.picture(), quizDto.thumbnail(), quizDto.userId(),
+                quizDto.subjectId());
         System.out.println("POST QUIZ RESULT = " + result);
+        return new QuizDto(quizDto.id(), quizDto.title(), quizDto.description(), quizDto.picture(),
+                quizDto.thumbnail(), quizDto.userId(), quizDto.subjectId());
     }
 
     @Override
@@ -83,15 +86,16 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     @Override
-    public void updateQuiz(String userId, String id, QuizUpdateRequest update) {
+    public QuizDto updateQuiz(String id, QuizUpdateRequest update) {
         this.updateQuizAttribute(update, "title", QuizUpdateRequest::title);
         this.updateQuizAttribute(update, "description", QuizUpdateRequest::description);
         this.updateQuizAttribute(update, "picture", QuizUpdateRequest::picture);
         this.updateQuizAttribute(update, "thumbnail", QuizUpdateRequest::thumbnail);
+        return this.getQuiz(id);
     }
 
     @Override
-    public void deleteQuiz(String userId, String id) {
+    public void deleteQuiz(String id) {
         var sql = """
                 DELETE
                 FROM quiz

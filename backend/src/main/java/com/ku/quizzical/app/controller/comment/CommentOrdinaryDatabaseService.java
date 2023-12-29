@@ -21,7 +21,7 @@ public class CommentOrdinaryDatabaseService implements CommentDatabaseService {
 
     // Interface Methods
     @Override
-    public void saveComment(String userId, String quizId, CommentDto commentDto) {
+    public CommentDto saveComment(String quizId, CommentDto commentDto) {
         var sql = """
                 INSERT INTO comment(id, text, quiz_id, user_id)
                 VALUES (?, ?, ?, ?)
@@ -29,6 +29,8 @@ public class CommentOrdinaryDatabaseService implements CommentDatabaseService {
         int result = this.jdbcTemplate.update(sql, commentDto.id(), commentDto.text(),
                 commentDto.quizId(), commentDto.userId());
         System.out.println("POST COMMENT RESULT = " + result);
+        return new CommentDto(commentDto.id(), commentDto.text(), commentDto.quizId(),
+                commentDto.userId());
     }
 
     @Override
@@ -52,7 +54,7 @@ public class CommentOrdinaryDatabaseService implements CommentDatabaseService {
     }
 
     @Override
-    public void deleteComment(String userId, String quizId, String id) {
+    public void deleteComment(String quizId, String id) {
         var sql = """
                 DELETE
                 FROM comment

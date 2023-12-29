@@ -23,7 +23,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
 
     // Interface Methods
     @Override
-    public void saveQuestion(String userId, String quizId, QuestionDto questionDto) {
+    public QuestionDto saveQuestion(String quizId, QuestionDto questionDto) {
         var sql = """
                 INSERT INTO question(id, question, answer, number_of_milliseconds, quiz_id)
                 VALUES (?, ?, ?, ?, ?)
@@ -31,6 +31,8 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         int result = this.jdbcTemplate.update(sql, questionDto.id(), questionDto.question(),
                 questionDto.answer(), questionDto.numberOfMilliseconds(), questionDto.quizId());
         System.out.println("POST QUESTION RESULT = " + result);
+        return new QuestionDto(questionDto.id(), questionDto.question(), questionDto.answer(),
+                questionDto.numberOfMilliseconds(), questionDto.quizId());
     }
 
     @Override
@@ -54,16 +56,16 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
     }
 
     @Override
-    public void updateQuestion(String userId, String quizId, String id,
-            QuestionUpdateRequest update) {
+    public QuestionDto updateQuestion(String quizId, String id, QuestionUpdateRequest update) {
         this.updateQuestionAttribute(update, "question", QuestionUpdateRequest::question);
         this.updateQuestionAttribute(update, "answer", QuestionUpdateRequest::answer);
         this.updateQuestionAttribute(update, "numberOfMilliseconds",
                 QuestionUpdateRequest::numberOfMilliseconds);
+        return this.getQuestion(quizId, id);
     }
 
     @Override
-    public void deleteQuestion(String userId, String quizId, String id) {
+    public void deleteQuestion(String quizId, String id) {
         var sql = """
                 DELETE
                 FROM question

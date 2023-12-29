@@ -1,17 +1,19 @@
 package com.ku.quizzical.app.controller.like;
 
 import java.util.List;
+import com.ku.quizzical.app.util.dto.BooleanDto;
+import com.ku.quizzical.app.util.dto.IntegerDto;
 
 public interface LikeDatabaseService {
-    void saveLike(String userId, String quizId, LikeDto like);
+    LikeDto saveLike(String userId, String quizId, LikeDto like);
 
-    int getNumberOfLikesForQuiz(String quizId);
+    IntegerDto getNumberOfLikesForQuiz(String quizId);
 
-    boolean likeExistsForQuiz(String userId, String quizId);
+    BooleanDto likeExistsForQuiz(String userId, String quizId);
 
     List<LikeDto> getAllLikesByUserId(String userId);
 
-    LikeDto getLike(String userId, String quizId, String id);
+    LikeDto getLike(String quizId, String id);
 
-    void deleteLike(String userId, String quizId, String id);
+    void deleteLike(String quizId, String id);
 }

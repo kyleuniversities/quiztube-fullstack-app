@@ -3,7 +3,7 @@ package com.ku.quizzical.app.controller.user;
 import java.util.List;
 
 public interface UserDatabaseService {
-    void saveUser(UserRegistrationRequest user);
+    UserDto saveUser(UserRegistrationRequest user);
 
     List<UserDto> getAllUsers();
 
@@ -11,7 +11,7 @@ public interface UserDatabaseService {
 
     UserDto getUserByUsername(String username);
 
-    void updateUser(String id, UserUpdateRequest user);
+    UserDto updateUser(String id, UserUpdateRequest user);
 
     void deleteUser(String id);
 }

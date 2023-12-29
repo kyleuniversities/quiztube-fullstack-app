@@ -3,7 +3,7 @@ package com.ku.quizzical.app.controller.subject;
 import java.util.List;
 
 public interface SubjectDatabaseService {
-    void saveSubject(SubjectDto subject);
+    SubjectDto saveSubject(SubjectDto subject);
 
     List<SubjectDto> getAllSubjects();
 
@@ -11,7 +11,7 @@ public interface SubjectDatabaseService {
 
     SubjectDto getSubjectByText(String text);
 
-    void updateSubject(String id, SubjectUpdateRequest subject);
+    SubjectDto updateSubject(String id, SubjectUpdateRequest subject);
 
     void deleteSubject(String id);
 }

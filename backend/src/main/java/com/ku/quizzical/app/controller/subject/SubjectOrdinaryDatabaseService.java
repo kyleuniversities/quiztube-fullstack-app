@@ -23,7 +23,7 @@ public class SubjectOrdinaryDatabaseService implements SubjectDatabaseService {
 
     // Interface Methods
     @Override
-    public void saveSubject(SubjectDto subjectDto) {
+    public SubjectDto saveSubject(SubjectDto subjectDto) {
         var sql = """
                 INSERT INTO subject(id, text, picture, thumbnail)
                 VALUES (?, ?, ?, ?)
@@ -31,6 +31,8 @@ public class SubjectOrdinaryDatabaseService implements SubjectDatabaseService {
         int result = this.jdbcTemplate.update(sql, subjectDto.id(), subjectDto.text(),
                 subjectDto.picture(), subjectDto.thumbnail());
         System.out.println("POST SUBJECT RESULT = " + result);
+        return new SubjectDto(subjectDto.id(), subjectDto.text(), subjectDto.picture(),
+                subjectDto.thumbnail());
     }
 
     @Override
@@ -65,10 +67,11 @@ public class SubjectOrdinaryDatabaseService implements SubjectDatabaseService {
     }
 
     @Override
-    public void updateSubject(String id, SubjectUpdateRequest update) {
+    public SubjectDto updateSubject(String id, SubjectUpdateRequest update) {
         this.updateSubjectAttribute(update, "text", SubjectUpdateRequest::text);
         this.updateSubjectAttribute(update, "picture", SubjectUpdateRequest::picture);
         this.updateSubjectAttribute(update, "thumbnail", SubjectUpdateRequest::thumbnail);
+        return this.getSubject(id);
     }
 
     @Override

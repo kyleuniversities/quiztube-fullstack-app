@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 
@@ -22,7 +23,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
 
     // Interface Methods
     @Override
-    public void saveUser(UserRegistrationRequest registrationRequest) {
+    public UserDto saveUser(UserRegistrationRequest registrationRequest) {
         var sql = """
                 INSERT INTO user(id, username, email, password, picture, thumbnail)
                 VALUES (?, ?, ?, ?, ?, ?)
@@ -32,6 +33,9 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 registrationRequest.password(), registrationRequest.picture(),
                 registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
+        return new UserDto(registrationRequest.id(), registrationRequest.username(),
+                registrationRequest.email(), registrationRequest.picture(),
+                registrationRequest.thumbnail(), UserHelper.makeDefaultRoleList());
     }
 
     @Override
@@ -66,12 +70,13 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     }
 
     @Override
-    public void updateUser(String id, UserUpdateRequest update) {
+    public UserDto updateUser(String id, UserUpdateRequest update) {
         this.updateUserAttribute(update, "username", UserUpdateRequest::username);
         this.updateUserAttribute(update, "email", UserUpdateRequest::email);
         this.updateUserAttribute(update, "password", UserUpdateRequest::password);
         this.updateUserAttribute(update, "picture", UserUpdateRequest::picture);
         this.updateUserAttribute(update, "thumbnail", UserUpdateRequest::thumbnail);
+        return this.getUser(id);
     }
 
     @Override
