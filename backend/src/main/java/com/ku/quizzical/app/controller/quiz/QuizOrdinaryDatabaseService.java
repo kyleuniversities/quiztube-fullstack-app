@@ -25,7 +25,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     public QuizDto saveQuiz(QuizDto quizDto) {
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
         int result = this.jdbcTemplate.update(sql, quizDto.id(), quizDto.title(),
                 quizDto.description(), quizDto.picture(), quizDto.thumbnail(), quizDto.userId(),
