@@ -3,13 +3,13 @@ package com.ku.quizzical.app.controller.question;
 import java.util.List;
 
 public interface QuestionDatabaseService {
-    QuestionDto saveQuestion(String userId, String quizId, QuestionDto question);
+    void saveQuestion(String userId, String quizId, QuestionDto question);
 
     List<QuestionDto> getAllQuestionsByQuizId(String quizId);
 
-    QuestionDto getQuestionById(String quizId, String id);
+    QuestionDto getQuestion(String quizId, String id);
 
-    QuestionDto updateQuestion(String userId, String quizId, String id, QuestionDto question);
+    void updateQuestion(String userId, String quizId, String id, QuestionUpdateRequest question);
 
     void deleteQuestion(String userId, String quizId, String id);
 }
