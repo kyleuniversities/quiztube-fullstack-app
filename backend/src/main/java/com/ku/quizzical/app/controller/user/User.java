@@ -3,7 +3,6 @@ package com.ku.quizzical.app.controller.user;
 import java.util.List;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.ku.quizzical.app.controller.comment.Comment;
 import com.ku.quizzical.app.controller.like.Like;

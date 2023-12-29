@@ -1,10 +1,8 @@
 package com.ku.quizzical.app.controller.user;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
@@ -13,18 +11,13 @@ import com.ku.quizzical.common.helper.ListHelper;
 public class UserOrdinaryDatabaseService implements UserDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
-    private final UserRowMapper rowMapper;
     private final UserDtoRowMapper dtoRowMapper;
-    private UserDtoMapper dtoMapper;
 
     // Constructor Method
-    public UserOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserRowMapper rowMapper,
-            UserDtoRowMapper dtoRowMapper, UserDtoMapper dtoMapper) {
+    public UserOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
         this.dtoRowMapper = dtoRowMapper;
-        this.rowMapper = rowMapper;
-        this.dtoMapper = dtoMapper;
     }
 
     // Interface Methods
