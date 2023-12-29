@@ -24,10 +24,11 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public void saveUser(UserRegistrationRequest registrationRequest) {
         var sql = """
-                INSERT INTO user(username, email, password, profile_picture, thumbnail)
-                VALUES (?, ?, ?)
+                INSERT INTO user(id, username, email, password, profile_picture, thumbnail)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
-        int result = this.jdbcTemplate.update(sql, registrationRequest.username(),
+        User user = new User();
+        int result = this.jdbcTemplate.update(sql, user.getId(), registrationRequest.username(),
                 registrationRequest.email(), registrationRequest.password(),
                 registrationRequest.profilePicture(), registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
