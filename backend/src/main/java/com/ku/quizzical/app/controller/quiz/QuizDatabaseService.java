@@ -3,7 +3,7 @@ package com.ku.quizzical.app.controller.quiz;
 import java.util.List;
 
 public interface QuizDatabaseService {
-    QuizDto saveQuiz(String userId, QuizDto quiz);
+    void saveQuiz(String userId, QuizDto quiz);
 
     List<QuizDto> getAllQuizzes();
 
@@ -13,9 +13,9 @@ public interface QuizDatabaseService {
 
     List<QuizDto> getAllQuizzesBySubjectId(String subjectId);
 
-    QuizDto getQuizById(String id);
+    QuizDto getQuiz(String id);
 
-    QuizDto updateQuiz(String userId, String id, QuizDto quiz);
+    void updateQuiz(String userId, String id, QuizUpdateRequest quiz);
 
     void deleteQuiz(String userId, String id);
 }
