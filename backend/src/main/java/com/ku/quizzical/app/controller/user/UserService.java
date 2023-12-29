@@ -1,15 +1,18 @@
 package com.ku.quizzical.app.controller.user;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-    UserDto saveUser(UserRegistrationRequest question);
+    void saveUser(UserDto user);
 
     List<UserDto> getAllUsers();
 
-    UserDto getUserById(String id);
+    Optional<UserDto> getUser(String id);
 
-    UserDto updateUser(UserDto question, String id);
+    Optional<UserDto> getUserByUsername(String username);
+
+    void updateUser(String id, UserDto user);
 
     void deleteUser(String id);
 }
