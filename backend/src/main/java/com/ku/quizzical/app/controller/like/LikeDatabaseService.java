@@ -2,7 +2,7 @@ package com.ku.quizzical.app.controller.like;
 
 import java.util.List;
 
-public interface LikeService {
+public interface LikeDatabaseService {
     LikeDto saveLike(String userId, String quizId, LikeDto like);
 
     int getNumberOfLikesForQuiz(String quizId);
