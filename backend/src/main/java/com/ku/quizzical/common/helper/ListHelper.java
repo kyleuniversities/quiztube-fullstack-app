@@ -99,6 +99,13 @@ public final class ListHelper {
     }
 
     /**
+     * Gets a random element from the list
+     */
+    public static <T> T getRandomValue(List<T> list) {
+        return ListHelper.get(list, RandomHelper.nextInt(list.size()));
+    }
+
+    /**
      * Gets an element from the perspective of index backwards from the last index
      */
     public static <T> T getWithReverseIndex(List<T> list, int reverseIndex) {
@@ -157,6 +164,15 @@ public final class ListHelper {
     }
 
     /**
+     * Creates a new ArrayList
+     */
+    public static ArrayList<Integer> newIndexList(int size) {
+        ArrayList<Integer> indexList = ListHelper.newArrayList();
+        IterationHelper.forEach(size, (Integer i) -> indexList.add(i));
+        return indexList;
+    }
+
+    /**
      * Creates a new Linked List
      */
     public static <T> LinkedList<T> newLinkedList() {
@@ -178,10 +194,39 @@ public final class ListHelper {
     }
 
     /**
+     * Sets an element on a list
+     */
+    public static <T> void set(List<T> list, int index, T item) {
+        list.set(index, item);
+    }
+
+    /**
+     * Shuffles elements in a List
+     */
+    public static <T> void shuffle(List<T> list) {
+        int size = list.size();
+        int startIndex = RandomHelper.nextInt(size);
+        IterationHelper.forEach(size, (Integer i) -> {
+            int index1 = (startIndex + i) % size;
+            int index2 = RandomHelper.nextInt(size);
+            ListHelper.swap(list, index1, index2);
+        });
+    }
+
+    /**
      * Sorts elements in a List
      */
     public static <T extends Comparable<? super T>> void sort(List<T> list) {
         Collections.sort(list);
+    }
+
+    /**
+     * Swaps two elements in a List
+     */
+    public static <T> void swap(List<T> list, int index1, int index2) {
+        T temp = list.get(index1);
+        list.set(index1, list.get(index2));
+        list.set(index2, temp);
     }
 
     /**

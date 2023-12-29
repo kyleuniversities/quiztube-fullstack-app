@@ -21,10 +21,12 @@ import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ExceptionHelper;
 import com.ku.quizzical.common.helper.FunctionHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.MapHelper;
 import com.ku.quizzical.common.helper.TimeHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.util.file.ByteList;
 import com.ku.quizzical.common.util.string.StringList;
+import com.ku.quizzical.common.util.string.StringMap;
 
 /**
  * Helper class for File Operations
@@ -105,6 +107,17 @@ public class FileHelper {
     }
 
     /**
+     * Exports String Map as into a text file
+     */
+    public static void exportStringMap(StringMap map, String path) {
+        StringList lines = StringHelper.newStringList();
+        MapHelper.forEach(map, (String key, String value) -> {
+            ListHelper.add(lines, key + ": " + value);
+        });
+        FileHelper.exportStringList(lines, path);
+    }
+
+    /**
      * Exports lines as into a text file
      */
     public static void exportText(String text, String path) {
@@ -172,14 +185,14 @@ public class FileHelper {
     }
 
     /**
-     * Gets the file lines of a text file as String List
+     * Gets the file lines of a text file as a String List
      */
     public static StringList getStringList(File file) {
         return FileHelper.getStringList(FilePathHelper.getAbsolutePath(file));
     }
 
     /**
-     * Gets the file lines of a text file as String List
+     * Gets the file lines of a text file as a String List
      */
     public static StringList getStringList(String path) {
         StringList list = StringList.newInstance();
@@ -196,6 +209,23 @@ public class FileHelper {
             ExceptionHelper.throwNewIllegalStateException(e.getMessage());
         }
         return list;
+    }
+
+    /**
+     * Gets the file lines of a text file as a String Map
+     */
+    public static StringMap getStringMap(File file) {
+        StringMap map = StringHelper.newStringMap();
+        StringList lines = FileHelper.getStringList(file);
+        ListHelper.forEach(lines, (String line) -> {
+            ConditionalHelper.ifThen(!line.isEmpty(), () -> {
+                int colonIndex = StringHelper.indexOf(line, ':');
+                String key = StringHelper.substring(line, 0, colonIndex);
+                String value = StringHelper.substring(line, colonIndex + 2);
+                MapHelper.put(map, key, value);
+            });
+        });
+        return map;
     }
 
     /**
