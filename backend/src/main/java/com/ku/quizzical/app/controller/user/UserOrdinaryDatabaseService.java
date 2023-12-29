@@ -24,11 +24,12 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public void saveUser(UserRegistrationRequest registrationRequest) {
         var sql = """
-                INSERT INTO user(username, email, password)
+                INSERT INTO user(username, email, password, profile_picture, thumbnail)
                 VALUES (?, ?, ?)
                 """;
         int result = this.jdbcTemplate.update(sql, registrationRequest.username(),
-                registrationRequest.email(), registrationRequest.password());
+                registrationRequest.email(), registrationRequest.password(),
+                registrationRequest.profilePicture(), registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
     }
 
@@ -45,7 +46,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public UserDto getUser(String id) {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, profile_picture, thumbnail
                 FROM user
                 WHERE id = ?
                 """;
@@ -55,7 +56,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public UserDto getUserByUsername(String username) {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, profile_picture, thumbnail
                 FROM user
                 WHERE username = ?
                 """;
