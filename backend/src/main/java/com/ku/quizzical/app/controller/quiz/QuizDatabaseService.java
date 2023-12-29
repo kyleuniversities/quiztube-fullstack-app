@@ -2,7 +2,7 @@ package com.ku.quizzical.app.controller.quiz;
 
 import java.util.List;
 
-public interface QuizService {
+public interface QuizDatabaseService {
     QuizDto saveQuiz(String userId, QuizDto quiz);
 
     List<QuizDto> getAllQuizzes();

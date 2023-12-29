@@ -2,7 +2,7 @@ package com.ku.quizzical.app.controller.comment;
 
 import java.util.List;
 
-public interface CommentService {
+public interface CommentDatabaseService {
     CommentDto saveComment(String userId, String quizId, CommentDto comment);
 
     List<CommentDto> getAllCommentsByQuizId(String quizId);

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.ku.quizzical.app.controller.comment.Comment;
 import com.ku.quizzical.app.controller.like.Like;
 import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.helper.UserHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -77,7 +78,7 @@ public final class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return UserHelper.makeDefaultAuthorityList();
     }
 
     // To String Method
