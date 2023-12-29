@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QuizDtoRowMapper implements RowMapper<QuestionDto> {
+public class QuestionDtoRowMapper implements RowMapper<QuestionDto> {
         @Override
         public QuestionDto mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                 return new QuestionDto(resultSet.getString("id"), resultSet.getString("question"),
