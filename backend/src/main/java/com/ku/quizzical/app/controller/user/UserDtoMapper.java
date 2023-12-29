@@ -8,7 +8,7 @@ import com.ku.quizzical.app.helper.UserHelper;
 public class UserDtoMapper implements Function<User, UserDto> {
     @Override
     public UserDto apply(User user) {
-        return new UserDto(user.getId(), user.getUsername(), user.getEmail(),
-                user.getProfilePicture(), user.getThumbnail(), UserHelper.makeDefaultRoleList());
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getPicture(),
+                user.getThumbnail(), UserHelper.makeDefaultRoleList());
     }
 }

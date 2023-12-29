@@ -39,8 +39,8 @@ public final class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "profile_picture", nullable = false)
-    private String profilePicture;
+    @Column(name = "picture", nullable = false)
+    private String picture;
 
     @Column(name = "thumbnail", nullable = false)
     private String thumbnail;

@@ -11,8 +11,7 @@ public class UserDtoRowMapper implements RowMapper<UserDto> {
         @Override
         public UserDto mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                 return new UserDto(resultSet.getString("id"), resultSet.getString("username"),
-                                resultSet.getString("email"),
-                                resultSet.getString("profile_picture"),
+                                resultSet.getString("email"), resultSet.getString("picture"),
                                 resultSet.getString("thumbnail"), UserHelper.makeDefaultRoleList());
         }
 }

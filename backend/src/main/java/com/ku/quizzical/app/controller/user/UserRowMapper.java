@@ -30,7 +30,7 @@ public class UserRowMapper implements RowMapper<User> {
                                 : userQuery.get().getComments();
                 return new User(resultSet.getString("id"), resultSet.getString("username"),
                                 resultSet.getString("email"), resultSet.getString("password"),
-                                resultSet.getString("profile_picture"),
-                                resultSet.getString("thumbnail"), quizzes, likes, comments);
+                                resultSet.getString("picture"), resultSet.getString("thumbnail"),
+                                quizzes, likes, comments);
         }
 }

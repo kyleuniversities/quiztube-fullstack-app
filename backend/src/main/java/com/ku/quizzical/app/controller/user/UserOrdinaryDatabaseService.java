@@ -24,12 +24,12 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public void saveUser(UserRegistrationRequest registrationRequest) {
         var sql = """
-                INSERT INTO user(id, username, email, password, profile_picture, thumbnail)
+                INSERT INTO user(id, username, email, password, picture, thumbnail)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
         int result = this.jdbcTemplate.update(sql, registrationRequest.id(),
                 registrationRequest.username(), registrationRequest.email(),
-                registrationRequest.password(), registrationRequest.profilePicture(),
+                registrationRequest.password(), registrationRequest.picture(),
                 registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
     }
@@ -37,7 +37,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public List<UserDto> getAllUsers() {
         var sql = """
-                SELECT id, username, email, password, profile_picture, thumbnail
+                SELECT id, username, email, password, picture, thumbnail
                 FROM user
                 LIMIT 100
                 """;
@@ -47,7 +47,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public UserDto getUser(String id) {
         var sql = """
-                SELECT id, username, email, password, profile_picture, thumbnail
+                SELECT id, username, email, password, picture, thumbnail
                 FROM user
                 WHERE id = ?
                 """;
@@ -57,7 +57,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     @Override
     public UserDto getUserByUsername(String username) {
         var sql = """
-                SELECT id, username, email, password, profile_picture, thumbnail
+                SELECT id, username, email, password, picture, thumbnail
                 FROM user
                 WHERE username = ?
                 """;
@@ -70,7 +70,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
         this.updateUserAttribute(update, "username", UserUpdateRequest::username);
         this.updateUserAttribute(update, "email", UserUpdateRequest::email);
         this.updateUserAttribute(update, "password", UserUpdateRequest::password);
-        this.updateUserAttribute(update, "profile_picture", UserUpdateRequest::profilePicture);
+        this.updateUserAttribute(update, "picture", UserUpdateRequest::picture);
         this.updateUserAttribute(update, "thumbnail", UserUpdateRequest::thumbnail);
     }
 
