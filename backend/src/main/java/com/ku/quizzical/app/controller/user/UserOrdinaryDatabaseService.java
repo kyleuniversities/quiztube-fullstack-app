@@ -27,10 +27,10 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 INSERT INTO user(id, username, email, password, profile_picture, thumbnail)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
-        User user = new User();
-        int result = this.jdbcTemplate.update(sql, user.getId(), registrationRequest.username(),
-                registrationRequest.email(), registrationRequest.password(),
-                registrationRequest.profilePicture(), registrationRequest.thumbnail());
+        int result = this.jdbcTemplate.update(sql, registrationRequest.id(),
+                registrationRequest.username(), registrationRequest.email(),
+                registrationRequest.password(), registrationRequest.profilePicture(),
+                registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
     }
 
