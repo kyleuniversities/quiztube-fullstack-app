@@ -10,7 +10,6 @@ public class SubjectDtoRowMapper implements RowMapper<SubjectDto> {
         @Override
         public SubjectDto mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                 return new SubjectDto(resultSet.getString("id"), resultSet.getString("text"),
-                                resultSet.getString("profile_picture"),
-                                resultSet.getString("thumbnail"));
+                                resultSet.getString("picture"), resultSet.getString("thumbnail"));
         }
 }
