@@ -1,0 +1,3 @@
+Who made the painting ${Q}?
+The painting ${Q} was made by?
+The artist who made ${Q} was ___.

@@ -1,0 +1,3 @@
+${Q} is the ___ element on the Periodic Table.
+What ordinality on the Periodic Table is the element ${Q}?
+Ranking from least to greatest in number of protons, what is the rank of ${Q}?
