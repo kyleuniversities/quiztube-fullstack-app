@@ -1,7 +1,6 @@
 package com.ku.quizzical.app.controller.like;
 
 import java.util.List;
-import com.ku.quizzical.app.util.dto.BooleanDto;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 
 public interface LikeDatabaseService {

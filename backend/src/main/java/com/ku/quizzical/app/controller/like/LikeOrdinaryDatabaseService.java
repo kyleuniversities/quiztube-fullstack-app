@@ -3,7 +3,6 @@ package com.ku.quizzical.app.controller.like;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import com.ku.quizzical.app.util.dto.BooleanDto;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;

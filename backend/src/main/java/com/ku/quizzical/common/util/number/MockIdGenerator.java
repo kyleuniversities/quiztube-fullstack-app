@@ -6,7 +6,6 @@ import com.ku.quizzical.common.helper.IterationHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.RandomHelper;
 import com.ku.quizzical.common.helper.TimeHelper;
-import com.ku.quizzical.common.helper.number.IndexHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 public class MockIdGenerator {

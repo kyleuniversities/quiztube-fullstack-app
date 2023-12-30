@@ -1,8 +1,6 @@
 package com.ku.quizzical.common.helper;
 
-import java.time.Instant;
 import java.util.Random;
-import com.ku.quizzical.common.util.Time;
 
 /**
  * Helper class for Random Operations

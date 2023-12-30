@@ -1,15 +1,12 @@
 package com.ku.quizzical.devtools.util.synthetic;
 
-import static org.mockito.Mockito.description;
 import java.util.List;
 import com.ku.quizzical.common.helper.IterationHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.helper.string.StringReplacementHelper;
-import com.ku.quizzical.common.util.entry.Entry;
 import com.ku.quizzical.common.util.string.StringEntry;
 import com.ku.quizzical.common.util.string.StringList;
-import com.ku.quizzical.common.util.string.StringMap;
 
 final class SyntheticQuestionDataGenerator extends SyntheticSubDataGenerator {
     // Instance fields

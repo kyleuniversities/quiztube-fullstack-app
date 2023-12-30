@@ -1,7 +1,6 @@
 package com.ku.quizzical.app.s3;
 
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import software.amazon.awssdk.core.ResponseInputStream;
@@ -26,13 +25,15 @@ public class S3StorageService {
     // Main Instance Methods
     public void putObject(String key, byte[] file) {
         String bucketName = this.collectBucketName();
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(bucketName).key(key).build();
+        PutObjectRequest putObjectRequest =
+                PutObjectRequest.builder().bucket(bucketName).key(key).build();
         this.s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file));
     }
 
     public byte[] getObject(String key) {
         String bucketName = this.collectBucketName();
-        GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucketName).key(key).build();
+        GetObjectRequest getObjectRequest =
+                GetObjectRequest.builder().bucket(bucketName).key(key).build();
         ResponseInputStream<GetObjectResponse> response = this.s3Client.getObject(getObjectRequest);
         try {
             return response.readAllBytes();

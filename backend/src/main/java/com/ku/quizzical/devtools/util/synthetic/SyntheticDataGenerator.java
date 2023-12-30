@@ -1,11 +1,8 @@
 package com.ku.quizzical.devtools.util.synthetic;
 
-import java.io.File;
 import java.util.List;
-import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.file.FileHelper;
-import com.ku.quizzical.common.helper.file.FilePathHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.util.string.StringList;
 

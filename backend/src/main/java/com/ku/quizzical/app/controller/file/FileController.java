@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.s3.S3StorageService;
-import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.helper.string.StringReplacementHelper;
 
 @CrossOrigin
