@@ -1,0 +1,4 @@
+This is ${U}'s Social Studies quiz
+This is ${U}'s test of Social Studies knowledge
+Presenting the president quiz by ${U}
+In ${U}'s quiz, you shall identify that president.

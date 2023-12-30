@@ -4,9 +4,10 @@ import { LinkButton } from './Component';
 import './index.css';
 import {
   NULL_USERNAME,
-  useAuthorization,
+  useAppContext,
+  useColorize,
   useUsername,
-} from './auth/AuthorizationContextManager';
+} from './context/AppContextManager';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 
@@ -14,8 +15,9 @@ import { ReactNode } from 'react';
  * A header component for all site pages
  */
 export const SiteHeader = (): JSX.Element => {
+  const colorize = useColorize();
   return (
-    <div className="siteHeaderSegment">
+    <div className={colorize('siteHeaderSegment')}>
       <Menu secondary borderless>
         <SiteHeaderHomeIconItem />
         <SiteHeaderTitleItem />
@@ -27,11 +29,14 @@ export const SiteHeader = (): JSX.Element => {
 
 // The home icon for the website
 const SiteHeaderHomeIconItem = (): JSX.Element => {
+  const colorize = useColorize();
   const logo = require('./resources/logo.png');
+  const logoLight = require('./resources/logo-light.png');
+  const selectedLogo = colorize.colorMode().length === 0 ? logo : logoLight;
   return (
     <Menu.Item>
       <Link to="/">
-        <Image src={logo} />
+        <Image src={selectedLogo} />
       </Link>
     </Menu.Item>
   );
@@ -39,10 +44,11 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 
 // The title for the website
 const SiteHeaderTitleItem = (): JSX.Element => {
+  const colorize = useColorize();
   return (
     <Menu.Item>
       <Link to="/">
-        <span className="siteHeaderTitleItem">Quizzical</span>
+        <span className={colorize('siteHeaderTitleItem')}>Quizzical</span>
       </Link>
     </Menu.Item>
   );
@@ -69,7 +75,7 @@ const SiteHeaderUserSignedInContent = (props: {
   username: string;
 }): JSX.Element => {
   const navigate = useNavigate();
-  const userContext: any = useAuthorization();
+  const userContext: any = useAppContext();
   return (
     <Menu.Item position="right">
       <Header as="h2">Hello "{props.username}".</Header>
@@ -99,8 +105,12 @@ const SiteHeaderSignedInButton = (props: {
   onClick: (e: any) => void;
   children: ReactNode;
 }): JSX.Element => {
+  const colorize = useColorize();
   return (
-    <button onClick={props.onClick} className="siteHeaderUserButton">
+    <button
+      onClick={props.onClick}
+      className={colorize('siteHeaderUserButton')}
+    >
       {props.children}
     </button>
   );
@@ -111,8 +121,9 @@ const SiteHeaderSignedOutButton = (props: {
   to: string;
   children: ReactNode;
 }): JSX.Element => {
+  const colorize = useColorize();
   return (
-    <LinkButton to={props.to} className="siteHeaderUserButton">
+    <LinkButton to={props.to} className={colorize('siteHeaderUserButton')}>
       {props.children}
     </LinkButton>
   );

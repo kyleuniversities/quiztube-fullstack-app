@@ -1,0 +1,10 @@
+pig: noun
+bird: noun
+house: noun
+swim: verb
+walk: verb
+climb: verb
+heavenly: abverb
+nicely: adverb
+big: adjective
+red: adjective

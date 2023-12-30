@@ -35,7 +35,7 @@ public final class QuestionController {
 
     // READ Method
     // Gets all Questions for a Quiz
-    @GetMapping("/quizzes/{quizId}")
+    @GetMapping("/quizzes/{quizId}/questions")
     public List<QuestionDto> getAllQuestionsByQuizId(@PathVariable String quizId) {
         return this.service.getAllQuestionsByQuizId(quizId);
     }

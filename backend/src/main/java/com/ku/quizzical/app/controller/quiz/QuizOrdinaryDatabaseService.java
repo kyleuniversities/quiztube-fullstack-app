@@ -1,9 +1,12 @@
 package com.ku.quizzical.app.controller.quiz;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 
@@ -11,13 +14,18 @@ import com.ku.quizzical.common.helper.ListHelper;
 public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
+    private final QuizRepository repository;
     private final QuizDtoRowMapper dtoRowMapper;
+    private final QuizPostDtoMapper postDtoRowMapper;
 
     // Constructor Method
-    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizDtoRowMapper dtoRowMapper) {
+    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository repository,
+            QuizDtoRowMapper dtoRowMapper, QuizPostDtoMapper postDtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.repository = repository;
         this.dtoRowMapper = dtoRowMapper;
+        this.postDtoRowMapper = postDtoRowMapper;
     }
 
     // Interface Methods
@@ -43,6 +51,14 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
                 LIMIT 100
                 """;
         return this.jdbcTemplate.query(sql, this.dtoRowMapper);
+    }
+
+    @Override
+    public List<QuizPostDto> getAllQuizzesAsPosts(String subjectId) {
+        return this.repository.findAll().stream().filter(this.makeQuizSubjectFilter(subjectId))
+                .map(this.postDtoRowMapper::apply)
+                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
+                .toList();
     }
 
     @Override
@@ -103,6 +119,10 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
                 """;
         int result = this.jdbcTemplate.update(sql, id);
         System.out.println("DELETE QUIZ RESULT = " + result);
+    }
+
+    private Predicate<Quiz> makeQuizSubjectFilter(String subjectId) {
+        return (Quiz quiz) -> subjectId == null || quiz.getSubject().getId().equals(subjectId);
     }
 
     private void updateQuizAttribute(QuizUpdateRequest update, String attributeName,

@@ -1,0 +1,6 @@
+${Q} = _
+${Q} is equal to _?
+What is the value of ${Q}?
+What is ${Q}?
+Evaluate ${Q}
+

@@ -85,6 +85,13 @@ public final class StringHelper {
     }
 
     /**
+     * Returns a formatted String
+     */
+    public static String format(String format, Object... args) {
+        return String.format(format, args);
+    }
+
+    /**
      * Returns the first found index of a character
      */
     public static int indexOf(String text, char target) {

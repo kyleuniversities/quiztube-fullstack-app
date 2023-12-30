@@ -1,0 +1,6 @@
+${U}'s Math Quiz
+${U}'s Test of Math Knowledge
+Arithmetic Quiz by ${U}
+Arithmetic Test by ${U}
+${U} - Arithmetic Knowledge Quiz
+${U} - Arithmetic Test

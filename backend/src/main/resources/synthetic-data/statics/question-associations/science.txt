@@ -1,0 +1,10 @@
+Hydrogen: 1st
+Helium: 2nd
+Lithium: 3rd
+Beryllium: 4th
+Carbon: 6th
+Nitrogen: 7th
+Oxygen: 8th
+Silver: 47th
+Gold: 79th
+Platinum: 78th

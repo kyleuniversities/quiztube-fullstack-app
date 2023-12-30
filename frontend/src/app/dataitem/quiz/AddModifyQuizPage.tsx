@@ -5,7 +5,7 @@ import { MultilineBreak } from '../../MultilineBreak';
 import { request } from '../../../common/util/request';
 import { useNavigate } from 'react-router';
 import '../../index.css';
-import { NULL_ID, useUserId } from '../../auth/AuthorizationContextManager';
+import { NULL_ID, useUserId } from '../../context/AppContextManager';
 
 /**
  * Page for adding or modifying a Title

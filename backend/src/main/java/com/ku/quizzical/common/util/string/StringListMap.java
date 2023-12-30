@@ -62,6 +62,12 @@ public final class StringListMap extends LinkedHashMap<String, StringList> {
         return list;
     }
 
+    public StringListMap copy() {
+        StringListMap listMap = StringListMap.newInstance();
+        MapHelper.forEach(this, (String key, StringList list) -> listMap.put(key, list.copy()));
+        return listMap;
+    }
+
     // To String Method
     @Override
     public String toString() {

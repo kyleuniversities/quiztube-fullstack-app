@@ -13,13 +13,15 @@ import { SitePage } from '../SitePage';
 import { Link } from 'react-router-dom';
 import './index.css';
 import { ConditionalContent } from '../ConditionalContent';
+import { useColorize } from '../context/AppContextManager';
 
 export type ViewUrlFunction = (parentId: string, id: string) => string;
 
 export type ViewListDataItemsPageProps = {
   headerTitle: string;
-  dataToken: string;
+  parentDataToken: string;
   parentId: string;
+  dataToken: string;
   itemsAreLinked: boolean;
   getTitle: (item: any) => string;
   getDescription: (item: any) => string;
@@ -48,13 +50,19 @@ export const ViewListDataItemsPage = (
     []
   );
   const navigate = useNavigate();
+
+  // Set up link to data item
   const onResultSelect = (e: any, res: { result: any }) => {
-    navigate(`/${props.dataToken}/${res.result.id}`);
+    navigate(
+      `/${props.parentDataToken}/${props.parentId}/${props.dataToken}/${res.result.id}`
+    );
   };
 
   // Load data items on render
   useEffect(() => {
-    request(`/${props.dataToken}/by/${props.parentId}`).then((data) => {
+    request(
+      `/${props.parentDataToken}/${props.parentId}/${props.dataToken}`
+    ).then((data) => {
       setDataItems(data);
     });
   }, [props.dataToken, props.parentId]);
@@ -64,8 +72,10 @@ export const ViewListDataItemsPage = (
     return true; // getTitle(item).match(new RegExp(`${query}`));
   });
 
+  // Set up View Url
   const viewUrl = props.getViewUrl(props.parentId, '');
 
+  // Returns the page
   return (
     <SitePage>
       <DataItemsSearchSegment
@@ -161,7 +171,11 @@ const DataItemsListColumn = (props: {
   getDescription: (e: any) => string;
   getViewUrl: ViewUrlFunction;
 }) => {
+  const colorize = useColorize();
   const questionImage = require('../resources/question-image.png');
+  const questionImageLight = require('../resources/question-image-light.png');
+  const selectedQuestionImage =
+    colorize.colorMode().length === 0 ? questionImage : questionImageLight;
   return (
     <List size="huge" relaxed className="dataItemsListColumn">
       {props.dataItems.map((item) => {
@@ -171,7 +185,7 @@ const DataItemsListColumn = (props: {
             parentId={props.parentId}
             itemIsLinked={props.itemsAreLinked}
             itemId={item.id}
-            itemImage={questionImage}
+            itemImage={selectedQuestionImage}
             itemTitle={props.getTitle(item)}
             itemDescription={props.getDescription(item)}
             getViewUrl={props.getViewUrl}

@@ -7,6 +7,8 @@ public interface QuizDatabaseService {
 
     List<QuizDto> getAllQuizzes();
 
+    List<QuizPostDto> getAllQuizzesAsPosts(String subjectId);
+
     List<QuizDto> getAllQuizzesByTitleQuery(String titleQuery);
 
     List<QuizDto> getAllQuizzesByUserId(String userId);

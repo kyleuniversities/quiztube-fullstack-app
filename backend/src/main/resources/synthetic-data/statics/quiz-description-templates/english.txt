@@ -1,0 +1,4 @@
+This is ${U}'s English quiz
+This is ${U}'s test of English knowledge
+Presenting the word type quiz by ${U}
+In ${U}'s quiz, you shall identify that word type.
