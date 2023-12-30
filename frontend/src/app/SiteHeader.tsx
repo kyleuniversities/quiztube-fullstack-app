@@ -1,4 +1,4 @@
-import { Header, Image, Menu } from 'semantic-ui-react';
+import { Dropdown, Header, Image, Menu } from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
 import './index.css';
@@ -9,7 +9,8 @@ import {
   useUsername,
 } from './context/AppContextManager';
 import { Link, useNavigate } from 'react-router-dom';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { deriveApiHost, request } from '../common/util/request';
 
 /**
  * A header component for all site pages
@@ -70,20 +71,34 @@ const SiteHeaderUserContent = (): JSX.Element => {
   );
 };
 
+const DEFAULT_USER: any = {
+  thumbnail: 'null',
+};
+
 // The content relating to the user whilst signed in
 const SiteHeaderUserSignedInContent = (props: {
   username: string;
 }): JSX.Element => {
   const navigate = useNavigate();
   const userContext: any = useAppContext();
+  const [user, setUser] = useState(DEFAULT_USER);
+  useEffect(() => {
+    request(`/users/${userContext.user.userId}`).then((res) => {
+      setUser(res);
+    });
+  }, []);
   return (
     <Menu.Item position="right">
-      <Header as="h2">Hello "{props.username}".</Header>
-      <SiteHeaderSignedInButton
-        onClick={(e: any) => logoutAction(navigate, userContext)}
-      >
-        Logout
-      </SiteHeaderSignedInButton>
+      <Image src={collectThumbnailPath(user)} />
+      <Dropdown inline item text={props.username}>
+        <Dropdown.Menu>
+          <Dropdown.Item>My Account</Dropdown.Item>
+          <Dropdown.Item>My Quizzes</Dropdown.Item>
+          <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
+            Logout
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </Menu.Item>
   );
 };
@@ -135,4 +150,11 @@ const logoutAction = (navigate: any, userContext: any): void => {
   logOut();
   navigate('/');
   window.location.reload();
+};
+
+// Collect thumbnail image path
+const collectThumbnailPath = (user: any) => {
+  const key = user.thumbnail;
+  const encodedKey = key.replace(/\//g, '__');
+  return `${deriveApiHost()}/file/image/${encodedKey}`;
 };

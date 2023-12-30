@@ -12,10 +12,10 @@ export const SitePage = (props: { children: ReactNode }): JSX.Element => {
   const colorize = useColorize();
   return (
     <Container fluid className={colorize('sitePage')}>
-      <Button
+      {/*<Button
         content={<span>Toggle Color Mode</span>}
         onClick={() => colorize.toggle()}
-      />
+      />/**/}
       <SiteHeader />
       {props.children}
       <MultilineBreak lines={2} />

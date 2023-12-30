@@ -4,7 +4,7 @@ import axios from 'axios';
 export const DEFAULT_HOST: string = 'http://localhost:8080';
 
 // Debug switch
-const IS_DEBUGGING = true;
+const IS_DEBUGGING = false;
 
 // Debug alert
 const debugAlert = (message: string) => {
