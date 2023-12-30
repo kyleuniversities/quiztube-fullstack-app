@@ -3,6 +3,7 @@ import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { request } from '../../../common/util/request';
 import { MultilineBreak } from '../../MultilineBreak';
+import { Link } from 'react-router-dom';
 
 /**
  * Page to View All Quizzes
@@ -43,15 +44,17 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
       <Card.Group itemsPerRow={5}>
         {quizPosts.map((quizPost: any) => {
           return (
-            <Card style={{ marginLeft: '10px' }}>
-              <Card.Content style={{ height: '110px' }}>
-                <Card.Header>{quizPost.title}</Card.Header>
-                <Card.Description>{quizPost.description}</Card.Description>
-              </Card.Content>
-              <span>
-                <Icon name="heart" /> {quizPost.numberOfLikes}
-              </span>
-            </Card>
+            <Link to={`/quizzes/${quizPost.id}`}>
+              <Card style={{ marginLeft: '10px' }}>
+                <Card.Content style={{ height: '110px' }}>
+                  <Card.Header>{quizPost.title}</Card.Header>
+                  <Card.Description>{quizPost.description}</Card.Description>
+                </Card.Content>
+                <span>
+                  <Icon name="heart" /> {quizPost.numberOfLikes}
+                </span>
+              </Card>
+            </Link>
           );
         })}
       </Card.Group>

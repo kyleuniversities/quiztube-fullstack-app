@@ -3,6 +3,7 @@ import { SiteHeader } from './SiteHeader';
 import { Button, Container } from 'semantic-ui-react';
 import './index.css';
 import { useColorize } from './context/AppContextManager';
+import { MultilineBreak } from './MultilineBreak';
 
 /**
  * A UI Wrapper component for all site pages
@@ -17,6 +18,7 @@ export const SitePage = (props: { children: ReactNode }): JSX.Element => {
       />
       <SiteHeader />
       {props.children}
+      <MultilineBreak lines={2} />
     </Container>
   );
 };

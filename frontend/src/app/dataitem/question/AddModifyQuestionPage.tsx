@@ -20,14 +20,17 @@ export const AddModifyQuestionPage = (props: {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [time, setTime] = useState('10000');
+  const title = isEditing ? 'Edit Question' : 'Add Question';
 
   useEffect(() => {
     if (isEditing) {
-      request(`/questions/${props.id}`).then((questionItem) => {
-        setQuestion(questionItem.question);
-        setAnswer(questionItem.answer);
-        setTime(questionItem.numberOfMilliseconds);
-      });
+      request(`/quizzes/${props.quizId}/questions/${props.id}`).then(
+        (questionItem) => {
+          setQuestion(questionItem.question);
+          setAnswer(questionItem.answer);
+          setTime(questionItem.numberOfMilliseconds);
+        }
+      );
     }
   }, [isEditing, props.id]);
 
@@ -35,7 +38,7 @@ export const AddModifyQuestionPage = (props: {
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>Edit Question</Header>
+        <Header>{title}</Header>
         <Form>
           <Form.Input
             fluid

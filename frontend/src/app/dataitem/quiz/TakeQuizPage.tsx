@@ -47,7 +47,7 @@ export const TakeQuizPage = (): JSX.Element => {
       setEnteredAnswer,
       setAnswerIsSubmitted,
       setQuizIsFinished,
-      true
+      answerIsCorrect
     );
   };
 
@@ -197,7 +197,7 @@ const loadQuiz = (
   setNumberOfCorrectAnswers: (amount: number) => void,
   setQuizIsFinished: (quizIsFinished: boolean) => void
 ): void => {
-  request(`/questions/by/${quizId}`).then((questions: any) => {
+  request(`/quizzes/${quizId}/questions`).then((questions: any) => {
     setQuestions(questions);
     setQuestionIndex(0);
     setNumberOfCorrectAnswers(0);

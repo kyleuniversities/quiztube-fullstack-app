@@ -8,9 +8,10 @@ import { AppContextManager } from './app/context/AppContextManager';
 import { LoginPage } from './app/entryform/LoginPage';
 import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
 import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
-import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
+import { ViewQuizQuestionsPage } from './app/dataitem/question/ViewQuizQuestionsPage';
 import { TakeQuizPage } from './app/dataitem/quiz/TakeQuizPage';
 import { RequestPage } from './app/request/RequestPage';
+import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
 
 function App() {
   return (
@@ -19,15 +20,22 @@ function App() {
         <Routes>
           <Route index element={<HomePage />} />
           <Route
-            path="/questions/by/:quizId/add"
+            path="/quizzes/:quizId/questions/add"
             element={<AddQuestionPage />}
           />
           <Route
-            path="/questions/by/:quizId/edit/:id"
+            path="/quizzes/:quizId/questions/edit/:id"
             element={<EditQuestionPage />}
           />
-          <Route path="/questions/by/:quizId/take" element={<TakeQuizPage />} />
+          <Route
+            path="/quizzes/:quizId/questions/take"
+            element={<TakeQuizPage />}
+          />
           <Route path="/quizzes/:id" element={<ViewQuizPage />} />
+          <Route
+            path="/quizzes/:id/questions"
+            element={<ViewQuizQuestionsPage />}
+          />
           <Route path="/quizzes/add" element={<AddQuizPage />} />
           <Route path="/quizzes/edit/:id" element={<EditQuizPage />} />
           <Route path="/registration" element={<RegistrationPage />} />

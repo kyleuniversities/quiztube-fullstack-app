@@ -3,6 +3,16 @@ import axios from 'axios';
 // Default api host for requests
 export const DEFAULT_HOST: string = 'http://localhost:8080';
 
+// Debug switch
+const IS_DEBUGGING = true;
+
+// Debug alert
+const debugAlert = (message: string) => {
+  if (IS_DEBUGGING) {
+    alert(message);
+  }
+};
+
 /**
  * Utility function for finding the api host
  */
@@ -26,8 +36,8 @@ export const fullRequest = async (
   fullUrl: string,
   options: any = {}
 ): Promise<any> => {
-  alert('REQUEST: ' + fullUrl);
-  alert('OPTIONS: ' + JSON.stringify(options));
+  debugAlert('REQUEST: ' + fullUrl);
+  debugAlert('OPTIONS: ' + JSON.stringify(options));
   const fullOptions = {
     ...options,
     headers: {
@@ -38,7 +48,7 @@ export const fullRequest = async (
     url: fullUrl,
   };
   return axios(fullOptions).then((data) => {
-    alert('DATA: ' + JSON.stringify(data));
+    debugAlert('DATA: ' + JSON.stringify(data));
     return data.data;
   });
 };
