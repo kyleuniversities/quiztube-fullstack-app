@@ -9,7 +9,7 @@ public interface LikeDatabaseService {
 
     IntegerDto getNumberOfLikesForQuiz(String quizId);
 
-    BooleanDto likeExistsForQuiz(String userId, String quizId);
+    LikeDto likeExistsForQuiz(String userId, String quizId);
 
     List<LikeDto> getAllLikesByUserId(String userId);
 

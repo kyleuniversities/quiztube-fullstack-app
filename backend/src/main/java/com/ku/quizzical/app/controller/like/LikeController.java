@@ -43,9 +43,10 @@ public final class LikeController {
 
     // READ Method
     // Checks if a user Liked a quiz
-    @GetMapping("/quizzes/{quizId}/likes/i-liked-this")
-    public ResponseEntity<BooleanDto> likeExistsForQuiz(@PathVariable String quizId) {
-        return new ResponseEntity<BooleanDto>(this.service.likeExistsForQuiz("<null>", quizId),
+    @GetMapping("/quizzes/{quizId}/likes/i-liked-this/{userId}")
+    public ResponseEntity<LikeDto> likeExistsForQuizForUser(@PathVariable("quizId") String quizId,
+            @PathVariable("userId") String userId) {
+        return new ResponseEntity<LikeDto>(this.service.likeExistsForQuiz(userId, quizId),
                 HttpStatus.OK);
     }
 

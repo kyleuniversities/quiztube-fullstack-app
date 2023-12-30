@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.util.dto.BooleanDto;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.number.IdHelper;
 
 @Service
 public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
@@ -27,10 +28,10 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
                 INSERT INTO _like(id, quiz_id, user_id)
                 VALUES (?, ?, ?)
                 """;
-        int result =
-                this.jdbcTemplate.update(sql, likeDto.id(), likeDto.quizId(), likeDto.userId());
+        String id = IdHelper.nextMockId();
+        int result = this.jdbcTemplate.update(sql, id, likeDto.quizId(), likeDto.userId());
         System.out.println("POST LIKE RESULT = " + result);
-        return new LikeDto(likeDto.id(), likeDto.quizId(), likeDto.userId());
+        return new LikeDto(id, likeDto.quizId(), likeDto.userId());
     }
 
     @Override
@@ -44,14 +45,14 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
     }
 
     @Override
-    public BooleanDto likeExistsForQuiz(String userId, String quizId) {
+    public LikeDto likeExistsForQuiz(String userId, String quizId) {
         var sql = """
                 SELECT id, quiz_id, user_id
                 FROM _like
                 WHERE quiz_id = ? AND user_id = ?
                 """;
-        return new BooleanDto(
-                this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId, userId).size() > 0);
+        return ListHelper.getApparentValue(
+                this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId, userId), 0);
     }
 
     @Override
