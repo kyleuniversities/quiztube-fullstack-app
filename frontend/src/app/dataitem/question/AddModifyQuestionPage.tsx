@@ -104,6 +104,7 @@ const addModifyQuestion = (
   try {
     const numberOfMilliseconds = parseNumberOfMilliseconds(time);
     const question = {
+      id,
       question: questionText,
       answer: answerText,
       numberOfMilliseconds: numberOfMilliseconds,
@@ -116,7 +117,9 @@ const addModifyQuestion = (
       },
       data: JSON.stringify(question),
     };
-    const requestUrl = isEditing ? `/questions/${id}` : `/questions`;
+    const requestUrl = isEditing
+      ? `/quizzes/${quizId}/questions/${id}`
+      : `/quizzes/${quizId}/questions`;
     request(requestUrl, options).then((data) => {
       if (!data.question || !data.answer) {
         alert(method + ' Question failed!');
@@ -125,7 +128,7 @@ const addModifyQuestion = (
       }
       alert(method + ' Operation success!');
       alert('Question: ' + JSON.stringify(data));
-      navigate(`/quizzes/${quizId}`);
+      navigate(`/quizzes/${quizId}/questions`);
       window.location.reload();
     });
   } catch (error: any) {

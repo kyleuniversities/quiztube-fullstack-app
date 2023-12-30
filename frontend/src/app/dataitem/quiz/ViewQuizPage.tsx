@@ -51,7 +51,7 @@ export const ViewQuizPage = (): JSX.Element => {
         {quiz.numberOfLikes}
       </p>
       <Link to={`/quizzes/${id}/questions`}>
-        <Button icon="file" color="orange" content="View Questions" />
+        <Button icon="eye" color="orange" content="View Questions" />
       </Link>
       <Link to={`/quizzes/${id}/questions/take`}>
         <Button icon="bolt" color="brown" content="Take Quiz" />

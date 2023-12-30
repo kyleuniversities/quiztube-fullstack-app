@@ -109,6 +109,7 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
 
         <DataItemsListColumn
           quiz={quiz}
+          parentDataToken={props.parentDataToken}
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
           parentId={props.parentId}
@@ -177,6 +178,7 @@ const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
  */
 const DataItemsListColumn = (props: {
   quiz: any;
+  parentDataToken: string;
   dataToken: string;
   dataItems: any[];
   parentId: string;
@@ -199,6 +201,7 @@ const DataItemsListColumn = (props: {
           return (
             <DataListItem
               quiz={props.quiz}
+              parentDataToken={props.parentDataToken}
               dataToken={props.dataToken}
               parentId={props.parentId}
               itemIsLinked={props.itemsAreLinked}
@@ -226,6 +229,7 @@ const DataItemsListColumn = (props: {
  */
 const DataListItem = (props: {
   quiz: any;
+  parentDataToken: string;
   dataToken: string;
   parentId: string;
   itemIsLinked: boolean;
@@ -286,7 +290,12 @@ const DataListItem = (props: {
                     color="red"
                     content="Delete"
                     onClick={() =>
-                      deleteDataItem(props.dataToken, props.itemId)
+                      deleteDataItem(
+                        props.parentDataToken,
+                        props.parentId,
+                        props.dataToken,
+                        props.itemId
+                      )
                     }
                   />
                 </ConditionalContent>
@@ -299,8 +308,15 @@ const DataListItem = (props: {
   );
 };
 
-const deleteDataItem = (dataToken: string, id: string): void => {
-  request(`/${dataToken}/${id}`, { method: 'DELETE' }).then((data) => {
+const deleteDataItem = (
+  parentDataToken: string,
+  parentId: string,
+  dataToken: string,
+  id: string
+): void => {
+  request(`/${parentDataToken}/${parentId}/${dataToken}/${id}`, {
+    method: 'DELETE',
+  }).then((data) => {
     alert(data);
     window.location.reload();
   });

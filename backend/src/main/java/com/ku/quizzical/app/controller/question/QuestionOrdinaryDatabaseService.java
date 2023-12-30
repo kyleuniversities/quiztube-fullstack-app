@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.number.IdHelper;
 
 @Service
 public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService {
@@ -28,10 +29,11 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
                 INSERT INTO question(id, question, answer, number_of_milliseconds, quiz_id)
                 VALUES (?, ?, ?, ?, ?)
                 """;
-        int result = this.jdbcTemplate.update(sql, questionDto.id(), questionDto.question(),
-                questionDto.answer(), questionDto.numberOfMilliseconds(), questionDto.quizId());
+        String id = IdHelper.nextMockId();
+        int result = this.jdbcTemplate.update(sql, id, questionDto.question(), questionDto.answer(),
+                questionDto.numberOfMilliseconds(), questionDto.quizId());
         System.out.println("POST QUESTION RESULT = " + result);
-        return new QuestionDto(questionDto.id(), questionDto.question(), questionDto.answer(),
+        return new QuestionDto(id, questionDto.question(), questionDto.answer(),
                 questionDto.numberOfMilliseconds(), questionDto.quizId());
     }
 
@@ -59,7 +61,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
     public QuestionDto updateQuestion(String quizId, String id, QuestionUpdateRequest update) {
         this.updateQuestionAttribute(update, "question", QuestionUpdateRequest::question);
         this.updateQuestionAttribute(update, "answer", QuestionUpdateRequest::answer);
-        this.updateQuestionAttribute(update, "numberOfMilliseconds",
+        this.updateQuestionAttribute(update, "number_of_milliseconds",
                 QuestionUpdateRequest::numberOfMilliseconds);
         return this.getQuestion(quizId, id);
     }
