@@ -32,8 +32,9 @@ final class SyntheticUserDataGenerator extends SyntheticSubDataGenerator {
             String id = this.idHolder.getUserIds().get(i);
             String firstLetter = username.charAt(0) + "";
             String pictureText = "static/user/user-picture-" + firstLetter + ".png";
+            String thumbnailText = "static/user/user-picture-" + firstLetter + "_T.png";
             String recordText = StringHelper.format("('%s', '%s', '%s', '%s', '%s', '%s'),", id,
-                    username, username + "@gamil.com", username + "!", pictureText, pictureText);
+                    username, username + "@gamil.com", username + "!", pictureText, thumbnailText);
             this.addLine(recordText);
         });
         this.deleteLastCharacters(1);

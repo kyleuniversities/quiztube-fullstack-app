@@ -30,8 +30,9 @@ final class SyntheticSubjectDataGenerator extends SyntheticSubDataGenerator {
         ListHelper.forEach(this.staticData.getSubjects(), (Integer i, String subject) -> {
             String id = this.idHolder.getSubjectIds().get(i);
             String pictureText = "static/subject/subject-picture-" + subject + ".png";
+            String thumbnailText = "static/subject/subject-picture-" + subject + "_T.png";
             String recordText = StringHelper.format("('%s', '%s', '%s', '%s'),", id, subject,
-                    pictureText, pictureText);
+                    pictureText, thumbnailText);
             this.addLine(recordText);
         });
         this.deleteLastCharacters(1);

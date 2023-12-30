@@ -64,8 +64,9 @@ final class SyntheticQuizDataGenerator extends SyntheticSubDataGenerator {
                         this.staticData.getQuizDescriptionTemplates().get(subjectTag), name),
                 "\'", "\\\'");
         String pictureText = "static/quiz/quiz-picture-" + subjectTag + ".png";
+        String thumbnailText = "static/quiz/quiz-picture-" + subjectTag + "_T.png";
         String recordText = StringHelper.format("('%s', '%s', '%s', '%s', '%s', '%s', '%s'),", id,
-                title, description, pictureText, pictureText, userId, subjectId);
+                title, description, pictureText, thumbnailText, userId, subjectId);
         this.addLine(recordText);
     }
 
