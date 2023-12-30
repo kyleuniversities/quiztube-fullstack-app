@@ -1,7 +1,7 @@
 import { Header } from 'semantic-ui-react';
 import { ConditionalContent } from '../ConditionalContent';
 import { SitePage } from '../SitePage';
-import { NULL_ID, useUserId } from '../auth/AuthorizationContextManager';
+import { NULL_ID, useUserId } from '../context/AppContextManager';
 import { ViewListDataItemsPage } from '../dataitem/ViewListDataItemsPage';
 
 /**
@@ -26,9 +26,7 @@ export const HomePage = () => {
       </ConditionalContent>
       <ConditionalContent condition={!usernameIsPresent}>
         <SitePage>
-          <Header as="h3">
-            Welcome to Quizzical A3! Log In to Make Quizzes! A3
-          </Header>
+          <h3>Welcome to Quizzical A3! Log In to Make Quizzes! A3</h3>
         </SitePage>
       </ConditionalContent>
     </>

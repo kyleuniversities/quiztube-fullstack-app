@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router';
 import { SitePage } from '../SitePage';
 import { MultilineBreak } from '../MultilineBreak';
 import { useState } from 'react';
-import { useAuthorization } from '../auth/AuthorizationContextManager';
+import { useAppContext } from '../context/AppContextManager';
 
 /**
  * Page for logging in as a user into the site
  */
 export const LoginPage = (): JSX.Element => {
   const navigate = useNavigate();
-  const userContext: any = useAuthorization();
+  const userContext: any = useAppContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   return (

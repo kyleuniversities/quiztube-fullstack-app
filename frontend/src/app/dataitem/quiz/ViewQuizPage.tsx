@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { ViewListDataItemsPage } from '../ViewListDataItemsPage';
-import { NULL_ID } from '../../auth/AuthorizationContextManager';
+import { NULL_ID } from '../../context/AppContextManager';
 
 export const ViewQuizPage = (): JSX.Element => {
   const { id } = useParams();

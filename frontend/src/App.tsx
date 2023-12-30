@@ -4,7 +4,7 @@ import { HomePage } from './app/home/HomePage';
 import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
 import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
 import { RegistrationPage } from './app/entryform/RegistrationPage';
-import { AuthorizationContextManager } from './app/auth/AuthorizationContextManager';
+import { AppContextManager } from './app/context/AppContextManager';
 import { LoginPage } from './app/entryform/LoginPage';
 import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
 import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
@@ -14,7 +14,7 @@ import { RequestPage } from './app/request/RequestPage';
 
 function App() {
   return (
-    <AuthorizationContextManager>
+    <AppContextManager>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage />} />
@@ -35,7 +35,7 @@ function App() {
           <Route path="/request" element={<RequestPage />} />
         </Routes>
       </BrowserRouter>
-    </AuthorizationContextManager>
+    </AppContextManager>
   );
 }
 
