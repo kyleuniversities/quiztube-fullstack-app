@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { deriveApiHost, request } from '../common/util/request';
+import { collectThumbnailPath } from '../common/util/picture';
 
 /**
  * A header component for all site pages
@@ -92,7 +93,9 @@ const SiteHeaderUserSignedInContent = (props: {
       <Image src={collectThumbnailPath(user)} />
       <Dropdown inline item text={props.username}>
         <Dropdown.Menu>
-          <Dropdown.Item>My Account</Dropdown.Item>
+          <Dropdown.Item as={Link} to={`/users/${userContext.user.userId}`}>
+            My Account
+          </Dropdown.Item>
           <Dropdown.Item
             as={Link}
             to={`/users/${userContext.user.userId}/quizzes`}
@@ -155,11 +158,4 @@ const logoutAction = (navigate: any, userContext: any): void => {
   logOut();
   navigate('/');
   window.location.reload();
-};
-
-// Collect thumbnail image path
-const collectThumbnailPath = (user: any) => {
-  const key = user.thumbnail;
-  const encodedKey = key.replace(/\//g, '__');
-  return `${deriveApiHost()}/file/image/${encodedKey}`;
 };
