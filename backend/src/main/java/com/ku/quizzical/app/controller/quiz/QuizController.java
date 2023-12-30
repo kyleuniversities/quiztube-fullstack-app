@@ -61,8 +61,8 @@ public final class QuizController {
     // READ Method
     // Gets a Quiz by its id
     @GetMapping("/quizzes/{id}")
-    public ResponseEntity<QuizDto> getQuizById(@PathVariable String id) {
-        return new ResponseEntity<QuizDto>(this.service.getQuiz(id), HttpStatus.OK);
+    public ResponseEntity<QuizPostDto> getQuizById(@PathVariable String id) {
+        return new ResponseEntity<QuizPostDto>(this.service.getQuizAsPost(id), HttpStatus.OK);
     }
 
     // UPDATE Method

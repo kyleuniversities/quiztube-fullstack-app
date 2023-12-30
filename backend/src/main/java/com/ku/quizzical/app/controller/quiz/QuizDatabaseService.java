@@ -19,6 +19,8 @@ public interface QuizDatabaseService {
 
     QuizDto getQuiz(String id);
 
+    QuizPostDto getQuizAsPost(String id);
+
     QuizDto updateQuiz(String id, QuizUpdateRequest quiz);
 
     void deleteQuiz(String id);

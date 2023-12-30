@@ -102,6 +102,9 @@ const SiteHeaderUserSignedInContent = (props: {
           >
             My Quizzes
           </Dropdown.Item>
+          <Dropdown.Item as={Link} to={`/quizzes/add`}>
+            New Quiz
+          </Dropdown.Item>
           <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
             Logout
           </Dropdown.Item>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.number.IdHelper;
 
 @Service
 public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
@@ -35,11 +36,11 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
-        int result = this.jdbcTemplate.update(sql, quizDto.id(), quizDto.title(),
-                quizDto.description(), quizDto.picture(), quizDto.thumbnail(), quizDto.userId(),
-                quizDto.subjectId());
+        String id = IdHelper.nextMockId();
+        int result = this.jdbcTemplate.update(sql, id, quizDto.title(), quizDto.description(),
+                quizDto.picture(), quizDto.thumbnail(), quizDto.userId(), quizDto.subjectId());
         System.out.println("POST QUIZ RESULT = " + result);
-        return new QuizDto(quizDto.id(), quizDto.title(), quizDto.description(), quizDto.picture(),
+        return new QuizDto(id, quizDto.title(), quizDto.description(), quizDto.picture(),
                 quizDto.thumbnail(), quizDto.userId(), quizDto.subjectId());
     }
 
@@ -80,6 +81,13 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     @Override
+    public QuizPostDto getQuizAsPost(String id) {
+        QuizDto quizDto = this.getQuiz(id);
+        Quiz quiz = this.repository.findById(quizDto.id()).get();
+        return this.postDtoRowMapper.apply(quiz);
+    }
+
+    @Override
     public List<QuizDto> getAllQuizzesByTitleQuery(String titleQuery) {
         var sql = """
                 SELECT id, title, description, picture, thumbnail, user_id, subject_id
@@ -111,10 +119,11 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public QuizDto updateQuiz(String id, QuizUpdateRequest update) {
-        this.updateQuizAttribute(update, "title", QuizUpdateRequest::title);
-        this.updateQuizAttribute(update, "description", QuizUpdateRequest::description);
-        this.updateQuizAttribute(update, "picture", QuizUpdateRequest::picture);
-        this.updateQuizAttribute(update, "thumbnail", QuizUpdateRequest::thumbnail);
+        this.updateQuizAttribute(id, update, "title", QuizUpdateRequest::title);
+        this.updateQuizAttribute(id, update, "description", QuizUpdateRequest::description);
+        this.updateQuizAttribute(id, update, "picture", QuizUpdateRequest::picture);
+        this.updateQuizAttribute(id, update, "thumbnail", QuizUpdateRequest::thumbnail);
+        this.updateQuizAttribute(id, update, "subject_id", QuizUpdateRequest::subjectId);
         return this.getQuiz(id);
     }
 
@@ -137,7 +146,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         return (Quiz quiz) -> userId == null || quiz.getUser().getId().equals(userId);
     }
 
-    private void updateQuizAttribute(QuizUpdateRequest update, String attributeName,
+    private void updateQuizAttribute(String id, QuizUpdateRequest update, String attributeName,
             Function<QuizUpdateRequest, String> attributeCollector) {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {

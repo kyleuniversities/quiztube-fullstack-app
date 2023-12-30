@@ -1,15 +1,15 @@
 import { deriveApiHost } from './request';
 
 // Collect picture image path
-export const collectPicturePath = (user: any) => {
-  const key = user.picture;
+export const collectPicturePath = (item: any) => {
+  const key = item.picture;
   const encodedKey = key.replace(/\//g, '__');
   return `${deriveApiHost()}/file/image/${encodedKey}`;
 };
 
 // Collect thumbnail image path
-export const collectThumbnailPath = (user: any) => {
-  const key = user.thumbnail;
+export const collectThumbnailPath = (item: any) => {
+  const key = item.thumbnail;
   const encodedKey = key.replace(/\//g, '__');
   return `${deriveApiHost()}/file/image/${encodedKey}`;
 };
