@@ -40,6 +40,12 @@ public final class QuizController {
         return this.service.getAllQuizzes();
     }
 
+    // Gets all Quizzes as Posts from a Given User
+    @GetMapping("/users/{userId}/quizzes")
+    public List<QuizPostDto> getAllQuizzesFromUser(@PathVariable String userId) {
+        return this.service.getAllQuizzesFromUser(userId);
+    }
+
     // Gets all Quizzes as Posts
     @GetMapping("/quizzes/posts")
     public List<QuizPostDto> getAllQuizzesAsPosts() {

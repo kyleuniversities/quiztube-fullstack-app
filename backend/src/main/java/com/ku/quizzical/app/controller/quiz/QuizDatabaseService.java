@@ -9,6 +9,8 @@ public interface QuizDatabaseService {
 
     List<QuizPostDto> getAllQuizzesAsPosts(String subjectId);
 
+    List<QuizPostDto> getAllQuizzesFromUser(String userId);
+
     List<QuizDto> getAllQuizzesByTitleQuery(String titleQuery);
 
     List<QuizDto> getAllQuizzesByUserId(String userId);

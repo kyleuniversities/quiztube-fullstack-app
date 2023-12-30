@@ -62,6 +62,14 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     @Override
+    public List<QuizPostDto> getAllQuizzesFromUser(String userId) {
+        return this.repository.findAll().stream().filter(this.makeQuizUserFilter(userId))
+                .map(this.postDtoRowMapper::apply)
+                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
+                .toList();
+    }
+
+    @Override
     public QuizDto getQuiz(String id) {
         var sql = """
                 SELECT id, title, description, picture, thumbnail, user_id, subject_id
@@ -123,6 +131,10 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     private Predicate<Quiz> makeQuizSubjectFilter(String subjectId) {
         return (Quiz quiz) -> subjectId == null || quiz.getSubject().getId().equals(subjectId);
+    }
+
+    private Predicate<Quiz> makeQuizUserFilter(String userId) {
+        return (Quiz quiz) -> userId == null || quiz.getUser().getId().equals(userId);
     }
 
     private void updateQuizAttribute(QuizUpdateRequest update, String attributeName,
