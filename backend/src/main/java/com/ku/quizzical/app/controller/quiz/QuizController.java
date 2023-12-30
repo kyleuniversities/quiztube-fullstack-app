@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.ku.quizzical.app.controller.like.LikeDatabaseService;
+import com.ku.quizzical.app.controller.user.UserDatabaseService;
 
 @CrossOrigin
 @RestController
@@ -36,6 +38,18 @@ public final class QuizController {
     @GetMapping("/quizzes")
     public List<QuizDto> getAllQuizzes() {
         return this.service.getAllQuizzes();
+    }
+
+    // Gets all Quizzes as Posts
+    @GetMapping("/quizzes/posts")
+    public List<QuizPostDto> getAllQuizzesAsPosts() {
+        return this.service.getAllQuizzesAsPosts(null);
+    }
+
+    // Gets all Quizzes as Posts from a Given Subject
+    @GetMapping("/quizzes/posts/{subjectId}")
+    public List<QuizPostDto> getAllQuizzesAsPosts(@PathVariable String subjectId) {
+        return this.service.getAllQuizzesAsPosts(subjectId);
     }
 
     // READ Method
