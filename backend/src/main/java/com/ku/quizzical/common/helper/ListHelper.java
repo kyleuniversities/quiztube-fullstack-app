@@ -3,6 +3,7 @@ package com.ku.quizzical.common.helper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -218,6 +219,13 @@ public final class ListHelper {
      */
     public static <T extends Comparable<? super T>> void sort(List<T> list) {
         Collections.sort(list);
+    }
+
+    /**
+     * Sorts elements in a List
+     */
+    public static <T> void sort(List<T> list, Comparator<T> comparator) {
+        Collections.sort(list, comparator);
     }
 
     /**
