@@ -93,7 +93,12 @@ const SiteHeaderUserSignedInContent = (props: {
       <Dropdown inline item text={props.username}>
         <Dropdown.Menu>
           <Dropdown.Item>My Account</Dropdown.Item>
-          <Dropdown.Item>My Quizzes</Dropdown.Item>
+          <Dropdown.Item
+            as={Link}
+            to={`/users/${userContext.user.userId}/quizzes`}
+          >
+            My Quizzes
+          </Dropdown.Item>
           <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
             Logout
           </Dropdown.Item>
