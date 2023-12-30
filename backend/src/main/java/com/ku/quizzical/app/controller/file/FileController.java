@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/file")
 public final class FileController {
     // Instance Fields
     private final S3StorageService s3StorageService;
@@ -34,7 +34,7 @@ public final class FileController {
 
     // READ Method
     // Downloads an image file
-    @GetMapping(value = "file/image/{key}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/image/{key}", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getFileImage(@PathVariable String key) {
         return this.s3StorageService.getObject(key);
     }
