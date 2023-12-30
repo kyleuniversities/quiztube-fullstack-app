@@ -12,8 +12,22 @@ public class S3StorageConfiguration {
     @Value("${aws.region}")
     private String awsRegion;
 
+    @Value("${aws.s3.bucketpath}")
+    private String bucketPath;
+
+    public String getBucketPath() {
+        return this.bucketPath;
+    }
+
     @Bean
     public S3Client s3Client() {
-        return S3Client.builder().region(Region.of(this.awsRegion)).build();
+        if (this.bucketPath.contains("http")) {
+            return S3Client.builder()
+                    .region(Region.of(this.awsRegion))
+                    // TODO (Later): Configure credentials later
+                    // .credentialsProvider(AwsCredentialsProvider + AwsCredentials)
+                    .build();
+        }
+        return new FakeS3Client(this.bucketPath);
     }
 }

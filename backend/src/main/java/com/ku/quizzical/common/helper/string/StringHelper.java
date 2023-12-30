@@ -99,11 +99,25 @@ public final class StringHelper {
     }
 
     /**
+     * Returns the first found index of a String
+     */
+    public static int indexOf(String text, String target) {
+        return StringHelper.indexOf(text, (Integer i, Character ch) -> StringHelper.substringEquals(text, target, i));
+    }
+
+    /**
      * Returns the first found index of a query
      */
     public static int indexOf(String text, Predicate<Character> query) {
+        return StringHelper.indexOf(text, (Integer i, Character ch) -> query.test(ch));
+    }
+
+    /**
+     * Returns the first found index of a query
+     */
+    public static int indexOf(String text, BiPredicate<Integer, Character> query) {
         for (int i = 0; i < text.length(); i++) {
-            if (query.test(text.charAt(i))) {
+            if (query.test(i, text.charAt(i))) {
                 return i;
             }
         }
@@ -215,7 +229,8 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text from the lengths of target texts depicting the last from the
+     * Returns a substring of a text from the lengths of target texts depicting the
+     * last from the
      * endpoints to be removed.
      */
     public static String substringFromEndpointTexts(String text, String startText,
@@ -224,7 +239,8 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the start of the string, the amount to
+     * Returns a substring of a text removing characters from the start of the
+     * string, the amount to
      * be removed depicted by the length of a specified string
      */
     public static String substringFromStartText(String text, String startText) {
@@ -232,7 +248,8 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the end of the string, the amount to
+     * Returns a substring of a text removing characters from the end of the string,
+     * the amount to
      * be removed depicted by the length of a specified string
      */
     public static String substringFromUpToText(String text, String upToText) {
@@ -240,7 +257,8 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the end of the string, the amount to
+     * Returns a substring of a text removing characters from the end of the string,
+     * the amount to
      * be removed depicted by a specified length
      */
     public static String substringFromUpToTextLength(String text, int upToTextLength) {
