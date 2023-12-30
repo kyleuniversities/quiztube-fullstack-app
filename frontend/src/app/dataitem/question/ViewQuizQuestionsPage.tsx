@@ -14,7 +14,7 @@ import { SitePage } from '../../SitePage';
 import { Link } from 'react-router-dom';
 import '../index.css';
 import { ConditionalContent } from '../../ConditionalContent';
-import { useColorize } from '../../context/AppContextManager';
+import { useColorize, useUsername } from '../../context/AppContextManager';
 import { NULL_ID } from '../../context/AppContextManager';
 
 export type ViewUrlFunction = (parentId: string, id: string) => string;
@@ -31,6 +31,7 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
   const { id } = useParams();
   const [quiz, setQuiz] = useState(DEFAULT_QUIZ);
   const quizId: string = id ? id : NULL_ID;
+  const username = useUsername();
   const props: any = {
     headerTitle: 'Questions',
     parentDataToken: 'quizzes',
@@ -100,10 +101,14 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
             <Button icon="bolt" color="brown" content="Take Quiz" />
           </Link>
         </ConditionalContent>
-        <Link to={`${viewUrl}/add`}>
-          <Button icon="plus" color="blue" content="New Question" />
-        </Link>
+        <ConditionalContent condition={quiz.authorUsername === username}>
+          <Link to={`${viewUrl}/add`}>
+            <Button icon="plus" color="blue" content="New Question" />
+          </Link>
+        </ConditionalContent>
+
         <DataItemsListColumn
+          quiz={quiz}
           dataToken={props.dataToken}
           dataItems={searchFilteredDataItems}
           parentId={props.parentId}
@@ -171,6 +176,7 @@ const DataItemsMenuListColumnContainer = (props: { children: ReactNode }) => {
  * @param Function<item,string> getDescription - Function that collects the displayed description of the item
  */
 const DataItemsListColumn = (props: {
+  quiz: any;
   dataToken: string;
   dataItems: any[];
   parentId: string;
@@ -192,6 +198,7 @@ const DataItemsListColumn = (props: {
         props.dataItems.map((item) => {
           return (
             <DataListItem
+              quiz={props.quiz}
               dataToken={props.dataToken}
               parentId={props.parentId}
               itemIsLinked={props.itemsAreLinked}
@@ -218,6 +225,7 @@ const DataItemsListColumn = (props: {
  * @param string itemDescription - The description of the data item
  */
 const DataListItem = (props: {
+  quiz: any;
   dataToken: string;
   parentId: string;
   itemIsLinked: boolean;
@@ -227,6 +235,8 @@ const DataListItem = (props: {
   itemDescription: string;
   getViewUrl: ViewUrlFunction;
 }) => {
+  const [isShowingDescription, setIsShowingDescription] = useState(false);
+  const username = useUsername();
   const viewUrl: string = props.getViewUrl(props.parentId, props.itemId);
   return (
     <List.Item className="dataItem">
@@ -244,24 +254,42 @@ const DataListItem = (props: {
                 <ConditionalContent condition={!props.itemIsLinked}>
                   <List.Header>{props.itemTitle}</List.Header>
                 </ConditionalContent>
-                <List.Description>{props.itemDescription}</List.Description>
+                <List.Description>
+                  {isShowingDescription
+                    ? props.itemDescription
+                    : '(Answer is Hidden)'}
+                </List.Description>
               </div>
+
               <Container fluid className="dataItemButtonContainer">
-                <Link to={`${viewUrl}/edit/${props.itemId}`}>
-                  <Button
-                    inline
-                    icon="pencil alternate"
-                    color="green"
-                    content="Edit"
-                  />
-                </Link>
                 <Button
                   inline
-                  icon="trash"
-                  color="red"
-                  content="Delete"
-                  onClick={() => deleteDataItem(props.dataToken, props.itemId)}
+                  icon="eye"
+                  color="orange"
+                  content={(isShowingDescription ? 'Hide' : 'Show') + ' Answer'}
+                  onClick={() => setIsShowingDescription(!isShowingDescription)}
                 />
+                <ConditionalContent
+                  condition={props.quiz.authorUsername === username}
+                >
+                  <Link to={`${viewUrl}/edit/${props.itemId}`}>
+                    <Button
+                      inline
+                      icon="pencil alternate"
+                      color="green"
+                      content="Edit"
+                    />
+                  </Link>
+                  <Button
+                    inline
+                    icon="trash"
+                    color="red"
+                    content="Delete"
+                    onClick={() =>
+                      deleteDataItem(props.dataToken, props.itemId)
+                    }
+                  />
+                </ConditionalContent>
               </Container>
             </div>
           </Container>
