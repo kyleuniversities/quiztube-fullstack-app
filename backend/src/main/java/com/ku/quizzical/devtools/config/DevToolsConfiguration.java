@@ -5,14 +5,22 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DevToolsConfiguration {
-    @Value("${devtools.resources.path}")
-    private String resourcesPath;
+    @Value("${devtools.project.path}")
+    private String projectPath;
 
-    public String getResourcesPath() {
-        return this.resourcesPath;
+    public String getProjectPath() {
+        return this.projectPath;
     }
 
-    public void setResourcesPath(String resourcesPath) {
-        this.resourcesPath = resourcesPath;
+    public String getResourcesPath() {
+        return this.projectPath + "/backend/src/main/resources";
+    }
+
+    public String getFrontendSourcePath() {
+        return this.projectPath + "/frontend/src";
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
     }
 }

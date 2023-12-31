@@ -11,6 +11,15 @@ public final class StringWrapper extends Wrapper<String> {
         super(value);
     }
 
+    // Accessor Methods
+    public int length() {
+        return this.getValue().length();
+    }
+
+    public boolean isEmpty() {
+        return this.getValue().isEmpty();
+    }
+
     // Operant Relational Methods
     public boolean isEqualTo(String value) {
         return this.getValue().equals(value);

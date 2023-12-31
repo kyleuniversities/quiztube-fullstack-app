@@ -11,6 +11,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Helper class for List Operations
@@ -111,6 +112,25 @@ public final class ListHelper {
      */
     public static <T> T getWithReverseIndex(List<T> list, int reverseIndex) {
         return list.get(list.size() - 1 - reverseIndex);
+    }
+
+    /**
+     * Returns the first found index of a query
+     */
+    public static <T> int indexOf(List<T> list, Predicate<T> query) {
+        return ListHelper.indexOf(list, (Integer i, T item) -> query.test(item));
+    }
+
+    /**
+     * Returns the first found index of a query
+     */
+    public static <T> int indexOf(List<T> list, BiPredicate<Integer, T> query) {
+        for (int i = 0; i < list.size(); i++) {
+            if (query.test(i, list.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -229,12 +249,35 @@ public final class ListHelper {
     }
 
     /**
+     * Returns a stream from a List
+     */
+    public static <T> Stream<T> stream(List<T> list) {
+        return list.stream();
+    }
+
+    /**
+     * Creates a sublist of a list
+     */
+    public static <T> List<T> subList(List<T> list, int startIndex, int upToIndex) {
+        return ListHelper.clone(list.subList(startIndex, upToIndex));
+    }
+
+    /**
      * Swaps two elements in a List
      */
     public static <T> void swap(List<T> list, int index1, int index2) {
         T temp = list.get(index1);
         list.set(index1, list.get(index2));
         list.set(index2, temp);
+    }
+
+    /**
+     * Converts an iterable into an List
+     */
+    public static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> list = ListHelper.newArrayList();
+        IterableHelper.forEach(iterable, (T item) -> list.add(item));
+        return list;
     }
 
     /**

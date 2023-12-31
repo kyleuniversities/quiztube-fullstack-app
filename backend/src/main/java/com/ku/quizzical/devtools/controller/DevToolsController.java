@@ -23,7 +23,7 @@ public final class DevToolsController {
         return "\"Id >> " + IdHelper.nextMockId() + "\"";
     }
 
-    @PostMapping("/dev/generate")
+    @PostMapping("/dev/backend/generate")
     public String generateSyntheticData() {
         SyntheticDataGenerator.newInstance().generate(this.configuration.getResourcesPath());
         return "\"Id >> " + IdHelper.nextMockId() + "\"";

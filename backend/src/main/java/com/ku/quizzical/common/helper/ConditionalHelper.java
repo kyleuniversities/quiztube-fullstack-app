@@ -35,7 +35,7 @@ public final class ConditionalHelper {
      */
     public static void whileLoop(Supplier<Boolean> condition, Runnable action) {
         while (condition.get()) {
-            action.run();;
+            action.run();
         }
     }
 
