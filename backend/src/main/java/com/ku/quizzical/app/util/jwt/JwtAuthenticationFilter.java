@@ -13,6 +13,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ku.quizzical.app.helper.JwtHelper;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,18 +58,33 @@ public final class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Extract token data
+        // Extract token
         String token = authorizationHeader.substring(7);
-        String subject = JwtHelper.getSubject(token);
+
+        // Extract token subject
+        // Filter if error encountered
+        String subject = null;
+        try {
+            // Load subject
+            subject = JwtHelper.getSubject(token);
+        } catch (MalformedJwtException e) {
+            // If the token is malformed, filter the request
+            filterChain.doFilter(request, response);
+            return;
+        } catch (ExpiredJwtException e) {
+            // If the token has expired, filter the request
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Set the security context to the subject if the context
         // is empty and the token is valid
         if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
             if (JwtHelper.isValidToken(token, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null,
-                                userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null,
+                        userDetails.getAuthorities());
                 authenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

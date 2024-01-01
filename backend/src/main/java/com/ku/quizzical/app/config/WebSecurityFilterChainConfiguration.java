@@ -33,9 +33,15 @@ public class WebSecurityFilterChainConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors(Customizer.withDefaults()).authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/file/image/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users").permitAll().anyRequest().authenticated()
+                .requestMatchers(HttpMethod.GET, "/file/image/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/likes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/quizzes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/subjects/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/test").permitAll()
+                .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/**").permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(this.authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter,
