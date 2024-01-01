@@ -1,7 +1,8 @@
 import { Button, Container, Form, Segment, TextArea } from 'semantic-ui-react';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
-import { deriveApiHost, fullRequest } from '../service/request';
-import { MultilineBreak } from './MultilineBreak';
+import { deriveApiHost, fullRequest } from '../../service/request';
+import { MultilineBreak } from '../MultilineBreak';
+import './index.css';
 
 /**
  * Container for making a GET request
@@ -30,7 +31,7 @@ export const RequestContainer = () => {
 // Wrapper for the Request Container
 const RequestContainerSegment = (props: { children: ReactNode }) => {
   return (
-    <Segment style={{ borderColor: 'black', borderWidth: '3px' }}>
+    <Segment className="requestContainerSegment">
       <h1>Request Container</h1>
       {props.children}
     </Segment>
@@ -44,7 +45,6 @@ const RequestContainerUrlTextField = (props: {
 }) => {
   return (
     <Form.Input
-      style={{ fontFamily: 'Helvetica Neue' }}
       label="Enter your request URL"
       value={props.fullUrl}
       onChange={(e) => props.setFullUrl(e.target.value)}
@@ -78,13 +78,7 @@ const RequestContainerResponseContainer = (props: { res: string }) => {
       <TextArea
         fluid
         disabled
-        style={{
-          backgroundColor: 'rgb(255,255,255)',
-          color: 'black',
-          position: 'relative',
-          height: '200px',
-          width: '100%',
-        }}
+        className="requestContainerResponseContainer"
         value={props.res}
       />
     </Container>

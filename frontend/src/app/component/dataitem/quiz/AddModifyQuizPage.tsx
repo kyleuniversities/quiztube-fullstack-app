@@ -126,9 +126,6 @@ const selectSubject = (
     subjectOptions,
     (subjectOption: any) => subjectOption.id === subjectId
   );
-  //alert('ARR: ' + JSON.stringify(subjectOptions));
-  //alert('TGT: ' + JSON.stringify(setSubjectId));
-  //alert('QUE: ' + JSON.stringify(subject));
   setSubjectId(subjectId);
   setSubjectText(subject.text);
 };

@@ -20,8 +20,8 @@ import {
   deleteQuizRequest,
   loadQuizAsWholeRequest,
 } from '../../../service/entity/quiz';
-import './index.css';
 import { MultilineBreak } from '../../MultilineBreak';
+import './index.css';
 
 export const ViewQuizPage = (): JSX.Element => {
   // Set up parameter data
