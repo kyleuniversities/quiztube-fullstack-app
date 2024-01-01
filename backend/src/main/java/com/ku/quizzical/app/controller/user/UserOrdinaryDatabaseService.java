@@ -5,10 +5,12 @@ import static org.mockito.Mockito.reset;
 import java.util.List;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.number.IdHelper;
 
 @Service
 public class UserOrdinaryDatabaseService implements UserDatabaseService {
@@ -33,12 +35,14 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 INSERT INTO user(id, username, email, password, picture, thumbnail)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
-        int result = this.jdbcTemplate.update(sql, registrationRequest.id(),
+        String id = IdHelper.nextMockId();
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registrationRequest.password());
+        int result = this.jdbcTemplate.update(sql, id,
                 registrationRequest.username(), registrationRequest.email(),
-                registrationRequest.password(), registrationRequest.picture(),
+                encryptedPassword, registrationRequest.picture(),
                 registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
-        return new UserDto(registrationRequest.id(), registrationRequest.username(),
+        return new UserDto(id, registrationRequest.username(),
                 registrationRequest.email(), registrationRequest.picture(),
                 registrationRequest.thumbnail(), UserHelper.makeDefaultRoleList());
     }

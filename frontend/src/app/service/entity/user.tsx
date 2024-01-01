@@ -1,4 +1,5 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
+import { debugAlert } from '../debug';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -28,6 +29,8 @@ export const addUserRequest = async (
     username,
     email,
     password,
+    picture: collectPictureText(username),
+    thumbnail: collectThumbnailText(username),
   };
 
   // Set up request parameters
@@ -45,7 +48,7 @@ export const addUserRequest = async (
   // Run the request
   return request(requestUrl, options).then(() => {
     // Navigate to the homepage if successful
-    alert("The user 'username' was successfully registered!");
+    alert(`The user '${username}' was successfully registered!`);
     navigate('/');
     window.location.reload();
     return PromiseHelper.newConservativeVoidPromise();
@@ -60,4 +63,20 @@ export const loadUserRequest = (id: string | undefined, setUser: any): void => {
   request(`/users/${id}`).then((res: any) => {
     setUser(res);
   });
+};
+
+// Gets the default picture text for the user
+const collectPictureText = (username: string) => {
+  return collectImageText(username, '');
+};
+
+// Gets the default thumbnail text for the quiz
+const collectThumbnailText = (username: string) => {
+  return collectImageText(username, '_T');
+};
+
+// Gets the default image text for the quiz
+const collectImageText = (username: string, extenderText: string): string => {
+  const firstLetter = username.toLowerCase().charAt(0);
+  return `static/user/user-picture-${firstLetter}${extenderText}.png`;
 };
