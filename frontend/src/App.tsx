@@ -1,19 +1,19 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage } from './app/home/HomePage';
-import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
-import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
-import { RegistrationPage } from './app/entryform/RegistrationPage';
-import { AppContextManager } from './app/context/AppContextManager';
-import { LoginPage } from './app/entryform/LoginPage';
-import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
-import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
-import { ViewQuizQuestionsPage } from './app/dataitem/question/ViewQuizQuestionsPage';
-import { TakeQuizPage } from './app/dataitem/quiz/TakeQuizPage';
-import { RequestPage } from './app/request/RequestPage';
-import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
-import { ViewUserQuizzesPage } from './app/dataitem/quiz/ViewUserQuizzesPage';
-import { ViewUserAccountPage } from './app/dataitem/user/ViewUserAccountPage';
+import { AppContextManager } from './app/component/context/AppContextManager';
+import { HomePage } from './app/component/home/HomePage';
+import { AddQuestionPage } from './app/component/dataitem/question/AddQuestionPage';
+import { EditQuestionPage } from './app/component/dataitem/question/EditQuestionPage';
+import { TakeQuizPage } from './app/component/dataitem/quiz/TakeQuizPage';
+import { ViewQuizPage } from './app/component/dataitem/quiz/ViewQuizPage';
+import { ViewQuizQuestionsPage } from './app/component/dataitem/question/ViewQuizQuestionsPage';
+import { AddQuizPage } from './app/component/dataitem/quiz/AddQuizPage';
+import { EditQuizPage } from './app/component/dataitem/quiz/EditQuizPage';
+import { ViewUserQuizzesPage } from './app/component/dataitem/quiz/ViewUserQuizzesPage';
+import { ViewUserAccountPage } from './app/component/dataitem/user/ViewUserAccountPage';
+import { RegistrationPage } from './app/component/entryform/RegistrationPage';
+import { LoginPage } from './app/component/entryform/LoginPage';
+import { RequestPage } from './app/component/request/RequestPage';
 
 function App() {
   return (
