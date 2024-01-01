@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { SitePage } from '../../SitePage';
-import { request } from '../../../service/request';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Image } from 'semantic-ui-react';

@@ -1,7 +1,6 @@
 import { Card, Container, Icon } from 'semantic-ui-react';
 import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
-import { request } from '../../../service/request';
 import { MultilineBreak } from '../../MultilineBreak';
 import { Link, useParams } from 'react-router-dom';
 import { useUsername } from '../../context/AppContextManager';

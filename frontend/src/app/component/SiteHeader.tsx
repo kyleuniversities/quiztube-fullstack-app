@@ -109,7 +109,7 @@ const SiteHeaderUserSignedInContent = (props: {
   // Load user
   useEffect(() => {
     loadUserRequest(userId, setUser);
-  }, []);
+  }, [userId]);
 
   // Return component
   return (

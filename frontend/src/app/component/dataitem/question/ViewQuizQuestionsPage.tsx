@@ -5,11 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { SitePage } from '../../SitePage';
 import { Link } from 'react-router-dom';
 import { ConditionalContent } from '../../ConditionalContent';
-import {
-  useColorize,
-  useUserId,
-  useUsername,
-} from '../../context/AppContextManager';
+import { useColorize, useUsername } from '../../context/AppContextManager';
 import {
   deleteQuestionRequest,
   loadQuizQuestionsRequest,
@@ -92,7 +88,7 @@ const QuestionsListColumn = (props: { quiz: any; questions: any[] }) => {
   // Return component
   return (
     <List size="huge" relaxed className="questionsListColumn">
-      {props.questions.length == 0 ? (
+      {props.questions.length === 0 ? (
         <p>This quiz has no questions.</p>
       ) : (
         props.questions.map((item) => {

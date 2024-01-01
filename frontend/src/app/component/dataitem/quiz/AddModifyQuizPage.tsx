@@ -8,10 +8,7 @@ import {
   loadQuizAsPartsRequest,
 } from '../../../service/entity/quiz';
 import { useAppContext, useUserId } from '../../context/AppContextManager';
-import {
-  NULL_SUBJECT,
-  loadSubjectsAsOptionsRequest,
-} from '../../../service/entity/subject';
+import { loadSubjectsAsOptionsRequest } from '../../../service/entity/subject';
 import '../../index.css';
 import { ArrayHelper } from '../../../../common/helper/ArrayHelper';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
@@ -54,7 +51,7 @@ export const AddModifyQuizPage = (props: {
         );
       }
     });
-  }, [isEditing, props.id]);
+  }, [navigate, subjectOptions, userContext, isEditing, props.id]);
 
   // Return component
   return (

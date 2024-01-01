@@ -8,8 +8,7 @@ import {
   addModifyQuestionRequest,
   loadQuizQuestionRequest,
 } from '../../../service/entity/question';
-import { useAppContext, useUserId } from '../../context/AppContextManager';
-import { NULL_QUIZ } from '../../../service/entity/quiz';
+import { useAppContext } from '../../context/AppContextManager';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
 
 /**
@@ -29,7 +28,6 @@ export const AddModifyQuestionPage = (props: {
 
   // Set up user data
   const userContext = useAppContext();
-  const userId = useUserId();
 
   // Set up navigation
   const navigate = useNavigate();
@@ -44,7 +42,7 @@ export const AddModifyQuestionPage = (props: {
     if (isEditing) {
       loadQuizQuestionRequest(props.quizId, props.id, setQuestion, setAnswer);
     }
-  }, [isEditing, props.id]);
+  }, [userContext, navigate, isEditing, props.quizId, props.id]);
 
   // Return component
   return (
