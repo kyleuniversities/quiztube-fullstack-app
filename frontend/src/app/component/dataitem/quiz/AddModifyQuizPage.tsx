@@ -7,13 +7,14 @@ import {
   addModifyQuizRequest,
   loadQuizAsPartsRequest,
 } from '../../../service/entity/quiz';
-import { useUserId } from '../../context/AppContextManager';
+import { useAppContext, useUserId } from '../../context/AppContextManager';
 import {
   NULL_SUBJECT,
   loadSubjectsAsOptionsRequest,
 } from '../../../service/entity/subject';
 import '../../index.css';
 import { ArrayHelper } from '../../../../common/helper/ArrayHelper';
+import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
 
 /**
  * Page for adding or modifying a Title
@@ -32,10 +33,15 @@ export const AddModifyQuizPage = (props: {
   const [subjectId, setSubjectId] = useState('');
 
   // Set up user data
+  const userContext = useAppContext();
   const userId = useUserId();
+
+  // Set up navigation
+  const navigate = useNavigate();
 
   // Load subjects and quiz
   useEffect(() => {
+    redirectFromUnauthorizedQuizActionRequest(userContext, props.id, navigate);
     loadSubjectsAsOptionsRequest(setSubjectOptions).then(() => {
       if (isEditing) {
         loadQuizAsPartsRequest(
@@ -49,9 +55,6 @@ export const AddModifyQuizPage = (props: {
       }
     });
   }, [isEditing, props.id]);
-
-  // Set up navigation
-  const navigate = useNavigate();
 
   // Return component
   return (

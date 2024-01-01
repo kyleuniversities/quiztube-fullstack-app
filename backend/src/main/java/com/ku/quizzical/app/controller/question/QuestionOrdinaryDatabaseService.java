@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.controller.quiz.QuizRepository;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
@@ -12,13 +15,16 @@ import com.ku.quizzical.common.helper.number.IdHelper;
 public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
+    private QuizRepository quizRepository;
     private final QuestionDtoRowMapper dtoRowMapper;
 
     // Constructor Method
     public QuestionOrdinaryDatabaseService(JdbcTemplate jdbcTemplate,
+            QuizRepository quizRepository,
             QuestionDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.quizRepository = quizRepository;
         this.dtoRowMapper = dtoRowMapper;
     }
 
@@ -33,8 +39,9 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         int result = this.jdbcTemplate.update(sql, id, questionDto.question(), questionDto.answer(),
                 questionDto.numberOfMilliseconds(), questionDto.quizId());
         System.out.println("POST QUESTION RESULT = " + result);
+        Quiz quiz = this.quizRepository.findById(questionDto.quizId()).get();
         return new QuestionDto(id, questionDto.question(), questionDto.answer(),
-                questionDto.numberOfMilliseconds(), questionDto.quizId());
+                questionDto.numberOfMilliseconds(), questionDto.quizId(), quiz.getUser().getId());
     }
 
     @Override
@@ -82,8 +89,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         T attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE question SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE QUESTION " + attributeName + " RESULT = " + result);
         });
     }

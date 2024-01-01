@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { debugAlert } from './debug';
-import { alertForUnauthorizedSession } from './alert';
+import { alertForInauthenticatedSession } from './alert';
 
 // Default api host for requests
 export const DEFAULT_HOST: string = 'http://localhost:8080';
@@ -54,7 +54,7 @@ export const fullRequest = async (
 
       // If the data is unauthorized, display the error
       if (!data.data || data.data === '') {
-        alertForUnauthorizedSession();
+        alertForInauthenticatedSession();
         debugAlert(
           `ERROR: User is not authorized to perform the operation >> "${fullUrl}"`
         );

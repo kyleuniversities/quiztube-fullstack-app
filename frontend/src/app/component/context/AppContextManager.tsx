@@ -96,6 +96,9 @@ export const AppContextManager = (props: {
     return true;
   };
 
+  // Collects user id
+  const collectUserId = () => sessionUser.userId;
+
   // Set color mode from session
   const setColorModeFromSession = () => {
     const mode = localStorage.getItem('color_mode');
@@ -119,6 +122,7 @@ export const AppContextManager = (props: {
   // Creates a app context object
   const appContext: any = {
     user: sessionUser,
+    collectUserId,
     colorMode,
     setUserSessionData,
     setColorModeSessionData,

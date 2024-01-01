@@ -17,4 +17,13 @@ export class PromiseHelper {
   public static async newConservativeVoidPromise(): Promise<void> {
     return new Promise((resolve, reject) => resolve());
   }
+
+  /**
+   * Creates a timed promise that resolves after a set time
+   */
+  public static async newTimedVoidPromise(time: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), time);
+    });
+  }
 }

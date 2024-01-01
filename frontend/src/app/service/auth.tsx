@@ -1,4 +1,8 @@
 import { PromiseHelper } from '../../common/helper/js/PromiseHelper';
+import {
+  alertForInauthenticatedSession,
+  alertForUnauthorizedSession,
+} from './alert';
 import { request } from './request';
 
 // Type for Authentication Credentials
@@ -37,13 +41,53 @@ export const loginRequest = async (
     // Set user session data if successful
     userContext.setUserSessionData(data);
 
-    // Navigate back
-    navigate(-1);
+    // Navigate to home
+    navigate('/');
     return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
-// Logout Action
+/**
+ * CREATE Method
+ * Redirects an unauthorized user
+ */
+export const redirectFromUnauthorizedQuizActionRequest = async (
+  userContext: any,
+  targetQuizId: string | undefined,
+  navigate: any
+): Promise<void> => {
+  // Redirects to the Log In Page if the user is signed out
+  if (!userContext.isUserAuthenticated()) {
+    alertForInauthenticatedSession();
+    navigate('/login');
+    return PromiseHelper.newConservativeVoidPromise();
+  }
+
+  // If no quiz is targetd, then the user is authorized
+  if (!targetQuizId) {
+    return PromiseHelper.newConservativeVoidPromise();
+  }
+
+  // Get Session User Id
+  const sessionUserId = userContext.collectUserId();
+
+  // Run request to check for authorized access
+  return request(`/quizzes/${targetQuizId}`).then((targetQuiz: any) => {
+    // Redirects to the Home Page if the user is not permitted
+    if (sessionUserId !== targetQuiz.userId) {
+      alertForUnauthorizedSession();
+      navigate('/');
+      return PromiseHelper.newConservativeVoidPromise();
+    }
+
+    // Do nothing if authorized
+    return PromiseHelper.newConservativeVoidPromise();
+  });
+};
+
+/**
+ * Logs the user out
+ */
 export const logoutRequest = (navigate: any, userContext: any): void => {
   // Removes user session data
   userContext.removeUserSessionData();
