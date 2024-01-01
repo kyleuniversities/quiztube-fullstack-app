@@ -1,3 +1,4 @@
+import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -13,12 +14,12 @@ export const NULL_USER = {
  * CREATE Method
  * Request to register a user
  */
-export const addUserRequest = (
+export const addUserRequest = async (
   navigate: any,
   username: string,
   email: string,
   password: string
-): void => {
+): Promise<void> => {
   // Set up method
   const method = 'POST';
 
@@ -42,11 +43,12 @@ export const addUserRequest = (
   const requestUrl = `/users`;
 
   // Run the request
-  request(requestUrl, options).then(() => {
+  return request(requestUrl, options).then(() => {
     // Navigate to the homepage if successful
     alert("The user 'username' was successfully registered!");
     navigate('/');
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 

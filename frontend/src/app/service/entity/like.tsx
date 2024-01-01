@@ -1,3 +1,4 @@
+import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { isPassableId } from '../auth';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
@@ -13,14 +14,14 @@ export const NULL_LIKE = {
  * CREATE Method
  * Request to like a quiz
  */
-export const likeQuizRequest = (
+export const likeQuizRequest = async (
   quizId: string | undefined,
   userId: string
-): void => {
+): Promise<void> => {
   // Stop action if the user id is not passable
   if (!isPassableId(userId)) {
     alert('ERROR: Must be logged in to perform the operation.');
-    return;
+    return PromiseHelper.newConservativeVoidPromise();
   }
 
   // Set up like object
@@ -40,8 +41,9 @@ export const likeQuizRequest = (
   };
 
   // Run request
-  request(`/quizzes/${quizId}/likes`, options).then(() => {
+  return request(`/quizzes/${quizId}/likes`, options).then(() => {
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -49,27 +51,28 @@ export const likeQuizRequest = (
  * READ Method
  * Request to load a like
  */
-export const loadLikeRequest = (
+export const loadLikeRequest = async (
   quizId: string | undefined,
   userId: string | undefined,
   setLike: any
-): void => {
+): Promise<void> => {
   // If the user id is not passable, load the Null Like
   if (!isPassableId(userId)) {
     setLike(NULL_LIKE);
-    return;
+    return PromiseHelper.newConservativeVoidPromise();
   }
 
   // Run request
-  request(`/quizzes/${quizId}/likes/i-liked-this/${userId}`).then(
+  return request(`/quizzes/${quizId}/likes/i-liked-this/${userId}`).then(
     (res: any) => {
       // Load the Null Like if the user did not like the post
       if (!res || res === null) {
         setLike(NULL_LIKE);
-        return;
+        return PromiseHelper.newConservativeVoidPromise();
       }
       // Load the Like if the user liked the post
       setLike(res);
+      return PromiseHelper.newConservativeVoidPromise();
     }
   );
 };
@@ -78,17 +81,18 @@ export const loadLikeRequest = (
  * DELETE Method
  * Request to unlike a quiz
  */
-export const unlikeQuizRequest = (
+export const unlikeQuizRequest = async (
   quizId: string | undefined,
   like: any
-): void => {
+): Promise<void> => {
   // Set up method parameters
   const options = {
     method: 'DELETE',
   };
 
   // Run request
-  request(`/quizzes/${quizId}/likes/${like.id}`, options).then(() => {
+  return request(`/quizzes/${quizId}/likes/${like.id}`, options).then(() => {
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };

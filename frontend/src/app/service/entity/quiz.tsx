@@ -1,3 +1,4 @@
+import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { indexOf } from '../../../common/util/list';
 import { isPassableId } from '../auth';
 import { NULL_TEXT } from '../general';
@@ -20,7 +21,7 @@ export const NULL_QUIZ = {
  * CREATE / UPDATE Method
  * Adding or editing a given quiz
  */
-export const addModifyQuizRequest = (
+export const addModifyQuizRequest = async (
   navigate: any,
   titleText: string,
   descriptionText: string,
@@ -30,11 +31,11 @@ export const addModifyQuizRequest = (
   subjectOptions: any,
   method: string,
   requestUrl: string
-): void => {
+): Promise<void> => {
   // Stop action if the user id is not passable
   if (!isPassableId(userId)) {
     alert('ERROR: Must be logged in to perform the operation.');
-    return;
+    return PromiseHelper.newConservativeVoidPromise();
   }
 
   // Set up request object
@@ -58,10 +59,11 @@ export const addModifyQuizRequest = (
   };
 
   // Run request
-  request(requestUrl, options).then((data: any) => {
+  return request(requestUrl, options).then((data: any) => {
     // Navigate to the newly added or modified quiz if successful
     navigate(`/quizzes/${data.id}`);
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -69,12 +71,13 @@ export const addModifyQuizRequest = (
  * READ Method
  * Loads quizzes from a user
  */
-export const loadQuizzesFromUserRequest = (
+export const loadQuizzesFromUserRequest = async (
   userId: string | undefined,
   setQuizzes: any
-): void => {
-  request(`/users/${userId}/quizzes`).then((res: any) => {
+): Promise<void> => {
+  return request(`/users/${userId}/quizzes`).then((res: any) => {
     setQuizzes(res);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -82,12 +85,13 @@ export const loadQuizzesFromUserRequest = (
  * READ Method
  * Loads quizzes from a subject
  */
-export const loadQuizzesFromSubjectRequest = (
+export const loadQuizzesFromSubjectRequest = async (
   subjectId: string | undefined,
   setQuizzes: any
-): void => {
-  request(`/quizzes/posts/${subjectId}`).then((res: any) => {
+): Promise<void> => {
+  return request(`/quizzes/posts/${subjectId}`).then((res: any) => {
     setQuizzes(res);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -95,12 +99,13 @@ export const loadQuizzesFromSubjectRequest = (
  * READ Method
  * Loads a quiz
  */
-export const loadQuizAsWholeRequest = (
+export const loadQuizAsWholeRequest = async (
   id: string | undefined,
   setQuiz: any
-): void => {
-  request(`/quizzes/${id}`).then((res: any) => {
+): Promise<void> => {
+  return request(`/quizzes/${id}`).then((res: any) => {
     setQuiz(res);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -108,16 +113,17 @@ export const loadQuizAsWholeRequest = (
  * READ Method
  * Loads a quiz
  */
-export const loadQuizAsPartsRequest = (
+export const loadQuizAsPartsRequest = async (
   id: string | undefined,
   setTitle: any,
   setDescription: any,
   setSubject: any
-): void => {
-  request(`/quizzes/${id}`).then((res: any) => {
+): Promise<void> => {
+  return request(`/quizzes/${id}`).then((res: any) => {
     setTitle(res.title);
     setDescription(res.description);
     setSubject(res.subject);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -125,16 +131,17 @@ export const loadQuizAsPartsRequest = (
  * DELETE Method
  * Request to delete a quiz
  */
-export const deleteQuizRequest = (
+export const deleteQuizRequest = async (
   navigate: any,
   userId: string,
   id: string | undefined
-): void => {
+): Promise<void> => {
   // Run request
-  request(`/quizzes/${id}`, { method: 'DELETE' }).then((res) => {
+  return request(`/quizzes/${id}`, { method: 'DELETE' }).then((res) => {
     // Navigate to user quizzes page
     navigate(`/users/${userId}/quizzes`);
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 

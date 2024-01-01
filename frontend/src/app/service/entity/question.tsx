@@ -1,3 +1,4 @@
+import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -13,7 +14,7 @@ export const NULL_QUESTION = {
  * CREATE / UPDATE Method
  * Adds or modifies a question for a quiz
  */
-export const addModifyQuestionRequest = (
+export const addModifyQuestionRequest = async (
   navigate: any,
   questionText: string,
   answerText: string,
@@ -21,7 +22,7 @@ export const addModifyQuestionRequest = (
   id: string | undefined,
   method: string,
   requestUrl: string
-): void => {
+): Promise<void> => {
   // Set up question object
   const question = {
     id,
@@ -41,11 +42,12 @@ export const addModifyQuestionRequest = (
   };
 
   // Run the request
-  request(requestUrl, options)
+  return request(requestUrl, options)
     .then(() => {
       // Navigate to the quiz questions page if successful
       navigate(`/quizzes/${quizId}/questions`);
       window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
     })
     .catch((exception: any) => {
       // Display the error if failed
@@ -57,12 +59,13 @@ export const addModifyQuestionRequest = (
  * READ Method
  * Loads questions from a quiz
  */
-export const loadQuizQuestionsRequest = (
+export const loadQuizQuestionsRequest = async (
   quizId: string | undefined,
   setQuestions: any
-) => {
-  request(`/quizzes/${quizId}/questions`).then((data) => {
+): Promise<void> => {
+  return request(`/quizzes/${quizId}/questions`).then((data) => {
     setQuestions(data);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -70,20 +73,21 @@ export const loadQuizQuestionsRequest = (
  * READ Method
  * Loads quiz questions for a quiz
  */
-export const loadQuizQuestionsForQuizRequest = (
+export const loadQuizQuestionsForQuizRequest = async (
   quizId: string | undefined,
   setQuestions: (questions: any) => void,
   setQuestionIndex: (index: number) => void,
   setNumberOfCorrectAnswers: (amount: number) => void,
   setQuizIsFinished: (quizIsFinished: boolean) => void
-): void => {
-  request(`/quizzes/${quizId}/questions`).then((questions: any) => {
+): Promise<void> => {
+  return request(`/quizzes/${quizId}/questions`).then((questions: any) => {
     setQuestions(questions);
     setQuestionIndex(0);
     setNumberOfCorrectAnswers(0);
     if (questions.length === 0) {
       setQuizIsFinished(true);
     }
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -96,10 +100,11 @@ export const loadQuizQuestionRequest = (
   id: string | undefined,
   setQuestion: any,
   setAnswer: any
-) => {
-  request(`/quizzes/${quizId}/questions/${id}`).then((questionItem) => {
+): Promise<void> => {
+  return request(`/quizzes/${quizId}/questions/${id}`).then((questionItem) => {
     setQuestion(questionItem.question);
     setAnswer(questionItem.answer);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
@@ -107,17 +112,18 @@ export const loadQuizQuestionRequest = (
  * DELETE Method
  * Request to delete a question
  */
-export const deleteQuestionRequest = (
+export const deleteQuestionRequest = async (
   navigate: any,
   quizId: string,
   id: string
-): void => {
+): Promise<void> => {
   // Run the request
-  request(`/quizzes/${quizId}/questions/${id}`, {
+  return request(`/quizzes/${quizId}/questions/${id}`, {
     method: 'DELETE',
   }).then(() => {
     // Navigate to quiz questions page after deletion
     navigate(`/quizzes/${quizId}/questions`);
     window.location.reload();
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
