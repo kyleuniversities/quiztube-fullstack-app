@@ -21,9 +21,7 @@ export const ViewAllQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div
-        style={{ marginLeft: '15px', marginTop: '10px', marginRight: '15px' }}
-      >
+      <div className="siteContentContainer">
         {subjects.map((subject: any) => {
           return <ViewAllQuizzesSubContainer subject={subject} />;
         })}

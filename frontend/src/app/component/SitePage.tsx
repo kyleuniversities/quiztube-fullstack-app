@@ -16,7 +16,7 @@ export const SitePage = (props: { children: ReactNode }): JSX.Element => {
   return (
     <Container fluid className={colorize('sitePage')}>
       <SiteHeader />
-      {props.children}
+      <div className="siteContentContainer">{props.children}</div>
       <MultilineBreak lines={2} />
     </Container>
   );
