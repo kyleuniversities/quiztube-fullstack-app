@@ -50,8 +50,11 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
                 FROM _like
                 WHERE quiz_id = ? AND user_id = ?
                 """;
-        return ListHelper.getApparentValue(
-                this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId, userId), 0);
+        List<LikeDto> likes = this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId, userId);
+        if (ListHelper.isEmpty(likes)) {
+            return new LikeDto("#null", "#null", "#null");
+        }
+        return ListHelper.get(likes, 0);
     }
 
     @Override
