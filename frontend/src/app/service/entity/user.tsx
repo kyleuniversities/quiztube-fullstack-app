@@ -50,7 +50,7 @@ export const addUserRequest = async (
     .then(() => {
       // Navigate to the homepage if successful
       alert(`The user '${username}' was successfully registered!`);
-      //navigate('/');
+      navigate('/');
       window.location.reload();
       return PromiseHelper.newConservativeVoidPromise();
     })

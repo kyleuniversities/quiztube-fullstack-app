@@ -27,16 +27,18 @@ export const loadSubjectsRequest = async (setSubjects: any) => {
  * Loads all subjects as options
  */
 export const loadSubjectsAsOptionsRequest = async (setSubjectOptions: any) => {
-  return request('/subjects').then((res) => {
-    setSubjectOptions(
-      res.map((rawSubjectOption: any) => {
-        return {
-          ...rawSubjectOption,
-          key: rawSubjectOption.text,
-          value: rawSubjectOption.id,
-        };
-      })
-    ).catch(handleException);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request('/subjects')
+    .then((res) => {
+      setSubjectOptions(
+        res.map((rawSubjectOption: any) => {
+          return {
+            ...rawSubjectOption,
+            key: rawSubjectOption.text,
+            value: rawSubjectOption.id,
+          };
+        })
+      );
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
