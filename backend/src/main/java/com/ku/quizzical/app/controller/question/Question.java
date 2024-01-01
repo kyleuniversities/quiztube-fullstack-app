@@ -36,6 +36,11 @@ public final class Question {
     @JoinColumn(name = "quiz_id")
     public Quiz quiz;
 
+    // Accessor Methods
+    public String getUserId() {
+        return this.quiz.getUserId();
+    }
+
     // To String Method
     @Override
     public String toString() {

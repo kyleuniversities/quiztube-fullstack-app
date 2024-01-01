@@ -10,18 +10,23 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
+import com.ku.quizzical.app.helper.BackendValidationHelper;
 
 @CrossOrigin
 @RestController
 public final class UserController {
     // Instance Fields
     private UserDatabaseService service;
+    private UserRepository repository;
 
     // Constructor Method
-    public UserController(UserDatabaseService service) {
+    public UserController(UserDatabaseService service, UserRepository repository) {
         super();
         this.service = service;
+        this.repository = repository;
     }
 
     // CREATE Method
@@ -56,19 +61,25 @@ public final class UserController {
     // Updates a User
     @PatchMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable String id,
+            @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody UserUpdateRequest user) {
+        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough("User",
+                id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingUser.getId());
         return new ResponseEntity<UserDto>(this.service.updateUser(id, user), HttpStatus.OK);
     }
 
     // DELETE Method
     // Deletes a User
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable String id) {
-        try {
-            this.service.deleteUser(id);
-        } catch (Exception e) {
-            // Do Nothing
-        }
+    public String deleteUser(@PathVariable String id,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough("User",
+                id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingUser.getId());
+        this.service.deleteUser(id);
         return "\"The User with id \\\"" + id + "\\\" has been deleted.\"";
     }
 }

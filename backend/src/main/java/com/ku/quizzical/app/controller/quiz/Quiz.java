@@ -58,6 +58,11 @@ public final class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
+    // Accessor Methods
+    public String getUserId() {
+        return this.user.getId();
+    }
+
     // To String Method
     @Override
     public String toString() {

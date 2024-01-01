@@ -1,6 +1,7 @@
 package com.ku.quizzical.app.helper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -13,6 +14,21 @@ import com.ku.quizzical.common.helper.string.StringHelper;
  * Helper class for Backend Validation Exception Operations
  */
 public class BackendValidationHelper {
+    /**
+     * Validate if a resource is exists
+     */
+    public static <T> T validateExistingResourceWithFallthrough(String attributeName,
+            String queryToken, Function<String, Optional<T>> existingResourceCollector) {
+        try {
+            return BackendValidationHelper.validateExistingResourceWithFallthrough(attributeName,
+                    existingResourceCollector.apply(queryToken)).get();
+        } catch (Exception exception) {
+            ApiExceptionHelper.throwResourceNotFoundException(
+                    StringHelper.format("%s does not exist.", attributeName));
+        }
+        return null;
+    }
+
     /**
      * Validate if a resource is exists
      */

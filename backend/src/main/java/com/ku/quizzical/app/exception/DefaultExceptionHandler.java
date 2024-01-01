@@ -8,16 +8,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.ku.quizzical.common.helper.string.StringCodeHelper;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
     /**
-     * Handles exception with insufficient credentials, such as a weak level of
-     * authentication
+     * Handles exception with insufficient credentials, such as a weak level of authentication
      */
     @ExceptionHandler(InsufficientAuthenticationException.class)
     public ResponseEntity<ApiError> handleException(InsufficientAuthenticationException exception,
@@ -53,8 +49,8 @@ public class DefaultExceptionHandler {
     }
 
     /**
-     * Handles exceptions with requestS that would have created a duplicate
-     * resource, like two users with the same username
+     * Handles exceptions with requestS that would have created a duplicate resource, like two users
+     * with the same username
      */
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ApiError> handleException(DuplicateResourceException exception,
@@ -68,31 +64,25 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception exception,
             HttpServletRequest request) {
-        return DefaultExceptionHandler.handleException(exception, request, HttpStatus.INTERNAL_SERVER_ERROR);
+        return DefaultExceptionHandler.handleException(exception, request,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
      * Helper method for general exception handling
      */
-    private static ResponseEntity<ApiError> handleException(Exception exception, HttpServletRequest request,
-            HttpStatus status) {
-        return new ResponseEntity<ApiError>(
-                ApiError.newInstance(request.getRequestURI(), exception.getMessage(),
-                        status.value(),
-                        LocalDateTime.now()),
-                status);
+    private static ResponseEntity<ApiError> handleException(Exception exception,
+            HttpServletRequest request, HttpStatus status) {
+        return new ResponseEntity<ApiError>(ApiError.newInstance(request.getRequestURI(),
+                exception.getMessage(), status.value(), LocalDateTime.now()), status);
     }
 
     /**
      * Helper method for general exception handling
      */
     /*
-     * private static ResponseEntity<String> handleExceptionAsString(Exception
-     * exception, HttpServletRequest request,
-     * HttpStatus status) {
-     * return new ResponseEntity<String>(
-     * StringCodeHelper.toCode(exception.getMessage()),
-     * status);
-     * }/
+     * private static ResponseEntity<String> handleExceptionAsString(Exception exception,
+     * HttpServletRequest request, HttpStatus status) { return new ResponseEntity<String>(
+     * StringCodeHelper.toCode(exception.getMessage()), status); }/
      ***/
 }

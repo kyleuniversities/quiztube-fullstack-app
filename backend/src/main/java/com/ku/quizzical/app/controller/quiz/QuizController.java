@@ -10,24 +10,39 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import com.ku.quizzical.app.controller.user.User;
+import com.ku.quizzical.app.controller.user.UserRepository;
+import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
+import com.ku.quizzical.app.helper.BackendValidationHelper;
 
 @CrossOrigin
 @RestController
 public final class QuizController {
     // Instance Fields
     private QuizDatabaseService service;
+    private UserRepository userRepository;
+    private QuizRepository repository;
 
     // Constructor Method
-    public QuizController(QuizDatabaseService service) {
+    public QuizController(QuizDatabaseService service, UserRepository userRepository,
+            QuizRepository repository) {
         super();
         this.service = service;
+        this.userRepository = userRepository;
+        this.repository = repository;
     }
 
     // CREATE Method
     // Saves a Quiz
     @PostMapping("/quizzes")
-    public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizDto quiz) {
+    public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizDto quiz,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough(
+                "Quiz User", quiz.userId(), this.userRepository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingUser.getId());
         return new ResponseEntity<QuizDto>(this.service.saveQuiz(quiz), HttpStatus.OK);
     }
 
@@ -67,19 +82,25 @@ public final class QuizController {
     // Updates a Quiz
     @PatchMapping("/quizzes/{id}")
     public ResponseEntity<QuizDto> updateQuiz(@PathVariable String id,
+            @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody QuizUpdateRequest quiz) {
+        Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough("Quiz",
+                id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingQuiz.getUserId());
         return new ResponseEntity<QuizDto>(this.service.updateQuiz(id, quiz), HttpStatus.OK);
     }
 
     // DELETE Method
     // Deletes a Quiz
     @DeleteMapping("/quizzes/{id}")
-    public String deleteQuiz(@PathVariable String id) {
-        try {
-            this.service.deleteQuiz(id);
-        } catch (Exception e) {
-            // Do Nothing
-        }
+    public String deleteQuiz(@PathVariable String id,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough("Quiz",
+                id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingQuiz.getUserId());
+        this.service.deleteQuiz(id);
         return "\"The Quiz with id \\\"" + id + "\\\" has been deleted.\"";
     }
 }
