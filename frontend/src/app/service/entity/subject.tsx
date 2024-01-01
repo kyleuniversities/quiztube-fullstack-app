@@ -1,4 +1,11 @@
+import { NULL_TEXT } from '../general';
 import { request } from '../request';
+
+// Null subject constant
+export const NULL_SUBJECT = {
+  id: NULL_TEXT,
+  text: '',
+};
 
 /**
  * READ Method
