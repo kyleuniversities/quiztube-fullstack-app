@@ -32,6 +32,11 @@ public final class Like {
     @JoinColumn(name = "user_id")
     public User user;
 
+    // Accessor Methods
+    public String getUserId() {
+        return this.user.getId();
+    }
+
     // To String Method
     @Override
     public String toString() {
