@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ku.quizzical.app.controller.quiz.Quiz;
 import com.ku.quizzical.app.controller.quiz.QuizRepository;
+import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
@@ -19,8 +20,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
     private final QuestionDtoRowMapper dtoRowMapper;
 
     // Constructor Method
-    public QuestionOrdinaryDatabaseService(JdbcTemplate jdbcTemplate,
-            QuizRepository quizRepository,
+    public QuestionOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository quizRepository,
             QuestionDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
@@ -31,6 +31,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
     // Interface Methods
     @Override
     public QuestionDto saveQuestion(String quizId, QuestionDto questionDto) {
+        this.validateAddQuestionRequest(questionDto);
         var sql = """
                 INSERT INTO question(id, question, answer, number_of_milliseconds, quiz_id)
                 VALUES (?, ?, ?, ?, ?)
@@ -70,6 +71,8 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         this.updateQuestionAttribute(update, "answer", QuestionUpdateRequest::answer);
         this.updateQuestionAttribute(update, "number_of_milliseconds",
                 QuestionUpdateRequest::numberOfMilliseconds);
+        TextValidationHelper.validateIfExists(update::question, this::validateQuestion);
+        TextValidationHelper.validateIfExists(update::answer, this::validateAnswer);
         return this.getQuestion(quizId, id);
     }
 
@@ -89,8 +92,26 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         T attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE question SET %s = ? WHERE id = ?", attributeName);
-            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result =
+                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE QUESTION " + attributeName + " RESULT = " + result);
         });
+    }
+
+    // Validation Major Methods
+    private void validateAddQuestionRequest(QuestionDto quiz) {
+        validateQuestion(quiz.question());
+        validateAnswer(quiz.answer());
+    }
+
+    // Validation Minor Methods
+    private void validateQuestion(String text) {
+        TextValidationHelper.validateNonNull("Question", text);
+        TextValidationHelper.validateLength("Question", text, 1, 64);
+    }
+
+    private void validateAnswer(String text) {
+        TextValidationHelper.validateNonNull("Answer", text);
+        TextValidationHelper.validateLength("Answer", text, 1, 64);
     }
 }

@@ -11,6 +11,8 @@ public interface UserDatabaseService {
 
     UserDto getUserByUsername(String username);
 
+    UserDto getUserByEmail(String email);
+
     UserDto updateUser(String id, UserUpdateRequest user);
 
     void deleteUser(String id);

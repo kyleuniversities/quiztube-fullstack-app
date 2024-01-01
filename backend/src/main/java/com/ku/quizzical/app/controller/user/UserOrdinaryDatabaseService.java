@@ -5,9 +5,8 @@ import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.ku.quizzical.app.exception.RequestValidationException;
-import com.ku.quizzical.app.exception.ResourceNotFoundException;
+import com.ku.quizzical.app.helper.BackendValidationHelper;
+import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
@@ -32,23 +31,21 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     // Interface Methods
     @Override
     public UserDto saveUser(UserRegistrationRequest registrationRequest) {
+        this.validateRegistrationRequest(registrationRequest);
         var sql = """
                 INSERT INTO user(id, username, email, password, picture, thumbnail)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
         String id = IdHelper.nextMockId();
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registrationRequest.password());
-        if (registrationRequest.username().length() < 4) {
-            throw new ResourceNotFoundException("Username must be at least 4 characters");
-        }
-        int result = this.jdbcTemplate.update(sql, id,
-                registrationRequest.username(), registrationRequest.email(),
-                encryptedPassword, registrationRequest.picture(),
+        String encryptedPassword =
+                new BCryptPasswordEncoder().encode(registrationRequest.password());
+        int result = this.jdbcTemplate.update(sql, id, registrationRequest.username(),
+                registrationRequest.email(), encryptedPassword, registrationRequest.picture(),
                 registrationRequest.thumbnail());
         System.out.println("POST USER RESULT = " + result);
-        return new UserDto(id, registrationRequest.username(),
-                registrationRequest.email(), registrationRequest.picture(),
-                registrationRequest.thumbnail(), UserHelper.makeDefaultRoleList());
+        return new UserDto(id, registrationRequest.username(), registrationRequest.email(),
+                registrationRequest.picture(), registrationRequest.thumbnail(),
+                UserHelper.makeDefaultRoleList());
     }
 
     @Override
@@ -83,12 +80,30 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     }
 
     @Override
+    public UserDto getUserByEmail(String email) {
+        var sql = """
+                SELECT id, username, email, password, picture, thumbnail
+                FROM user
+                WHERE email = ?
+                """;
+        return ListHelper.getApparentValue(this.jdbcTemplate.query(sql, this.dtoRowMapper, email),
+                0);
+    }
+
+    @Override
     public UserDto updateUser(String id, UserUpdateRequest update) {
         this.updateUserAttribute(update, "username", UserUpdateRequest::username);
         this.updateUserAttribute(update, "email", UserUpdateRequest::email);
         this.updateUserAttribute(update, "password", UserUpdateRequest::password);
         this.updateUserAttribute(update, "picture", UserUpdateRequest::picture);
         this.updateUserAttribute(update, "thumbnail", UserUpdateRequest::thumbnail);
+        TextValidationHelper.validateIfExists(update::username, this::validateUsername);
+        TextValidationHelper.validateIfExists(update::email, this::validateEmail);
+        TextValidationHelper.validateIfExists(update::password, this::validatePassword);
+        BackendValidationHelper.validateUniqueTextResourceIfExists("Username", update::username,
+                this::getUserByUsername);
+        BackendValidationHelper.validateUniqueTextResourceIfExists("Email", update::email,
+                this::getUserByEmail);
         return this.getUser(id);
     }
 
@@ -98,13 +113,43 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
         System.out.println("DELETE USER RESULT = " + 1);
     }
 
+    // Interface Minor Methods
     private void updateUserAttribute(UserUpdateRequest update, String attributeName,
             Function<UserUpdateRequest, String> attributeCollector) {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE user SET %s = ? WHERE id = ?", attributeName);
-            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result =
+                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE USER " + attributeName + " RESULT = " + result);
         });
+    }
+
+    // Validation Major Methods
+    private void validateRegistrationRequest(UserRegistrationRequest registrationRequest) {
+        validateUsername(registrationRequest.username());
+        validateEmail(registrationRequest.email());
+        validatePassword(registrationRequest.password());
+    }
+
+    // Validation Minor Methods
+    private void validateUsername(String text) {
+        final String TAG = "Username";
+        TextValidationHelper.validateNonNull(TAG, text);
+        TextValidationHelper.validateLength(TAG, text, 3, 30);
+        TextValidationHelper.validateToBeAlphanumeric(TAG, text);
+        TextValidationHelper.validateFirstCharacterToBeAlphabetical(TAG, text);
+        BackendValidationHelper.validateUniqueTextResource(TAG, text, this::getUserByUsername);
+    }
+
+    private void validateEmail(String text) {
+        TextValidationHelper.validateNonNull("Email", text);
+        TextValidationHelper.validateEmail(text);
+        BackendValidationHelper.validateUniqueTextResource("Email", text, this::getUserByEmail);
+    }
+
+    private void validatePassword(String text) {
+        TextValidationHelper.validateNonNull("Password", text);
+        TextValidationHelper.validateLength("Password", text, 3, 30);
     }
 }

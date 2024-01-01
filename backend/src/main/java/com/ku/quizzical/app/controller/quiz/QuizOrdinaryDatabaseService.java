@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
@@ -31,6 +32,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Interface Methods
     @Override
     public QuizDto saveQuiz(QuizDto quizDto) {
+        this.validateAddQuizRequest(quizDto);
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -123,6 +125,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         this.updateQuizAttribute(id, update, "picture", QuizUpdateRequest::picture);
         this.updateQuizAttribute(id, update, "thumbnail", QuizUpdateRequest::thumbnail);
         this.updateQuizAttribute(id, update, "subject_id", QuizUpdateRequest::subjectId);
+        TextValidationHelper.validateIfExists(update::title, this::validateTitle);
+        TextValidationHelper.validateIfExists(update::description, this::validateDescription);
         return this.getQuiz(id);
     }
 
@@ -145,8 +149,26 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE quiz SET %s = ? WHERE id = ?", attributeName);
-            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result =
+                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE QUIZ " + attributeName + " RESULT = " + result);
         });
+    }
+
+    // Validation Major Methods
+    private void validateAddQuizRequest(QuizDto quiz) {
+        validateTitle(quiz.title());
+        validateDescription(quiz.description());
+    }
+
+    // Validation Minor Methods
+    private void validateTitle(String text) {
+        TextValidationHelper.validateNonNull("Title", text);
+        TextValidationHelper.validateLength("Title", text, 1, 32);
+    }
+
+    private void validateDescription(String text) {
+        TextValidationHelper.validateNonNull("Description", text);
+        TextValidationHelper.validateLength("Description", text, 1, 250);
     }
 }
