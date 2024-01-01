@@ -1,13 +1,9 @@
 package com.ku.quizzical.app.helper;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
 import com.ku.quizzical.common.helper.ConditionalHelper;
-import com.ku.quizzical.common.helper.string.CharacterHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 /**
