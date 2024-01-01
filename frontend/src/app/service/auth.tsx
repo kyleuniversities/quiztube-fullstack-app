@@ -89,6 +89,15 @@ export const redirectFromUnauthorizedQuizActionRequest = async (
 };
 
 /**
+ * Remove user session data if authentication token has expired
+ */
+export const removeUserSessionDataIfTokenIsExpired = (
+  userContext: any
+): void => {
+  userContext.isUserAuthenticated();
+};
+
+/**
  * Logs the user out
  */
 export const logoutAction = (navigate: any, userContext: any): void => {

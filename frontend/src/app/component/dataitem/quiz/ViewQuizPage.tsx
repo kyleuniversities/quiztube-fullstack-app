@@ -3,7 +3,11 @@ import { SitePage } from '../../SitePage';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Image } from 'semantic-ui-react';
-import { useUserId, useUsername } from '../../context/AppContextManager';
+import {
+  useAppContext,
+  useUserId,
+  useUsername,
+} from '../../context/AppContextManager';
 import {
   collectDefaultThumbnailPathFromUsername,
   collectPicturePath,
@@ -22,6 +26,7 @@ import {
 } from '../../../service/entity/quiz';
 import { MultilineBreak } from '../../MultilineBreak';
 import './index.css';
+import { removeUserSessionDataIfTokenIsExpired } from '../../../service/auth';
 
 export const ViewQuizPage = (): JSX.Element => {
   // Set up parameter data
@@ -32,6 +37,7 @@ export const ViewQuizPage = (): JSX.Element => {
   const [like, setLike] = useState(NULL_LIKE);
 
   // Set up user data
+  const userContext = useAppContext();
   const userId: any = useUserId();
   const username: any = useUsername();
 
@@ -40,9 +46,10 @@ export const ViewQuizPage = (): JSX.Element => {
 
   // Load quiz and likes
   useEffect(() => {
+    removeUserSessionDataIfTokenIsExpired(userContext);
     loadQuizAsWholeRequest(id, setQuiz);
     loadLikeRequest(id, userId, setLike);
-  }, [id, userId]);
+  }, [userContext, id, userId]);
 
   // Return component
   return (
