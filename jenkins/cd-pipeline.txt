@@ -1,6 +1,3 @@
-The following is the current pipeline for the Jenkins Continuous Deployment of the QuizTube app.
-
-```
 pipeline {
     agent any
     stages {
@@ -44,22 +41,6 @@ pipeline {
             }
         }
         stage("Deploy Kubernetes") {
-
-            - name: QUIZTUBE_DATABASE_FULL_HOST
-              value: _QUIZTUBE_DATABASE_FULL_HOST
-            - name: QUIZTUBE_DATABASE_USERNAME
-              value: _QUIZTUBE_DATABASE_USERNAME
-            - name: QUIZTUBE_DATABASE_PASSWORD
-              value: _QUIZTUBE_DATABASE_PASSWORD
-            - name: QUIZTUBE_AWS_BUCKET_PATH
-              value: _QUIZTUBE_AWS_BUCKET_PATH
-            - name: DEV_TOOLS_PROJECT_PATH
-              value: _DEV_TOOLS_PROJECT_PATH
-            - name: AWS_ACCESS_KEY_ID
-              value: _AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              value: _AWS_SECRET_ACCESS_KEY
-
             steps {
                 sh '''
                 cp -r /srv/.aws ~/.aws
