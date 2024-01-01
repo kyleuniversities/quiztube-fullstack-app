@@ -1,5 +1,5 @@
 /**
- * Helper class for exception operations
+ * Helper class for Exception related operations
  */
 export class ExceptionHelper {
   private constructor() {}
