@@ -5,7 +5,10 @@ import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Image } from 'semantic-ui-react';
 import { useUserId, useUsername } from '../../context/AppContextManager';
-import { collectPicturePath } from '../../../service/file';
+import {
+  collectDefaultThumbnailPathFromUsername,
+  collectPicturePath,
+} from '../../../service/file';
 import { ConditionalContent } from '../../ConditionalContent';
 import {
   NULL_LIKE,
@@ -18,6 +21,8 @@ import {
   deleteQuizRequest,
   loadQuizAsWholeRequest,
 } from '../../../service/entity/quiz';
+import './index.css';
+import { MultilineBreak } from '../../MultilineBreak';
 
 export const ViewQuizPage = (): JSX.Element => {
   // Set up parameter data
@@ -45,9 +50,19 @@ export const ViewQuizPage = (): JSX.Element => {
     <SitePage>
       <h1>{quiz.title}</h1>
       <Image src={collectPicturePath(quiz)} style={{ maxWidth: '300px' }} />
+      <MultilineBreak lines={1} />
       <p>
-        <b>Author: </b>
-        {quiz.authorUsername}
+        <Link to={`/users/${quiz.userId}`}>
+          <Image
+            inline
+            src={collectDefaultThumbnailPathFromUsername(quiz.authorUsername)}
+            style={{ maxWidth: '20px' }}
+          />
+          <span className="authorText">
+            {' '}
+            <b>{quiz.authorUsername}</b>
+          </span>
+        </Link>
       </p>
       <p>
         <b>Description: </b>

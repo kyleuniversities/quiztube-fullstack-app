@@ -13,3 +13,9 @@ export const collectThumbnailPath = (item: any) => {
   const encodedKey = key.replace(/\//g, '__');
   return `${deriveApiHost()}/file/image/${encodedKey}`;
 };
+
+// Collect thumbnail image path
+export const collectDefaultThumbnailPathFromUsername = (username: string) => {
+  const firstLetter = username.toLowerCase().charAt(0);
+  return `${deriveApiHost()}/file/image/static__user__user-picture-${firstLetter}_T.png`;
+};
