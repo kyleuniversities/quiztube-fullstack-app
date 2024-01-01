@@ -88,7 +88,7 @@ export const redirectFromUnauthorizedQuizActionRequest = async (
 /**
  * Logs the user out
  */
-export const logoutRequest = (navigate: any, userContext: any): void => {
+export const logoutAction = (navigate: any, userContext: any): void => {
   // Removes user session data
   userContext.removeUserSessionData();
 

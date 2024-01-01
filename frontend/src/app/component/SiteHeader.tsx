@@ -13,7 +13,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { collectThumbnailPath } from '../service/file';
 import './index.css';
 import { loadUserRequest } from '../service/entity/user';
-import { isPassableId, logoutRequest } from '../service/auth';
+import { isPassableId, logoutAction } from '../service/auth';
 
 // A placeholder user to avoid reading errors
 const DEFAULT_USER: any = {
@@ -126,7 +126,7 @@ const SiteHeaderUserSignedInContent = (props: {
           <Dropdown.Item as={Link} to={`/quizzes/add`}>
             New Quiz
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => logoutRequest(navigate, userContext)}>
+          <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
             Logout
           </Dropdown.Item>
         </Dropdown.Menu>

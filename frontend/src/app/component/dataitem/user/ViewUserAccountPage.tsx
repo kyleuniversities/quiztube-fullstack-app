@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { SitePage } from '../../SitePage';
-import { useUsername } from '../../context/AppContextManager';
+import {
+  useAppContext,
+  useUserId,
+  useUsername,
+} from '../../context/AppContextManager';
 import { collectPicturePath } from '../../../service/file';
 import { Button, Container, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
+import {
+  NULL_USER,
+  deleteUserRequest,
+  loadUserRequest,
+} from '../../../service/entity/user';
+import { ConditionalContent } from '../../ConditionalContent';
 
 export const ViewUserAccountPage = (): JSX.Element => {
   // Set up parameter data
@@ -15,7 +24,12 @@ export const ViewUserAccountPage = (): JSX.Element => {
   const [user, setUser] = useState(NULL_USER);
 
   // Set up user session data
+  const userContext = useAppContext();
+  const userId = useUserId();
   const username = useUsername();
+
+  // Set up navigation
+  const navigate = useNavigate();
 
   // Load user
   useEffect(() => {
@@ -41,6 +55,14 @@ export const ViewUserAccountPage = (): JSX.Element => {
         <Link to={`/users/${id}/quizzes`}>
           <Button icon="file alternate" color="orange" content="View Quizzes" />
         </Link>
+        <ConditionalContent condition={userId === id}>
+          <Button
+            icon="trash"
+            color="red"
+            content="Delete Account"
+            onClick={() => deleteUserRequest(navigate, userContext, id)}
+          />
+        </ConditionalContent>
       </Container>
     </SitePage>
   );

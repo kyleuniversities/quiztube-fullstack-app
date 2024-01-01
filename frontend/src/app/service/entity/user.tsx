@@ -1,5 +1,6 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { handleException } from '../../util/exception';
+import { logoutAction } from '../auth';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -65,6 +66,25 @@ export const loadUserRequest = (id: string | undefined, setUser: any): void => {
   request(`/users/${id}`)
     .then((res: any) => {
       setUser(res);
+    })
+    .catch(handleException);
+};
+
+/**
+ * DELETE Method
+ * Request to delete a user
+ */
+export const deleteUserRequest = async (
+  navigate: any,
+  userContext: any,
+  id: string | undefined
+): Promise<void> => {
+  // Run request
+  return request(`/users/${id}`, { method: 'DELETE' })
+    .then(() => {
+      // Navigate back
+      logoutAction(navigate, userContext);
+      return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);
 };
