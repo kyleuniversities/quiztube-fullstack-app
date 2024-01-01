@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useUsername } from '../../context/AppContextManager';
 import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
 import { loadQuizzesFromUserRequest } from '../../../service/entity/quiz';
+import { ConditionalContent } from '../../ConditionalContent';
 
 /**
  * Page to View All Quizzes
@@ -35,23 +36,30 @@ export const ViewUserQuizzesPage = () => {
             ? 'My Quizzes'
             : `Quizzes by ${user.username}`}
         </h1>
-        <Card.Group itemsPerRow={5}>
-          {quizPosts.map((quizPost: any) => {
-            return (
-              <Link to={`/quizzes/${quizPost.id}`}>
-                <Card style={{ marginLeft: '10px' }}>
-                  <Card.Content style={{ height: '110px' }}>
-                    <Card.Header>{quizPost.title}</Card.Header>
-                    <Card.Description>{quizPost.description}</Card.Description>
-                  </Card.Content>
-                  <span>
-                    <Icon name="heart" /> {quizPost.numberOfLikes}
-                  </span>
-                </Card>
-              </Link>
-            );
-          })}
-        </Card.Group>
+        <ConditionalContent condition={quizPosts.length === 0}>
+          This user has no quizzes yet.
+        </ConditionalContent>
+        <ConditionalContent condition={quizPosts.length > 0}>
+          <Card.Group itemsPerRow={5}>
+            {quizPosts.map((quizPost: any) => {
+              return (
+                <Link to={`/quizzes/${quizPost.id}`}>
+                  <Card style={{ marginLeft: '10px' }}>
+                    <Card.Content style={{ height: '110px' }}>
+                      <Card.Header>{quizPost.title}</Card.Header>
+                      <Card.Description>
+                        {quizPost.description}
+                      </Card.Description>
+                    </Card.Content>
+                    <span>
+                      <Icon name="heart" /> {quizPost.numberOfLikes}
+                    </span>
+                  </Card>
+                </Link>
+              );
+            })}
+          </Card.Group>
+        </ConditionalContent>
         <MultilineBreak lines={3} />
       </Container>
     </SitePage>
