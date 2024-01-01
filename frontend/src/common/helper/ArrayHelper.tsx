@@ -40,4 +40,17 @@ export class ArrayHelper {
   public static map<T, U>(array: Array<T>, mapping: (item: T) => U): U[] {
     return array.map((item: T) => mapping(item));
   }
+
+  /**
+   * Queries a value from an array
+   */
+  public static query<T>(array: Array<T>, query: (item: T) => boolean): T {
+    const nullItem: any = null;
+    for (let i = 0; i < array.length; i++) {
+      if (query(array[i])) {
+        return array[i];
+      }
+    }
+    return nullItem;
+  }
 }

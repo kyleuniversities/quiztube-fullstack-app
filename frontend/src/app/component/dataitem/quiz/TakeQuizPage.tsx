@@ -23,17 +23,15 @@ export const TakeQuizPage = (): JSX.Element => {
   const [quizIsFinished, setQuizIsFinished] = useState(false);
 
   // Loads the quiz on render
-  useEffect(
-    () =>
-      loadQuizQuestionsForQuizRequest(
-        quizId,
-        setQuestions,
-        setQuestionIndex,
-        setNumberOfCorrectAnswers,
-        setQuizIsFinished
-      ),
-    [quizId]
-  );
+  useEffect(() => {
+    loadQuizQuestionsForQuizRequest(
+      quizId,
+      setQuestions,
+      setQuestionIndex,
+      setNumberOfCorrectAnswers,
+      setQuizIsFinished
+    );
+  }, [quizId]);
 
   // Load current question
   const question: any = questionIndex > -1 ? questions[questionIndex] : null;

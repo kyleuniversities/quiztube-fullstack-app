@@ -1,3 +1,4 @@
+import { ArrayHelper } from '../../../common/helper/ArrayHelper';
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { indexOf } from '../../../common/util/list';
 import { isPassableId } from '../auth';
@@ -115,14 +116,17 @@ export const loadQuizAsWholeRequest = async (
  */
 export const loadQuizAsPartsRequest = async (
   id: string | undefined,
+  subjects: any,
   setTitle: any,
   setDescription: any,
-  setSubject: any
+  setSubjectText: any,
+  setSubjectId: any
 ): Promise<void> => {
   return request(`/quizzes/${id}`).then((res: any) => {
     setTitle(res.title);
     setDescription(res.description);
-    setSubject(res.subject);
+    setSubjectText(res.subject);
+    setSubjectId(res.subjectId);
     return PromiseHelper.newConservativeVoidPromise();
   });
 };

@@ -8,8 +8,12 @@ import {
   loadQuizAsPartsRequest,
 } from '../../../service/entity/quiz';
 import { useUserId } from '../../context/AppContextManager';
-import { loadSubjectsAsOptionsRequest } from '../../../service/entity/subject';
+import {
+  NULL_SUBJECT,
+  loadSubjectsAsOptionsRequest,
+} from '../../../service/entity/subject';
 import '../../index.css';
+import { ArrayHelper } from '../../../../common/helper/ArrayHelper';
 
 /**
  * Page for adding or modifying a Title
@@ -24,17 +28,26 @@ export const AddModifyQuizPage = (props: {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [subject, setSubject] = useState('');
+  const [subjectText, setSubjectText] = useState('');
+  const [subjectId, setSubjectId] = useState('');
 
   // Set up user data
   const userId = useUserId();
 
   // Load subjects and quiz
   useEffect(() => {
-    loadSubjectsAsOptionsRequest(setSubjectOptions);
-    if (isEditing) {
-      loadQuizAsPartsRequest(props.id, setTitle, setDescription, setSubject);
-    }
+    loadSubjectsAsOptionsRequest(setSubjectOptions).then(() => {
+      if (isEditing) {
+        loadQuizAsPartsRequest(
+          props.id,
+          subjectOptions,
+          setTitle,
+          setDescription,
+          setSubjectText,
+          setSubjectId
+        );
+      }
+    });
   }, [isEditing, props.id]);
 
   // Set up navigation
@@ -67,8 +80,15 @@ export const AddModifyQuizPage = (props: {
           <Dropdown
             inline
             options={subjectOptions}
-            defaultValue={subject}
-            onChange={(e, data: any) => setSubject(data.value)}
+            text={subjectText}
+            onChange={(e, data: any) =>
+              selectSubject(
+                subjectOptions,
+                data.value,
+                setSubjectId,
+                setSubjectText
+              )
+            }
           />
         </span>
         <MultilineBreak lines={2} />
@@ -81,7 +101,7 @@ export const AddModifyQuizPage = (props: {
               navigate,
               title,
               description,
-              subject,
+              subjectId,
               userId,
               props.id,
               subjectOptions,
@@ -93,4 +113,22 @@ export const AddModifyQuizPage = (props: {
       </Container>
     </SitePage>
   );
+};
+
+// Function for selecting subject
+const selectSubject = (
+  subjectOptions: any[],
+  subjectId: string,
+  setSubjectId: any,
+  setSubjectText: any
+): void => {
+  const subject = ArrayHelper.query(
+    subjectOptions,
+    (subjectOption: any) => subjectOption.id === subjectId
+  );
+  //alert('ARR: ' + JSON.stringify(subjectOptions));
+  //alert('TGT: ' + JSON.stringify(setSubjectId));
+  //alert('QUE: ' + JSON.stringify(subject));
+  setSubjectId(subjectId);
+  setSubjectText(subject.text);
 };
