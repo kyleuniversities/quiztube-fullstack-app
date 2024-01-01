@@ -1,4 +1,3 @@
-import { ArrayHelper } from '../../../common/helper/ArrayHelper';
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { indexOf } from '../../../common/util/list';
 import { handleException } from '../../util/exception';
@@ -36,7 +35,13 @@ export const addModifyQuizRequest = async (
 ): Promise<void> => {
   // Stop action if the user id is not passable
   if (!isPassableId(userId)) {
-    alert('ERROR: Must be logged in to perform the operation.');
+    alert('Must be logged in to perform the operation.');
+    return PromiseHelper.newConservativeVoidPromise();
+  }
+
+  // Stop action if subject id is empty
+  if (subjectId.length < 10) {
+    alert('Subject must not be empty.');
     return PromiseHelper.newConservativeVoidPromise();
   }
 
