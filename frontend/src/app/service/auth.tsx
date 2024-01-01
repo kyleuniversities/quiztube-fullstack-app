@@ -1,4 +1,5 @@
 import { PromiseHelper } from '../../common/helper/js/PromiseHelper';
+import { handleException } from '../util/exception';
 import {
   alertForInauthenticatedSession,
   alertForUnauthorizedSession,
@@ -37,14 +38,16 @@ export const loginRequest = async (
   };
 
   // Run request
-  return request('/auth/login', options).then((data: any) => {
-    // Set user session data if successful
-    userContext.setUserSessionData(data);
+  return request('/auth/login', options)
+    .then((data: any) => {
+      // Set user session data if successful
+      userContext.setUserSessionData(data);
 
-    // Navigate to home
-    navigate('/');
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+      // Navigate to home
+      navigate('/');
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
