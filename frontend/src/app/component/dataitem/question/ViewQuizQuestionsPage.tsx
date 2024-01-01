@@ -42,7 +42,15 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
   // Returns the page
   return (
     <SitePage>
+      <h2>{quiz.title}</h2>
       <QuestionsListColumnContainer>
+        <Link to={`/quizzes/${id}`}>
+          <Button
+            icon="angle left"
+            color="purple"
+            content="Back to Quiz View"
+          />
+        </Link>
         <ConditionalContent condition={questions.length > 0}>
           <Link to={`/quizzes/${id}/questions/take`}>
             <Button icon="bolt" color="brown" content="Take Quiz" />
