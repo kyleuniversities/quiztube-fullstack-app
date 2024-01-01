@@ -21,6 +21,7 @@ export const TakeQuizPage = (): JSX.Element => {
   const [enteredAnswer, setEnteredAnswer] = useState('');
   const [answerIsSubmitted, setAnswerIsSubmitted] = useState(false);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
+  const isAcceptingBlankAnswers = true;
 
   // Loads the quiz on render
   useEffect(() => {
@@ -39,7 +40,7 @@ export const TakeQuizPage = (): JSX.Element => {
   // Function for submitting an answer
   const submitAnswer = () => {
     // If the answer is blank, prevent the user from submitting
-    if (enteredAnswer === '') {
+    if (!isAcceptingBlankAnswers && enteredAnswer === '') {
       alert('Must enter an answer for the quiz question.');
       return;
     }
