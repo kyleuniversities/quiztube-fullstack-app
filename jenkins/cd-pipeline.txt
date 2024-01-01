@@ -1,3 +1,6 @@
+// The following is the current pipeline for the Jenkins Continuous Deployment of the QuizTube app.
+
+// ```
 pipeline {
     agent any
     stages {
@@ -62,4 +65,4 @@ pipeline {
         }
     }
 }
-```
+// ```
