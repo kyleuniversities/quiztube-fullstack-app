@@ -1,4 +1,5 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
+import { handleException } from '../../util/exception';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -13,10 +14,12 @@ export const NULL_SUBJECT = {
  * Loads all subjects
  */
 export const loadSubjectsRequest = async (setSubjects: any) => {
-  return request('/subjects').then((res) => {
-    setSubjects(res);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request('/subjects')
+    .then((res) => {
+      setSubjects(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -33,7 +36,7 @@ export const loadSubjectsAsOptionsRequest = async (setSubjectOptions: any) => {
           value: rawSubjectOption.id,
         };
       })
-    );
+    ).catch(handleException);
     return PromiseHelper.newConservativeVoidPromise();
   });
 };

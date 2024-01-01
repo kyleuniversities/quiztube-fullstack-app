@@ -47,26 +47,21 @@ export const fullRequest = async (
   };
 
   // Run API request
-  return axios(fullOptions)
-    .then((data) => {
-      // Debug check response data
-      debugAlert('DATA: ' + JSON.stringify(data));
+  return axios(fullOptions).then((data) => {
+    // Debug check response data
+    debugAlert('DATA: ' + JSON.stringify(data));
 
-      // If the data is unauthorized, display the error
-      if (!data.data || data.data === '') {
-        alertForInauthenticatedSession();
-        debugAlert(
-          `ERROR: User is not authorized to perform the operation >> "${fullUrl}"`
-        );
-        localStorage.removeItem('access_token');
-        return;
-      }
+    // If the data is unauthorized, display the error
+    if (!data.data || data.data === '') {
+      alertForInauthenticatedSession();
+      debugAlert(
+        `ERROR: User is not authorized to perform the operation >> "${fullUrl}"`
+      );
+      localStorage.removeItem('access_token');
+      return;
+    }
 
-      // Return the data from the response if successful
-      return data.data;
-    })
-    .catch((exception: any) => {
-      // Display error if failed
-      alert(`ERROR: ${exception.message} >> ${fullUrl}`);
-    });
+    // Return the data from the response if successful
+    return data.data;
+  });
 };

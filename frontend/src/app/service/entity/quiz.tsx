@@ -1,6 +1,7 @@
 import { ArrayHelper } from '../../../common/helper/ArrayHelper';
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { indexOf } from '../../../common/util/list';
+import { handleException } from '../../util/exception';
 import { isPassableId } from '../auth';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
@@ -60,12 +61,14 @@ export const addModifyQuizRequest = async (
   };
 
   // Run request
-  return request(requestUrl, options).then((data: any) => {
-    // Navigate to the newly added or modified quiz if successful
-    navigate(`/quizzes/${data.id}`);
-    window.location.reload();
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(requestUrl, options)
+    .then((data: any) => {
+      // Navigate to the newly added or modified quiz if successful
+      navigate(`/quizzes/${data.id}`);
+      window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -76,10 +79,12 @@ export const loadQuizzesFromUserRequest = async (
   userId: string | undefined,
   setQuizzes: any
 ): Promise<void> => {
-  return request(`/users/${userId}/quizzes`).then((res: any) => {
-    setQuizzes(res);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/users/${userId}/quizzes`)
+    .then((res: any) => {
+      setQuizzes(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -90,10 +95,12 @@ export const loadQuizzesFromSubjectRequest = async (
   subjectId: string | undefined,
   setQuizzes: any
 ): Promise<void> => {
-  return request(`/quizzes/posts/${subjectId}`).then((res: any) => {
-    setQuizzes(res);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/posts/${subjectId}`)
+    .then((res: any) => {
+      setQuizzes(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -104,10 +111,12 @@ export const loadQuizAsWholeRequest = async (
   id: string | undefined,
   setQuiz: any
 ): Promise<void> => {
-  return request(`/quizzes/${id}`).then((res: any) => {
-    setQuiz(res);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${id}`)
+    .then((res: any) => {
+      setQuiz(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -122,13 +131,15 @@ export const loadQuizAsPartsRequest = async (
   setSubjectText: any,
   setSubjectId: any
 ): Promise<void> => {
-  return request(`/quizzes/${id}`).then((res: any) => {
-    setTitle(res.title);
-    setDescription(res.description);
-    setSubjectText(res.subject);
-    setSubjectId(res.subjectId);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${id}`)
+    .then((res: any) => {
+      setTitle(res.title);
+      setDescription(res.description);
+      setSubjectText(res.subject);
+      setSubjectId(res.subjectId);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -141,11 +152,13 @@ export const deleteQuizRequest = async (
   id: string | undefined
 ): Promise<void> => {
   // Run request
-  return request(`/quizzes/${id}`, { method: 'DELETE' }).then((res) => {
-    // Navigate back
-    navigate(-1);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${id}`, { method: 'DELETE' })
+    .then((res) => {
+      // Navigate back
+      navigate(-1);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 // Gets the default picture text for the quiz

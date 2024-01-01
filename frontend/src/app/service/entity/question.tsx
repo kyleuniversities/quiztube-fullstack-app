@@ -1,4 +1,5 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
+import { handleException } from '../../util/exception';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -49,10 +50,7 @@ export const addModifyQuestionRequest = async (
       window.location.reload();
       return PromiseHelper.newConservativeVoidPromise();
     })
-    .catch((exception: any) => {
-      // Display the error if failed
-      alert('ERROR: ' + exception.message);
-    });
+    .catch(handleException);
 };
 
 /**
@@ -63,10 +61,12 @@ export const loadQuizQuestionsRequest = async (
   quizId: string | undefined,
   setQuestions: any
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions`).then((data) => {
-    setQuestions(data);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${quizId}/questions`)
+    .then((data) => {
+      setQuestions(data);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -80,15 +80,17 @@ export const loadQuizQuestionsForQuizRequest = async (
   setNumberOfCorrectAnswers: (amount: number) => void,
   setQuizIsFinished: (quizIsFinished: boolean) => void
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions`).then((questions: any) => {
-    setQuestions(questions);
-    setQuestionIndex(0);
-    setNumberOfCorrectAnswers(0);
-    if (questions.length === 0) {
-      setQuizIsFinished(true);
-    }
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${quizId}/questions`)
+    .then((questions: any) => {
+      setQuestions(questions);
+      setQuestionIndex(0);
+      setNumberOfCorrectAnswers(0);
+      if (questions.length === 0) {
+        setQuizIsFinished(true);
+      }
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -101,11 +103,13 @@ export const loadQuizQuestionRequest = (
   setQuestion: any,
   setAnswer: any
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions/${id}`).then((questionItem) => {
-    setQuestion(questionItem.question);
-    setAnswer(questionItem.answer);
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${quizId}/questions/${id}`)
+    .then((questionItem) => {
+      setQuestion(questionItem.question);
+      setAnswer(questionItem.answer);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -120,10 +124,12 @@ export const deleteQuestionRequest = async (
   // Run the request
   return request(`/quizzes/${quizId}/questions/${id}`, {
     method: 'DELETE',
-  }).then(() => {
-    // Navigate to quiz questions page after deletion
-    navigate(`/quizzes/${quizId}/questions`);
-    window.location.reload();
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  })
+    .then(() => {
+      // Navigate to quiz questions page after deletion
+      navigate(`/quizzes/${quizId}/questions`);
+      window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };

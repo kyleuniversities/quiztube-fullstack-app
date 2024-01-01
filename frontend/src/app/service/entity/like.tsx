@@ -1,4 +1,5 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
+import { handleException } from '../../util/exception';
 import { isPassableId } from '../auth';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
@@ -41,10 +42,12 @@ export const likeQuizRequest = async (
   };
 
   // Run request
-  return request(`/quizzes/${quizId}/likes`, options).then(() => {
-    window.location.reload();
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${quizId}/likes`, options)
+    .then(() => {
+      window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -63,8 +66,8 @@ export const loadLikeRequest = async (
   }
 
   // Run request
-  return request(`/quizzes/${quizId}/likes/i-liked-this/${userId}`).then(
-    (res: any) => {
+  return request(`/quizzes/${quizId}/likes/i-liked-this/${userId}`)
+    .then((res: any) => {
       // Load the Null Like if the user did not like the post
       if (!res || res === null) {
         setLike(NULL_LIKE);
@@ -73,8 +76,8 @@ export const loadLikeRequest = async (
       // Load the Like if the user liked the post
       setLike(res);
       return PromiseHelper.newConservativeVoidPromise();
-    }
-  );
+    })
+    .catch(handleException);
 };
 
 /**
@@ -91,8 +94,10 @@ export const unlikeQuizRequest = async (
   };
 
   // Run request
-  return request(`/quizzes/${quizId}/likes/${like.id}`, options).then(() => {
-    window.location.reload();
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(`/quizzes/${quizId}/likes/${like.id}`, options)
+    .then(() => {
+      window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };

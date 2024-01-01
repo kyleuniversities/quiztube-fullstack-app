@@ -1,5 +1,5 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
-import { debugAlert } from '../debug';
+import { handleException } from '../../util/exception';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -46,13 +46,15 @@ export const addUserRequest = async (
   const requestUrl = `/users`;
 
   // Run the request
-  return request(requestUrl, options).then(() => {
-    // Navigate to the homepage if successful
-    alert(`The user '${username}' was successfully registered!`);
-    navigate('/');
-    window.location.reload();
-    return PromiseHelper.newConservativeVoidPromise();
-  });
+  return request(requestUrl, options)
+    .then(() => {
+      // Navigate to the homepage if successful
+      alert(`The user '${username}' was successfully registered!`);
+      //navigate('/');
+      window.location.reload();
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
 };
 
 /**
@@ -60,9 +62,11 @@ export const addUserRequest = async (
  * Loads a user
  */
 export const loadUserRequest = (id: string | undefined, setUser: any): void => {
-  request(`/users/${id}`).then((res: any) => {
-    setUser(res);
-  });
+  request(`/users/${id}`)
+    .then((res: any) => {
+      setUser(res);
+    })
+    .catch(handleException);
 };
 
 // Gets the default picture text for the user
