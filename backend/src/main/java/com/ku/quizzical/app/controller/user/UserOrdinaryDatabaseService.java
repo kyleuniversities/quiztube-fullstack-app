@@ -1,5 +1,7 @@
 package com.ku.quizzical.app.controller.user;
 
+import static org.mockito.Mockito.reset;
+
 import java.util.List;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,12 +14,15 @@ import com.ku.quizzical.common.helper.ListHelper;
 public class UserOrdinaryDatabaseService implements UserDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
+    private UserRepository repository;
     private final UserDtoRowMapper dtoRowMapper;
 
     // Constructor Method
-    public UserOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserDtoRowMapper dtoRowMapper) {
+    public UserOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserRepository repository,
+            UserDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.repository = repository;
         this.dtoRowMapper = dtoRowMapper;
     }
 
@@ -81,13 +86,8 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
 
     @Override
     public void deleteUser(String id) {
-        var sql = """
-                DELETE
-                FROM user
-                WHERE id = ?
-                """;
-        int result = this.jdbcTemplate.update(sql, id);
-        System.out.println("DELETE USER RESULT = " + result);
+        this.repository.deleteById(id);
+        System.out.println("DELETE USER RESULT = " + 1);
     }
 
     private void updateUserAttribute(UserUpdateRequest update, String attributeName,
@@ -95,8 +95,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE user SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE USER " + attributeName + " RESULT = " + result);
         });
     }

@@ -128,13 +128,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public void deleteQuiz(String id) {
-        var sql = """
-                DELETE
-                FROM quiz
-                WHERE id = ?
-                """;
-        int result = this.jdbcTemplate.update(sql, id);
-        System.out.println("DELETE QUIZ RESULT = " + result);
+        this.repository.deleteById(id);
+        System.out.println("DELETE QUIZ RESULT = " + 1);
     }
 
     private Predicate<Quiz> makeQuizSubjectFilter(String subjectId) {
@@ -150,8 +145,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE quiz SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
             System.out.println("UPDATE QUIZ " + attributeName + " RESULT = " + result);
         });
     }
