@@ -1,0 +1,3 @@
+${Q} is the ___ president.
+What ordinality on the list of Presidents is ${Q}?
+Ranking from earliest to latest in chronological order, what is the rank of ${Q}?

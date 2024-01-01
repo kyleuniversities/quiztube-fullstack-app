@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Model class for Quiz Questions+
+ * Model class for Quiz Questions
  */
 @Data
 @Builder
@@ -35,6 +35,11 @@ public final class Question {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id")
     public Quiz quiz;
+
+    // Accessor Methods
+    public String getUserId() {
+        return this.quiz.getUserId();
+    }
 
     // To String Method
     @Override

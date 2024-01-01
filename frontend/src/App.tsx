@@ -1,41 +1,53 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage } from './app/home/HomePage';
-import { AddQuestionPage } from './app/dataitem/question/AddQuestionPage';
-import { EditQuestionPage } from './app/dataitem/question/EditQuestionPage';
-import { RegistrationPage } from './app/entryform/RegistrationPage';
-import { AuthorizationContextManager } from './app/auth/AuthorizationContextManager';
-import { LoginPage } from './app/entryform/LoginPage';
-import { AddQuizPage } from './app/dataitem/quiz/AddQuizPage';
-import { EditQuizPage } from './app/dataitem/quiz/EditQuizPage';
-import { ViewQuizPage } from './app/dataitem/quiz/ViewQuizPage';
-import { TakeQuizPage } from './app/dataitem/quiz/TakeQuizPage';
-import { RequestPage } from './app/request/RequestPage';
+import { AppContextManager } from './app/component/context/AppContextManager';
+import { HomePage } from './app/component/home/HomePage';
+import { AddQuestionPage } from './app/component/dataitem/question/AddQuestionPage';
+import { EditQuestionPage } from './app/component/dataitem/question/EditQuestionPage';
+import { TakeQuizPage } from './app/component/dataitem/quiz/TakeQuizPage';
+import { ViewQuizPage } from './app/component/dataitem/quiz/ViewQuizPage';
+import { ViewQuizQuestionsPage } from './app/component/dataitem/question/ViewQuizQuestionsPage';
+import { AddQuizPage } from './app/component/dataitem/quiz/AddQuizPage';
+import { EditQuizPage } from './app/component/dataitem/quiz/EditQuizPage';
+import { ViewUserQuizzesPage } from './app/component/dataitem/quiz/ViewUserQuizzesPage';
+import { ViewUserAccountPage } from './app/component/dataitem/user/ViewUserAccountPage';
+import { RegistrationPage } from './app/component/entryform/RegistrationPage';
+import { LoginPage } from './app/component/entryform/LoginPage';
+import { RequestPage } from './app/component/request/RequestPage';
 
 function App() {
   return (
-    <AuthorizationContextManager>
+    <AppContextManager>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage />} />
           <Route
-            path="/questions/by/:quizId/add"
+            path="/quizzes/:quizId/questions/add"
             element={<AddQuestionPage />}
           />
           <Route
-            path="/questions/by/:quizId/edit/:id"
+            path="/quizzes/:quizId/questions/edit/:id"
             element={<EditQuestionPage />}
           />
-          <Route path="/questions/by/:quizId/take" element={<TakeQuizPage />} />
+          <Route
+            path="/quizzes/:quizId/questions/take"
+            element={<TakeQuizPage />}
+          />
           <Route path="/quizzes/:id" element={<ViewQuizPage />} />
+          <Route
+            path="/quizzes/:id/questions"
+            element={<ViewQuizQuestionsPage />}
+          />
           <Route path="/quizzes/add" element={<AddQuizPage />} />
           <Route path="/quizzes/edit/:id" element={<EditQuizPage />} />
+          <Route path="/users/:id/quizzes" element={<ViewUserQuizzesPage />} />
+          <Route path="/users/:id" element={<ViewUserAccountPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/request" element={<RequestPage />} />
         </Routes>
       </BrowserRouter>
-    </AuthorizationContextManager>
+    </AppContextManager>
   );
 }
 

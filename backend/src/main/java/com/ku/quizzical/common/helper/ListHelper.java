@@ -3,6 +3,7 @@ package com.ku.quizzical.common.helper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -10,6 +11,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Helper class for List Operations
@@ -91,10 +93,44 @@ public final class ListHelper {
     }
 
     /**
+     * Gets an element if it exists on the list
+     */
+    public static <T> T getApparentValue(List<T> list, int index) {
+        return ConditionalHelper.newTernaryOperation(index < list.size(), () -> list.get(index),
+                () -> null);
+    }
+
+    /**
+     * Gets a random element from the list
+     */
+    public static <T> T getRandomValue(List<T> list) {
+        return ListHelper.get(list, RandomHelper.nextInt(list.size()));
+    }
+
+    /**
      * Gets an element from the perspective of index backwards from the last index
      */
     public static <T> T getWithReverseIndex(List<T> list, int reverseIndex) {
         return list.get(list.size() - 1 - reverseIndex);
+    }
+
+    /**
+     * Returns the first found index of a query
+     */
+    public static <T> int indexOf(List<T> list, Predicate<T> query) {
+        return ListHelper.indexOf(list, (Integer i, T item) -> query.test(item));
+    }
+
+    /**
+     * Returns the first found index of a query
+     */
+    public static <T> int indexOf(List<T> list, BiPredicate<Integer, T> query) {
+        for (int i = 0; i < list.size(); i++) {
+            if (query.test(i, list.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -149,6 +185,15 @@ public final class ListHelper {
     }
 
     /**
+     * Creates a new ArrayList
+     */
+    public static ArrayList<Integer> newIndexList(int size) {
+        ArrayList<Integer> indexList = ListHelper.newArrayList();
+        IterationHelper.forEach(size, (Integer i) -> indexList.add(i));
+        return indexList;
+    }
+
+    /**
      * Creates a new Linked List
      */
     public static <T> LinkedList<T> newLinkedList() {
@@ -170,10 +215,69 @@ public final class ListHelper {
     }
 
     /**
+     * Sets an element on a list
+     */
+    public static <T> void set(List<T> list, int index, T item) {
+        list.set(index, item);
+    }
+
+    /**
+     * Shuffles elements in a List
+     */
+    public static <T> void shuffle(List<T> list) {
+        int size = list.size();
+        int startIndex = RandomHelper.nextInt(size);
+        IterationHelper.forEach(size, (Integer i) -> {
+            int index1 = (startIndex + i) % size;
+            int index2 = RandomHelper.nextInt(size);
+            ListHelper.swap(list, index1, index2);
+        });
+    }
+
+    /**
      * Sorts elements in a List
      */
     public static <T extends Comparable<? super T>> void sort(List<T> list) {
         Collections.sort(list);
+    }
+
+    /**
+     * Sorts elements in a List
+     */
+    public static <T> void sort(List<T> list, Comparator<T> comparator) {
+        Collections.sort(list, comparator);
+    }
+
+    /**
+     * Returns a stream from a List
+     */
+    public static <T> Stream<T> stream(List<T> list) {
+        return list.stream();
+    }
+
+    /**
+     * Creates a sublist of a list
+     */
+    public static <T> List<T> subList(List<T> list, int startIndex, int upToIndex) {
+        return ListHelper.clone(list.subList(startIndex, upToIndex));
+    }
+
+    /**
+     * Swaps two elements in a List
+     */
+    public static <T> void swap(List<T> list, int index1, int index2) {
+        T temp = list.get(index1);
+        list.set(index1, list.get(index2));
+        list.set(index2, temp);
+    }
+
+    /**
+     * Converts an iterable into an List
+     */
+    public static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> list = ListHelper.newArrayList();
+        IterableHelper.forEach(iterable, (T item) -> list.add(item));
+        return list;
     }
 
     /**

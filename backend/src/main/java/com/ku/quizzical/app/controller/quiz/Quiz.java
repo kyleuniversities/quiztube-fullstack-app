@@ -1,7 +1,10 @@
 package com.ku.quizzical.app.controller.quiz;
 
 import java.util.List;
+import com.ku.quizzical.app.controller.comment.Comment;
+import com.ku.quizzical.app.controller.like.Like;
 import com.ku.quizzical.app.controller.question.Question;
+import com.ku.quizzical.app.controller.subject.Subject;
 import com.ku.quizzical.app.controller.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,12 +35,33 @@ public final class Quiz {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "picture", nullable = false)
+    private String picture;
+
+    @Column(name = "thumbnail", nullable = false)
+    private String thumbnail;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     public User user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subject_id")
+    public Subject subject;
+
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
     private List<Question> questions;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
+
+    // Accessor Methods
+    public String getUserId() {
+        return this.user.getId();
+    }
 
     // To String Method
     @Override

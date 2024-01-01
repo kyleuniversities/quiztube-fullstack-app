@@ -1,15 +1,11 @@
 package com.ku.quizzical.app.config;
 
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,7 +23,7 @@ public class WebSecurityFilterChainConfiguration {
 
     public WebSecurityFilterChainConfiguration(AuthenticationProvider authenticationProvider,
             JwtAuthenticationFilter jwtAuthenticationFilter,
-            @Qualifier("delegatedAuthenticationEntryPoint") AuthenticationEntryPoint authenticationEntryPoint) {
+            @Qualifier("delegatedAuthEntryPoint") AuthenticationEntryPoint authenticationEntryPoint) {
         super();
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -37,9 +33,17 @@ public class WebSecurityFilterChainConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors(Customizer.withDefaults()).authorizeHttpRequests()
-                /* .requestMatchers(HttpMethod.POST, "/*") */.anyRequest().permitAll().and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authenticationProvider(this.authenticationProvider)
+                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/file/image/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/likes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/quizzes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/subjects/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/test").permitAll()
+                .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/**").permitAll().anyRequest().authenticated()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authenticationProvider(this.authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);

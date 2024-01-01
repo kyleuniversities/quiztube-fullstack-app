@@ -3,9 +3,14 @@ package com.ku.quizzical.common.helper.file;
 import java.io.File;
 import java.util.List;
 import com.ku.quizzical.common.helper.ConditionalHelper;
+import com.ku.quizzical.common.helper.IterationHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.number.IntegerHelper;
+import com.ku.quizzical.common.helper.string.StringDeleterHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.helper.string.StringReplacementHelper;
+import com.ku.quizzical.common.util.wrapper.IntegerWrapper;
+import com.ku.quizzical.common.util.wrapper.StringWrapper;
 
 /**
  * Helper class for File Path Operations
@@ -15,10 +20,47 @@ public class FilePathHelper {
     private static final List<String> TEXT_EXTENSION_LIST = FilePathHelper.makeTextExtensionList();
 
     /**
+     * Concatenates a parent folder path and a relativePath
+     */
+    public static String concatenatePaths(String parentFolderPath, String relativePath) {
+        boolean willUseConcatenatingSlash = !parentFolderPath.isEmpty() && !relativePath.isEmpty();
+        String concatenatingText =
+                ConditionalHelper.ifReturnElse(willUseConcatenatingSlash, "/", "");
+        return parentFolderPath + concatenatingText + relativePath;
+    }
+
+    /**
      * Gets the absolute path of a file
      */
     public static String getAbsolutePath(File file) {
         return file.getAbsolutePath();
+    }
+
+    /**
+     * Gets the relative down folder path in relation to a root folder path to a destination path
+     */
+    public static String getDownFolderPath(String rootFolderPath, String destinationPath) {
+        if (rootFolderPath.isEmpty()) {
+            return destinationPath;
+        }
+        if (rootFolderPath.equals(destinationPath)) {
+            return "";
+        }
+        return destinationPath.substring(rootFolderPath.length() + 1);
+    }
+
+    /**
+     * Gets the parent folder path in relation to a file path
+     */
+    public static String getDeepestCommonPath(String path1, String path2) {
+        String slashedPath1 = FilePathHelper.toSlashedPath(path1);
+        String slashedPath2 = FilePathHelper.toSlashedPath(path2);
+        StringWrapper commonPath = StringWrapper.newInstance(slashedPath1);
+        ConditionalHelper.whileLoop(() -> !slashedPath2.startsWith(commonPath.getValue()), () -> {
+            commonPath.setValue(FilePathHelper.getParentFolderPath(commonPath.getValue()));
+
+        });
+        return commonPath.getValue();
     }
 
     /**
@@ -58,16 +100,17 @@ public class FilePathHelper {
      * Gets the parent folder path in relation to a file path
      */
     public static String getParentFolderPath(String path) {
-        return FilePathHelper.getParentFolderPath(FileHelper.newFile(path));
+        String slashedPath = FilePathHelper.toSlashedPath(path);
+        int lastSlashIndex = StringHelper.lastIndexOf(slashedPath, '/');
+        return ConditionalHelper.newTernaryOperation(lastSlashIndex > -1,
+                () -> StringHelper.substring(slashedPath, 0, lastSlashIndex), () -> "");
     }
 
     /**
      * Gets the parent folder path in relation to a file path
      */
     public static String getParentFolderPath(File file) {
-        String slashedPath = FilePathHelper.toSlashedPath(file.getAbsolutePath());
-        int lastSlashIndex = StringHelper.lastIndexOf(slashedPath, '/');
-        return StringHelper.substring(slashedPath, 0, lastSlashIndex);
+        return FilePathHelper.getParentFolderPath(file.getAbsolutePath());
     }
 
     /**
@@ -85,14 +128,43 @@ public class FilePathHelper {
     }
 
     /**
-     * Gets the relative path in relation to a root path
+     * Gets the relative path in relation to a source path. The source path does not have to be a
+     * parent folder of the path
      */
-    public static String getRelativePath(String rootFolderPath, String path) {
+    public static String getRelativePath(String sourcePath, String destinationPath) {
+        String slashedSourcePath = FilePathHelper.toSlashedPath(sourcePath);
+        String slashedDestinationPath = FilePathHelper.toSlashedPath(destinationPath);
+        String commonSlashedPath =
+                FilePathHelper.getDeepestCommonPath(slashedSourcePath, slashedDestinationPath);
+        String upFolderPath = FilePathHelper.getUpFolderPath(slashedSourcePath, commonSlashedPath);
+        String downFolderPath =
+                FilePathHelper.getDownFolderPath(commonSlashedPath, slashedDestinationPath);
+        return FilePathHelper.concatenatePaths(upFolderPath, downFolderPath);
+    }
+
+    /**
+     * Gets the relative up folder path in relation to a source path to a root folder path. The
+     * source path is treated as a file. So "nouns/food/fruit/apple" would only have ".." to
+     * "nouns/food", even if apple is a folder
+     */
+    public static String getUpFolderPath(String sourcePath, String rootFolderPath) {
+        StringBuilder upFolderPath = StringHelper.newBuilder();
+        String slashedSourcePath = FilePathHelper.toSlashedPath(sourcePath);
         String slashedRootFolderPath = FilePathHelper.toSlashedPath(rootFolderPath);
-        String slashedPath = FilePathHelper.toSlashedPath(path);
-        return ConditionalHelper.newTernaryOperation(slashedRootFolderPath.equals(slashedPath),
-                () -> "",
-                () -> StringHelper.substring(slashedPath, slashedRootFolderPath.length() + 1));
+        if (slashedSourcePath.equals(slashedRootFolderPath)) {
+            return "";
+        }
+        int sourceNumberOfSlashes = StringHelper.numberOfInstancesWithin(slashedSourcePath, "/");
+        int rootFolderNumberOfSlashes =
+                StringHelper.numberOfInstancesWithin(slashedRootFolderPath, "/");
+        int slashIndexShift = ConditionalHelper.ifReturnElse(rootFolderPath.isEmpty(), 0, 1);
+        IterationHelper.forEach(
+                IntegerHelper.max(
+                        sourceNumberOfSlashes - rootFolderNumberOfSlashes - slashIndexShift, 0),
+                () -> upFolderPath.append("../"));
+        ConditionalHelper.ifThen(upFolderPath.length() > 0,
+                () -> StringDeleterHelper.deleteLastCharacters(upFolderPath, 1));
+        return upFolderPath.toString();
     }
 
     /**

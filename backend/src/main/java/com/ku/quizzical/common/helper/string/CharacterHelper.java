@@ -7,12 +7,12 @@ import com.ku.quizzical.common.helper.MapHelper;
  * Helper class for Character Operations
  */
 public class CharacterHelper {
-    private static final Map<Character, Character> PARENTHESES_CHARACTER_MAP =
-            CharacterHelper.makeParentheseCharacterMap();
-
+    private static final Map<Character, Character> PARENTHESES_CHARACTER_MAP = CharacterHelper
+            .makeParentheseCharacterMap();
 
     /**
-     * Gets corresponding closing parentheses character to opening parentheses character
+     * Gets corresponding closing parentheses character to opening parentheses
+     * character
      */
     public static char getClosingParenthesesCharacter(char openingParenthesesCharacter) {
         return CharacterHelper.PARENTHESES_CHARACTER_MAP.get(openingParenthesesCharacter);
@@ -26,6 +26,13 @@ public class CharacterHelper {
     }
 
     /**
+     * Checks if a character is alphanumeric
+     */
+    public static boolean isAlphanumeric(char ch) {
+        return CharacterHelper.isAlphabetical(ch) || ch >= '0' && ch <= '9';
+    }
+
+    /**
      * Checks if a character is white space
      */
     public static boolean isWhiteSpace(char ch) {
@@ -33,7 +40,8 @@ public class CharacterHelper {
     }
 
     /**
-     * Makes a map mapping opening parentheses characters to closing parentheses characters
+     * Makes a map mapping opening parentheses characters to closing parentheses
+     * characters
      */
     private static Map<Character, Character> makeParentheseCharacterMap() {
         Map<Character, Character> parentheseCharacterMap = MapHelper.newLinkedHashMap();

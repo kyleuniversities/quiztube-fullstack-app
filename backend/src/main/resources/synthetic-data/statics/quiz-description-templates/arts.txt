@@ -1,0 +1,4 @@
+This is ${U}'s Art quiz
+This is ${U}'s test of Art knowledge
+Presenting the painting quiz by ${U}
+In ${U}'s quiz, you shall identify that painting.

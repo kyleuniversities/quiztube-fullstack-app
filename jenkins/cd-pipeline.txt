@@ -1,0 +1,68 @@
+// The following is the current pipeline for the Jenkins Continuous Deployment of the QuizTube app.
+
+// ```
+pipeline {
+    agent any
+    stages {
+        stage("Checking Out Git") {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/app/deployment']],
+                doGenerateSubmoduleConfigurations: false, extensions: [],
+                submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', 
+                url: 'https://github.com/kyleuniversities/quizzical-fullstack-app']]])
+            }
+        }
+        stage("Build Backend App") {
+            steps {
+                sh '''
+                cd ./backend
+                export MAVEN_HOME=/opt/maven
+                export PATH=$MAVEN_HOME/bin:$PATH
+                mvn clean install
+                '''
+            }
+        }
+        stage("Build Frontend Docker Image") {
+            steps {
+                sh '''
+                cd ./frontend
+                cp -r /srv/certificates ./certificates
+                echo $DOCKER_JENKINS_PASSWORD | docker login --username kyleuniversities --password-stdin
+                docker build . -t kyleuniversities/quiztube-frontend-app:$BUILD_NUMBER --progress=plain --no-cache
+                docker push kyleuniversities/quiztube-frontend-app:$BUILD_NUMBER
+                '''
+            }
+        }
+        stage("Build Backend Docker Image") {
+            steps {
+                sh '''
+                cd ./backend
+                echo $DOCKER_JENKINS_PASSWORD | docker login --username kyleuniversities --password-stdin
+                docker build . -t kyleuniversities/quiztube-backend-app:$BUILD_NUMBER --progress=plain --no-cache
+                docker push kyleuniversities/quiztube-backend-app:$BUILD_NUMBER
+                '''
+            }
+        }
+        stage("Deploy Kubernetes") {
+            steps {
+                sh '''
+                cp -r /srv/.aws ~/.aws
+                sed -i -e "s/latest/${BUILD_NUMBER}/g" ./kubernetes/frontend.yaml
+                cat ./kubernetes/frontend.yaml
+                sed -i -e "s/latest/${BUILD_NUMBER}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_FULL_HOST/${QUIZTUBE_DATABASE_FULL_HOST}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_USERNAME/${QUIZTUBE_DATABASE_USERNAME}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_PASSWORD/${QUIZTUBE_DATABASE_PASSWORD}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_AWS_BUCKET_PATH/${QUIZTUBE_AWS_BUCKET_PATH}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_DEV_TOOLS_PROJECT_PATH/${DEV_TOOLS_PROJECT_PATH}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_AWS_ACCESS_KEY_ID/${AWS_ACCESS_KEY_ID}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_AWS_SECRET_ACCESS_KEY/${AWS_SECRET_ACCESS_KEY}/g" ./kubernetes/backend.yaml
+                cat ./kubernetes/backend.yaml
+                aws eks update-kubeconfig --region us-west-1 --name quiztube-cluster
+                kubectl apply -f kubernetes
+                '''
+            }
+        }
+    }
+}
+// ```

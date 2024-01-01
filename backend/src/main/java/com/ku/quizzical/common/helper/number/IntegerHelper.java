@@ -36,6 +36,20 @@ public final class IntegerHelper {
     }
 
     /**
+     * Returns the max of two numbers
+     */
+    public static int max(int a, int b) {
+        return a > b ? a : b;
+    }
+
+    /**
+     * Returns the min of two numbers
+     */
+    public static int min(int a, int b) {
+        return a < b ? a : b;
+    }
+
+    /**
      * Private Constructor to prevent instantiation
      */
     private IntegerHelper() {

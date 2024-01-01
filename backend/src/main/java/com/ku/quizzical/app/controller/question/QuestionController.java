@@ -10,70 +10,86 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import com.ku.quizzical.app.controller.question.Question;
-import com.ku.quizzical.app.controller.question.QuestionServiceImpl;
+import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.controller.user.User;
+import com.ku.quizzical.app.controller.quiz.QuizRepository;
+import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
+import com.ku.quizzical.app.helper.BackendValidationHelper;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/questions")
 public final class QuestionController {
     // Instance Fields
-    private QuestionServiceImpl service;
+    private QuestionDatabaseService service;
+    private QuizRepository quizRepository;
+    private QuestionRepository repository;
 
     // Constructor Method
-    public QuestionController(QuestionServiceImpl service) {
+    public QuestionController(QuestionDatabaseService service, QuizRepository quizRepository,
+            QuestionRepository repository) {
         super();
         this.service = service;
+        this.quizRepository = quizRepository;
+        this.repository = repository;
     }
 
     // CREATE Method
     // Saves a Question
-    @PostMapping()
-    public ResponseEntity<QuestionDto> saveQuestion(@RequestBody QuestionDto question) {
-        return new ResponseEntity<QuestionDto>(this.service.saveQuestion(question), HttpStatus.OK);
+    @PostMapping("/quizzes/{quizId}/questions")
+    public ResponseEntity<QuestionDto> saveQuestion(@PathVariable String quizId,
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody QuestionDto question) {
+        Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough(
+                "Question Quiz", question.quizId(), this.quizRepository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingQuiz.getUserId());
+        return new ResponseEntity<QuestionDto>(this.service.saveQuestion(quizId, question),
+                HttpStatus.OK);
     }
 
     // READ Method
-    // Gets all Questions
-    @GetMapping()
-    public List<QuestionDto> getAllQuestions() {
-        return this.service.getAllQuestions();
-    }
-
-    // READ Method
-    // Gets all Questions by Quiz Id
-    @GetMapping("/by/{quizId}")
+    // Gets all Questions for a Quiz
+    @GetMapping("/quizzes/{quizId}/questions")
     public List<QuestionDto> getAllQuestionsByQuizId(@PathVariable String quizId) {
         return this.service.getAllQuestionsByQuizId(quizId);
     }
 
     // READ Method
     // Gets a Question by its id
-    @GetMapping("{id}")
-    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable String id) {
-        return new ResponseEntity<QuestionDto>(this.service.getQuestionById(id), HttpStatus.OK);
+    @GetMapping("/quizzes/{quizId}/questions/{id}")
+    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable("quizId") String quizId,
+            @PathVariable("id") String id) {
+        return new ResponseEntity<QuestionDto>(this.service.getQuestion(quizId, id), HttpStatus.OK);
     }
 
     // UPDATE Method
     // Updates a Question
-    @PatchMapping("{id}")
-    public ResponseEntity<QuestionDto> updateQuestion(@PathVariable String id,
-            @RequestBody QuestionDto question) {
-        return new ResponseEntity<QuestionDto>(this.service.updateQuestion(question, id),
+    @PatchMapping("/quizzes/{quizId}/questions/{id}")
+    public ResponseEntity<QuestionDto> updateQuestion(@PathVariable("quizId") String quizId,
+            @PathVariable("id") String id,
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody QuestionUpdateRequest question) {
+        Question matchingQuestion = BackendValidationHelper
+                .validateExistingResourceWithFallthrough("Question", id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingQuestion.getUserId());
+        return new ResponseEntity<QuestionDto>(this.service.updateQuestion(quizId, id, question),
                 HttpStatus.OK);
     }
 
     // DELETE Method
     // Deletes a Question
-    @DeleteMapping("{id}")
-    public String deleteQuestion(@PathVariable String id) {
-        try {
-            this.service.deleteQuestion(id);
-        } catch (Exception e) {
-            // Do Nothing
-        }
+    @DeleteMapping("/quizzes/{quizId}/questions/{id}")
+    public String deleteQuestion(@PathVariable("quizId") String quizId,
+            @PathVariable("id") String id,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Question matchingQuestion = BackendValidationHelper
+                .validateExistingResourceWithFallthrough("Question", id, this.repository::findById);
+        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
+                matchingQuestion.getUserId());
+        this.service.deleteQuestion(quizId, id);
         return "\"The Question with id \\\"" + id + "\\\" has been deleted.\"";
     }
 }

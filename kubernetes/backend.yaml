@@ -30,8 +30,16 @@ spec:
           image: kyleuniversities/quiztube-backend-app:latest
           env:
             - name: QUIZTUBE_DATABASE_FULL_HOST
-              value: quizzical-database.c6dx3fotc2zo.us-west-1.rds.amazonaws.com:3306
-            - name: TEST_KEY_1
-              value: test-value-1
-            - name: TEST_KEY_2
-              value: test-value-2
+              value: _QUIZTUBE_DATABASE_FULL_HOST
+            - name: QUIZTUBE_DATABASE_USERNAME
+              value: _QUIZTUBE_DATABASE_USERNAME
+            - name: QUIZTUBE_DATABASE_PASSWORD
+              value: _QUIZTUBE_DATABASE_PASSWORD
+            - name: QUIZTUBE_AWS_BUCKET_PATH
+              value: _QUIZTUBE_AWS_BUCKET_PATH
+            - name: DEV_TOOLS_PROJECT_PATH
+              value: _DEV_TOOLS_PROJECT_PATH
+            - name: AWS_ACCESS_KEY_ID
+              value: _AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              value: _AWS_SECRET_ACCESS_KEY

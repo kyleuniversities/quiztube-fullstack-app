@@ -11,6 +11,11 @@ public final class TestController {
 
     @GetMapping("/test")
     public String test() {
-        return "\"" + Instant.now().toString() + "\"";
+        return "\"Time General >> " + Instant.now().toString() + "\"";
+    }
+
+    @GetMapping("/test/users-only")
+    public String testUsersOnly() {
+        return "\"Time Users Only >> " + Instant.now().toString() + "\"";
     }
 }
