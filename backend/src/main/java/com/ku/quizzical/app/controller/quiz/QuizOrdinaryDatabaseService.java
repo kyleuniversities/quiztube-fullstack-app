@@ -164,7 +164,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Validation Minor Methods
     private void validateTitle(String text) {
         TextValidationHelper.validateNonNull("Title", text);
-        TextValidationHelper.validateLength("Title", text, 1, 32);
+        TextValidationHelper.validateLength("Title", text, 1, 64);
     }
 
     private void validateDescription(String text) {
