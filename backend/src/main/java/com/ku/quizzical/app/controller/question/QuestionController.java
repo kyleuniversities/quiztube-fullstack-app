@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.controller.quiz.Quiz;
 import com.ku.quizzical.app.controller.quiz.QuizRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
-import com.ku.quizzical.app.helper.BackendValidationHelper;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 
 @CrossOrigin
 @RestController
@@ -40,8 +40,9 @@ public final class QuestionController {
         public ResponseEntity<QuestionDto> saveQuestion(@PathVariable String quizId,
                         @RequestHeader("Authorization") String authorizationHeader,
                         @RequestBody QuestionDto question) {
-                Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough(
-                                "Question Quiz", question.quizId(), this.quizRepository::findById);
+                Quiz matchingQuiz = DatabaseValidationHelper
+                                .validateExistingResourceWithFallthrough("Question Quiz",
+                                                question.quizId(), this.quizRepository::findById);
                 AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                                 matchingQuiz.getUserId());
                 return new ResponseEntity<QuestionDto>(this.service.saveQuestion(quizId, question),
@@ -72,7 +73,7 @@ public final class QuestionController {
                         @RequestHeader("Authorization") String authorizationHeader,
                         @RequestBody QuestionUpdateRequest question) {
                 Question matchingQuestion =
-                                BackendValidationHelper.validateExistingResourceWithFallthrough(
+                                DatabaseValidationHelper.validateExistingResourceWithFallthrough(
                                                 "Question", id, this.repository::findById);
                 AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                                 matchingQuestion.getUserId());
@@ -87,7 +88,7 @@ public final class QuestionController {
                         @PathVariable("id") String id,
                         @RequestHeader("Authorization") String authorizationHeader) {
                 Question matchingQuestion =
-                                BackendValidationHelper.validateExistingResourceWithFallthrough(
+                                DatabaseValidationHelper.validateExistingResourceWithFallthrough(
                                                 "Question", id, this.repository::findById);
                 AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                                 matchingQuestion.getUserId());

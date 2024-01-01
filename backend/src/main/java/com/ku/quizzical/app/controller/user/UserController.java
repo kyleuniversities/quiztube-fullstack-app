@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
-import com.ku.quizzical.app.helper.BackendValidationHelper;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 
 @CrossOrigin
 @RestController
@@ -63,7 +63,7 @@ public final class UserController {
     public ResponseEntity<UserDto> updateUser(@PathVariable String id,
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody UserUpdateRequest user) {
-        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough("User",
+        User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough("User",
                 id, this.repository::findById);
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingUser.getId());
@@ -75,7 +75,7 @@ public final class UserController {
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable String id,
             @RequestHeader("Authorization") String authorizationHeader) {
-        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough("User",
+        User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough("User",
                 id, this.repository::findById);
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingUser.getId());

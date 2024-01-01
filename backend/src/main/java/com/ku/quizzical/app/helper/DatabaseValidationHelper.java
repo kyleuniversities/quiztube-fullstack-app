@@ -9,14 +9,14 @@ import com.ku.quizzical.common.helper.string.StringHelper;
 /**
  * Helper class for Backend Validation Exception Operations
  */
-public class BackendValidationHelper {
+public class DatabaseValidationHelper {
     /**
      * Validate if a resource is exists
      */
     public static <T> T validateExistingResourceWithFallthrough(String attributeName,
             String queryToken, Function<String, Optional<T>> existingResourceCollector) {
         try {
-            return BackendValidationHelper.validateExistingResourceWithFallthrough(attributeName,
+            return DatabaseValidationHelper.validateExistingResourceWithFallthrough(attributeName,
                     existingResourceCollector.apply(queryToken)).get();
         } catch (Exception exception) {
             ApiExceptionHelper.throwResourceNotFoundException(
@@ -51,7 +51,7 @@ public class BackendValidationHelper {
      */
     public static <T> void validateUniqueTextResource(String attributeName, String text,
             Function<String, T> existingResourceCollector) {
-        BackendValidationHelper.validateUniqueResource(attributeName,
+        DatabaseValidationHelper.validateUniqueResource(attributeName,
                 () -> existingResourceCollector.apply(text));
     }
 
@@ -61,14 +61,14 @@ public class BackendValidationHelper {
     public static <T> void validateUniqueTextResourceIfExists(String attributeName,
             Supplier<String> textSupplier, Function<String, T> existingResourceCollector) {
         String text = textSupplier.get();
-        ConditionalHelper.ifThen(text != null, () -> BackendValidationHelper
+        ConditionalHelper.ifThen(text != null, () -> DatabaseValidationHelper
                 .validateUniqueTextResource(attributeName, text, existingResourceCollector));
     }
 
     /**
      * Private Constructor to prevent instantiation
      */
-    private BackendValidationHelper() {
+    private DatabaseValidationHelper() {
         super();
     }
 }
