@@ -1,12 +1,13 @@
 package com.ku.quizzical.app.controller.user;
 
-import static org.mockito.Mockito.reset;
-
 import java.util.List;
 import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.ku.quizzical.app.exception.RequestValidationException;
+import com.ku.quizzical.app.exception.ResourceNotFoundException;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
@@ -37,6 +38,9 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 """;
         String id = IdHelper.nextMockId();
         String encryptedPassword = new BCryptPasswordEncoder().encode(registrationRequest.password());
+        if (registrationRequest.username().length() < 4) {
+            throw new ResourceNotFoundException("Username must be at least 4 characters");
+        }
         int result = this.jdbcTemplate.update(sql, id,
                 registrationRequest.username(), registrationRequest.email(),
                 encryptedPassword, registrationRequest.picture(),
