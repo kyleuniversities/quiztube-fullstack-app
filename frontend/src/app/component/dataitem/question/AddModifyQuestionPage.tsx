@@ -3,13 +3,13 @@ import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { useNavigate } from 'react-router';
-import '../../index.css';
 import {
   addModifyQuestionRequest,
   loadQuizQuestionRequest,
 } from '../../../service/entity/question';
 import { useAppContext } from '../../context/AppContextManager';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
+import './index.css';
 
 /**
  * Page for adding or modifying a Question

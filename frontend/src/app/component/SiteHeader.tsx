@@ -11,9 +11,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { collectThumbnailPath } from '../service/file';
-import './index.css';
 import { loadUserRequest } from '../service/entity/user';
 import { isPassableId, logoutAction } from '../service/auth';
+import './index.css';
 
 // A placeholder user to avoid reading errors
 const DEFAULT_USER: any = {

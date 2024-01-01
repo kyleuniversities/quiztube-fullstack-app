@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
-import com.ku.quizzical.app.helper.BackendValidationHelper;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 
 @CrossOrigin
 @RestController
@@ -39,7 +39,7 @@ public final class QuizController {
     @PostMapping("/quizzes")
     public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizDto quiz,
             @RequestHeader("Authorization") String authorizationHeader) {
-        User matchingUser = BackendValidationHelper.validateExistingResourceWithFallthrough(
+        User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough(
                 "Quiz User", quiz.userId(), this.userRepository::findById);
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingUser.getId());
@@ -84,7 +84,7 @@ public final class QuizController {
     public ResponseEntity<QuizDto> updateQuiz(@PathVariable String id,
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody QuizUpdateRequest quiz) {
-        Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough("Quiz",
+        Quiz matchingQuiz = DatabaseValidationHelper.validateExistingResourceWithFallthrough("Quiz",
                 id, this.repository::findById);
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingQuiz.getUserId());
@@ -96,7 +96,7 @@ public final class QuizController {
     @DeleteMapping("/quizzes/{id}")
     public String deleteQuiz(@PathVariable String id,
             @RequestHeader("Authorization") String authorizationHeader) {
-        Quiz matchingQuiz = BackendValidationHelper.validateExistingResourceWithFallthrough("Quiz",
+        Quiz matchingQuiz = DatabaseValidationHelper.validateExistingResourceWithFallthrough("Quiz",
                 id, this.repository::findById);
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingQuiz.getUserId());

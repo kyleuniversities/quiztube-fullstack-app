@@ -5,7 +5,7 @@ import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.ku.quizzical.app.helper.BackendValidationHelper;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
@@ -100,9 +100,9 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
         TextValidationHelper.validateIfExists(update::username, this::validateUsername);
         TextValidationHelper.validateIfExists(update::email, this::validateEmail);
         TextValidationHelper.validateIfExists(update::password, this::validatePassword);
-        BackendValidationHelper.validateUniqueTextResourceIfExists("Username", update::username,
+        DatabaseValidationHelper.validateUniqueTextResourceIfExists("Username", update::username,
                 this::getUserByUsername);
-        BackendValidationHelper.validateUniqueTextResourceIfExists("Email", update::email,
+        DatabaseValidationHelper.validateUniqueTextResourceIfExists("Email", update::email,
                 this::getUserByEmail);
         return this.getUser(id);
     }
@@ -139,13 +139,13 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
         TextValidationHelper.validateLength(TAG, text, 3, 30);
         TextValidationHelper.validateToBeAlphanumeric(TAG, text);
         TextValidationHelper.validateFirstCharacterToBeAlphabetical(TAG, text);
-        BackendValidationHelper.validateUniqueTextResource(TAG, text, this::getUserByUsername);
+        DatabaseValidationHelper.validateUniqueTextResource(TAG, text, this::getUserByUsername);
     }
 
     private void validateEmail(String text) {
         TextValidationHelper.validateNonNull("Email", text);
         TextValidationHelper.validateEmail(text);
-        BackendValidationHelper.validateUniqueTextResource("Email", text, this::getUserByEmail);
+        DatabaseValidationHelper.validateUniqueTextResource("Email", text, this::getUserByEmail);
     }
 
     private void validatePassword(String text) {

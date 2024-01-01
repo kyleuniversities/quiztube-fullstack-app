@@ -36,22 +36,29 @@ export const AddModifyQuizPage = (props: {
   // Set up navigation
   const navigate = useNavigate();
 
-  // Load subjects and quiz
+  // Redirect if unauthorized
   useEffect(() => {
     redirectFromUnauthorizedQuizActionRequest(userContext, props.id, navigate);
-    loadSubjectsAsOptionsRequest(setSubjectOptions).then(() => {
-      if (isEditing) {
-        loadQuizAsPartsRequest(
-          props.id,
-          subjectOptions,
-          setTitle,
-          setDescription,
-          setSubjectText,
-          setSubjectId
-        );
-      }
-    });
-  }, [navigate, subjectOptions, userContext, isEditing, props.id]);
+  }, [navigate, userContext, props.id]);
+
+  // Load subject options
+  useEffect(() => {
+    loadSubjectsAsOptionsRequest(setSubjectOptions);
+  }, []);
+
+  // Load quiz for editing
+  useEffect(() => {
+    if (isEditing) {
+      loadQuizAsPartsRequest(
+        props.id,
+        subjectOptions,
+        setTitle,
+        setDescription,
+        setSubjectText,
+        setSubjectId
+      );
+    }
+  }, [isEditing, props.id, subjectOptions]);
 
   // Return component
   return (
@@ -126,9 +133,6 @@ const selectSubject = (
     subjectOptions,
     (subjectOption: any) => subjectOption.id === subjectId
   );
-  //alert('ARR: ' + JSON.stringify(subjectOptions));
-  //alert('TGT: ' + JSON.stringify(setSubjectId));
-  //alert('QUE: ' + JSON.stringify(subject));
   setSubjectId(subjectId);
   setSubjectText(subject.text);
 };

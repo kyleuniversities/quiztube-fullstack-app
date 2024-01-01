@@ -10,11 +10,11 @@ import {
   deleteQuestionRequest,
   loadQuizQuestionsRequest,
 } from '../../../service/entity/question';
-import '../index.css';
 import {
   NULL_QUIZ,
   loadQuizAsWholeRequest,
 } from '../../../service/entity/quiz';
+import './index.css';
 
 export const ViewQuizQuestionsPage = (): JSX.Element => {
   // Set up parameter data
@@ -68,7 +68,7 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
  */
 const QuestionsListColumnContainer = (props: { children: ReactNode }) => {
   return (
-    <Container className="questionsMenuListColumnContainer" fluid>
+    <Container className="dataItemsListColumnContainer" fluid>
       {props.children}
     </Container>
   );
@@ -87,7 +87,7 @@ const QuestionsListColumn = (props: { quiz: any; questions: any[] }) => {
 
   // Return component
   return (
-    <List size="huge" relaxed className="questionsListColumn">
+    <List size="huge" relaxed className="dataItemsListColumn">
       {props.questions.length === 0 ? (
         <p>This quiz has no questions.</p>
       ) : (

@@ -41,9 +41,10 @@ public class WebSecurityFilterChainConfiguration {
                 .requestMatchers(HttpMethod.GET, "/subjects/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/test").permitAll()
                 .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users/**").permitAll().anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authenticationProvider(this.authenticationProvider)
+                .requestMatchers(HttpMethod.POST, "/users/**").permitAll().anyRequest()
+                .authenticated().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authenticationProvider(this.authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);

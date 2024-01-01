@@ -21,11 +21,9 @@ export const ViewAllQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div className="siteContentContainer">
-        {subjects.map((subject: any) => {
-          return <ViewAllQuizzesSubContainer subject={subject} />;
-        })}
-      </div>
+      {subjects.map((subject: any) => {
+        return <ViewAllQuizzesSubContainer subject={subject} />;
+      })}
     </SitePage>
   );
 };
