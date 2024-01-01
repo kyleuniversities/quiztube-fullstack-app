@@ -1,5 +1,4 @@
 The following is the current pipeline for the Jenkins Continuous Deployment of the QuizTube app.
-Updated: 12/27/2023 at 3:07PM
 
 ```
 pipeline {
@@ -45,12 +44,35 @@ pipeline {
             }
         }
         stage("Deploy Kubernetes") {
+
+            - name: QUIZTUBE_DATABASE_FULL_HOST
+              value: _QUIZTUBE_DATABASE_FULL_HOST
+            - name: QUIZTUBE_DATABASE_USERNAME
+              value: _QUIZTUBE_DATABASE_USERNAME
+            - name: QUIZTUBE_DATABASE_PASSWORD
+              value: _QUIZTUBE_DATABASE_PASSWORD
+            - name: QUIZTUBE_AWS_BUCKET_PATH
+              value: _QUIZTUBE_AWS_BUCKET_PATH
+            - name: DEV_TOOLS_PROJECT_PATH
+              value: _DEV_TOOLS_PROJECT_PATH
+            - name: AWS_ACCESS_KEY_ID
+              value: _AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              value: _AWS_SECRET_ACCESS_KEY
+
             steps {
                 sh '''
                 cp -r /srv/.aws ~/.aws
                 sed -i -e "s/latest/${BUILD_NUMBER}/g" ./kubernetes/frontend.yaml
                 cat ./kubernetes/frontend.yaml
                 sed -i -e "s/latest/${BUILD_NUMBER}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_FULL_HOST/${QUIZTUBE_DATABASE_FULL_HOST}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_USERNAME/${QUIZTUBE_DATABASE_USERNAME}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_PASSWORD/${QUIZTUBE_DATABASE_PASSWORD}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_AWS_BUCKET_PATH/${QUIZTUBE_AWS_BUCKET_PATH}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_DEV_TOOLS_PROJECT_PATH/${DEV_TOOLS_PROJECT_PATH}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_AWS_ACCESS_KEY_ID/${AWS_ACCESS_KEY_ID}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_AWS_SECRET_ACCESS_KEY/${AWS_SECRET_ACCESS_KEY}/g" ./kubernetes/backend.yaml
                 cat ./kubernetes/backend.yaml
                 aws eks update-kubeconfig --region us-west-1 --name quiztube-cluster
                 kubectl apply -f kubernetes
