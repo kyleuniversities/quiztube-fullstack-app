@@ -1,3 +1,4 @@
+import { PromiseHelper } from '../../common/helper/js/PromiseHelper';
 import { request } from './request';
 
 // Type for Authentication Credentials
@@ -10,12 +11,12 @@ export type AuthenticationCredentials = {
  * CREATE Method
  * Function to login to the site
  */
-export const loginRequest = (
+export const loginRequest = async (
   navigate: any,
   userContext: any,
   username: string,
   password: string
-): void => {
+): Promise<void> => {
   // Set up credentials
   const credentials = {
     username,
@@ -32,12 +33,13 @@ export const loginRequest = (
   };
 
   // Run request
-  request('/auth/login', options).then((data: any) => {
+  return request('/auth/login', options).then((data: any) => {
     // Set user session data if successful
     userContext.setUserSessionData(data);
 
     // Navigate back
     navigate(-1);
+    return PromiseHelper.newConservativeVoidPromise();
   });
 };
 
