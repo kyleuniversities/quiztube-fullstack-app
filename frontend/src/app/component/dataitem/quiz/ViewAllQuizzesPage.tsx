@@ -50,7 +50,7 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
         {quizPosts.map((quizPost: any) => {
           return (
             <Link to={`/quizzes/${quizPost.id}`}>
-              <Card style={{ marginLeft: '10px' }}>
+              <Card style={{ width: '280px', marginLeft: '10px' }}>
                 <Card.Content style={{ height: '110px' }}>
                   <Card.Header>{quizPost.title}</Card.Header>
                   <Card.Description>{quizPost.description}</Card.Description>
