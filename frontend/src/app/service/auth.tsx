@@ -36,9 +36,8 @@ export const loginRequest = (
     // Set user session data if successful
     userContext.setUserSessionData(data);
 
-    // Navigate to home page
-    navigate('/');
-    window.location.reload();
+    // Navigate back
+    navigate(-1);
   });
 };
 
