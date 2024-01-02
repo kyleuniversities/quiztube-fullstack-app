@@ -74,9 +74,17 @@ const isValidQuery = (text: string): boolean => {
 
 // Run search action
 const searchAction = (navigate: any, query: string): void => {
+  // Determine if accepting blank queries
+  const isAcceptingBlankQueries = true;
+
   // Stop action if query is empty
-  if (query.length === 0) {
+  if (!isAcceptingBlankQueries && query.length === 0) {
     return;
+  }
+
+  // Change the query to (*) meaning all, if blank
+  if (isAcceptingBlankQueries && query.length === 0) {
+    query = '*';
   }
 
   // Encode query for url

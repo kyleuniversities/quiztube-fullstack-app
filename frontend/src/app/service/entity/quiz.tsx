@@ -83,8 +83,15 @@ export const addModifyQuizRequest = async (
  * READ Method
  * Loads quizzes
  */
-export const loadQuizzesRequest = async (setQuizzes: any): Promise<void> => {
-  return request(`/quizzes/posts?limit=${DEFAULT_LIMIT}`)
+export const loadQuizzesRequest = async (
+  useLimit: boolean,
+  setQuizzes: any
+): Promise<void> => {
+  // Determine if limit query will be used
+  const limitQueryText = useLimit ? `?limit=${DEFAULT_LIMIT}` : '';
+
+  // Run the request
+  return request(`/quizzes/posts${limitQueryText}`)
     .then((res: any) => {
       setQuizzes(res);
       return PromiseHelper.newConservativeVoidPromise();

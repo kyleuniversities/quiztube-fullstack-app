@@ -5,6 +5,7 @@ import { loadSubjectsRequest } from '../../../service/entity/subject';
 import {
   loadQuizzesFromSubjectRequest,
   loadQuizzesFromTitleQueryRequest,
+  loadQuizzesRequest,
 } from '../../../service/entity/quiz';
 import { useColorize } from '../../context/AppContextManager';
 import { ViewQuizzesContainer } from './ViewQuizzesContainer';
@@ -26,8 +27,15 @@ export const ViewSearchQuizzesPage = () => {
 
   // Load subjects
   useEffect(() => {
+    if (query === '*') {
+      loadQuizzesRequest(false, setQuizPosts);
+      return;
+    }
     loadQuizzesFromTitleQueryRequest(query, setQuizPosts);
   }, [query]);
+
+  // Set up title text
+  const title = query === '*' ? 'All Quizzes' : `Quizzes like "${query}"`;
 
   // Return component
   return (
@@ -35,10 +43,7 @@ export const ViewSearchQuizzesPage = () => {
       <div id={colorize('viewQuizzesContainerContainer')}>
         <QuizSearchContainer />
         <MultilineBreak lines={3} />
-        <ViewQuizzesContainer
-          title={`Quizzes like "${query}"`}
-          quizPosts={quizPosts}
-        />
+        <ViewQuizzesContainer title={title} quizPosts={quizPosts} />
       </div>
     </SitePage>
   );

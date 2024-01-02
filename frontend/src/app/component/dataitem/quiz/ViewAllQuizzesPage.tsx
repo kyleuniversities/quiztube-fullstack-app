@@ -49,7 +49,7 @@ const ViewAllQuizzesMostPopularContainer = () => {
 
   // Load quizzes
   useEffect(() => {
-    loadQuizzesRequest(setQuizPosts);
+    loadQuizzesRequest(true, setQuizPosts);
   }, []);
 
   // Return component
