@@ -5,6 +5,7 @@ import { MultilineBreak } from '../MultilineBreak';
 import { useState } from 'react';
 import { addUserRequest } from '../../service/entity/user';
 import '../index.css';
+import { useColorize } from '../context/AppContextManager';
 
 /**
  * Page for registering as a user into the site
@@ -15,6 +16,9 @@ export const RegistrationPage = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Set up color data
+  const colorize = useColorize();
+
   // Set up navigation
   const navigate = useNavigate();
 
@@ -22,8 +26,8 @@ export const RegistrationPage = (): JSX.Element => {
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>Create an Account</Header>
-        <Form>
+        <Header id={colorize('formHeader')}>Create an Account</Header>
+        <Form id={colorize('formWrapper')}>
           <Form.Input
             fluid
             label="Username"

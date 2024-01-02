@@ -176,19 +176,21 @@ const SiteHeaderUserSignedOutContent = (): JSX.Element => {
         className="siteHeaderUserThumbnailImage"
         src={collectThumbnailPath(user)}
       />
-      <Dropdown direction="left" inline item text={'Guest'}>
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} to={`/login`}>
-            Log In
-          </Dropdown.Item>
-          <Dropdown.Item as={Link} to={`/registration`}>
-            Sign Up
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => colorize.toggle()}>
-            {colorize.opposite()} Mode
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <div className={colorize('siteHeaderUserDropdown')}>
+        <Dropdown direction="left" inline item text={'Guest'}>
+          <Dropdown.Menu>
+            <Dropdown.Item as={Link} to={`/login`}>
+              Log In
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to={`/registration`}>
+              Sign Up
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => colorize.toggle()}>
+              {colorize.opposite()} Mode
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     </Menu.Item>
   );
 };

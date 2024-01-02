@@ -7,7 +7,7 @@ import {
   addModifyQuestionRequest,
   loadQuizQuestionRequest,
 } from '../../../service/entity/question';
-import { useAppContext } from '../../context/AppContextManager';
+import { useAppContext, useColorize } from '../../context/AppContextManager';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
 import './index.css';
 
@@ -29,6 +29,9 @@ export const AddModifyQuestionPage = (props: {
   // Set up user data
   const userContext = useAppContext();
 
+  // Set up color data
+  const colorize = useColorize();
+
   // Set up navigation
   const navigate = useNavigate();
 
@@ -48,8 +51,8 @@ export const AddModifyQuestionPage = (props: {
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>{title}</Header>
-        <Form>
+        <Header id={colorize('formHeader')}>{title}</Header>
+        <Form id={colorize('formWrapper')}>
           <Form.Input
             fluid
             label="Question"

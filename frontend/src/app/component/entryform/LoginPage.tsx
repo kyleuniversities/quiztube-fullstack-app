@@ -4,7 +4,8 @@ import { SitePage } from '../SitePage';
 import { MultilineBreak } from '../MultilineBreak';
 import { useState } from 'react';
 import { loginRequest } from '../../service/auth';
-import { useAppContext } from '../context/AppContextManager';
+import { useAppContext, useColorize } from '../context/AppContextManager';
+import './index.css';
 
 /**
  * Page for logging in as a user into the site
@@ -17,6 +18,9 @@ export const LoginPage = (): JSX.Element => {
   // Set up user data
   const userContext = useAppContext();
 
+  // Set up color data
+  const colorize = useColorize();
+
   // Set up navigation
   const navigate = useNavigate();
 
@@ -24,8 +28,8 @@ export const LoginPage = (): JSX.Element => {
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>Log In</Header>
-        <Form>
+        <Header id={colorize('formHeader')}>Log In</Header>
+        <Form id={colorize('formWrapper')}>
           <Form.Input
             fluid
             label="Username"

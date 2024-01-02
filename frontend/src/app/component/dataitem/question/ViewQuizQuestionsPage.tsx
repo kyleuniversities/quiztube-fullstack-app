@@ -124,23 +124,32 @@ const QuestionItem = (props: {
   // Set up username data
   const username = useUsername();
 
+  // Set up color data
+  const colorize = useColorize();
+
   // Set up navigation
   const navigate = useNavigate();
 
   // Return component
   return (
-    <List.Item className="dataItem">
-      <div className="dataItemSegment">
+    <List.Item className={colorize('dataItem')}>
+      <div className={colorize('dataItemSegment')}>
         <List.Content>
           <Container fluid>
             <Image className="dataItemImage" src={`${props.image}`} />
             <div>
               <div className="dataItemText">
-                <List.Header>{props.title}</List.Header>
+                <List.Header>
+                  <span className={colorize('dataItemTextTitle')}>
+                    {props.title}
+                  </span>
+                </List.Header>
                 <List.Description>
-                  {isShowingDescription
-                    ? props.description
-                    : '(Answer is Hidden)'}
+                  <span className={colorize('dataItemTextDescription')}>
+                    {isShowingDescription
+                      ? props.description
+                      : '(Answer is Hidden)'}
+                  </span>
                 </List.Description>
               </div>
               <Container fluid className="dataItemButtonContainer">

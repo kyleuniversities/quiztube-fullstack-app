@@ -1,3 +1,15 @@
-/*.formContainer {
+#formHeader {
+    color: rgb(124,255,255);
+}
 
-}*/
+#formHeaderLight {
+    color: black;
+}
+
+#formWrapper div label {
+    color: rgb(124,255,255);
+}
+
+#formWrapperLight div label {
+    color: black;
+}

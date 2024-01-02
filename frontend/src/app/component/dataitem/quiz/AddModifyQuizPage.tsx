@@ -7,7 +7,11 @@ import {
   addModifyQuizRequest,
   loadQuizAsPartsRequest,
 } from '../../../service/entity/quiz';
-import { useAppContext, useUserId } from '../../context/AppContextManager';
+import {
+  useAppContext,
+  useColorize,
+  useUserId,
+} from '../../context/AppContextManager';
 import { loadSubjectsAsOptionsRequest } from '../../../service/entity/subject';
 import '../../index.css';
 import { ArrayHelper } from '../../../../common/helper/ArrayHelper';
@@ -32,6 +36,9 @@ export const AddModifyQuizPage = (props: {
   // Set up user data
   const userContext = useAppContext();
   const userId = useUserId();
+
+  // Set up color data
+  const colorize = useColorize();
 
   // Set up navigation
   const navigate = useNavigate();
@@ -64,8 +71,10 @@ export const AddModifyQuizPage = (props: {
   return (
     <SitePage>
       <Container fluid className="formContainer">
-        <Header>{isEditing ? 'Edit' : 'Add'} Quiz</Header>
-        <Form>
+        <Header id={colorize('formHeader')}>
+          {isEditing ? 'Edit' : 'Add'} Quiz
+        </Header>
+        <Form id={colorize('formWrapper')}>
           <Form.Input
             fluid
             label="Title"
