@@ -15,6 +15,7 @@ import {
   loadUserRequest,
 } from '../../../service/entity/user';
 import { ConditionalContent } from '../../ConditionalContent';
+import './index.css';
 
 export const ViewUserAccountPage = (): JSX.Element => {
   // Set up parameter data
@@ -43,7 +44,7 @@ export const ViewUserAccountPage = (): JSX.Element => {
         <h1>
           {user.username === username ? 'My Account' : `${user.username}`}
         </h1>
-        <Image src={collectPicturePath(user)} />
+        <Image id="userProfileImage" src={collectPicturePath(user)} />
         <p>
           <b>Username: </b>
           {user.username}
