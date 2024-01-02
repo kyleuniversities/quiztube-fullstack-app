@@ -42,40 +42,36 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
 
   // Return component
   return (
-    <Container fluid>
-      <h1>{props.subject.text}</h1>
-      <Card.Group itemsPerRow={5}>
-        {quizPosts.map((quizPost: any) => {
-          return (
-            <Link to={`/quizzes/${quizPost.id}`}>
-              <Card
-                style={{
-                  width: '280px',
-                  marginLeft: '10px',
-                  marginBottom: '12px',
-                }}
-              >
-                <Card.Content style={{ height: '110px' }}>
-                  <Card.Header>{quizPost.title}</Card.Header>
-                  <Card.Description>{quizPost.description}</Card.Description>
-                </Card.Content>
-                <div
-                  style={{
-                    color: 'rgb(0,120,210)',
-                    marginLeft: '10px',
-                    marginBottom: '0px',
-                  }}
-                >
-                  <span>
-                    <Icon name="heart" /> {quizPost.numberOfLikes}
-                  </span>
-                </div>
-              </Card>
-            </Link>
-          );
-        })}
-      </Card.Group>
-      <MultilineBreak lines={3} />
-    </Container>
+    <div className="viewAllQuizzesSubContainer">
+      <h1>
+        <div>{props.subject.text}</div>
+      </h1>
+      <div className="quizCardGroupContainer">
+        <Card.Group>
+          {quizPosts.map((quizPost: any) => {
+            return (
+              <div className="quizCardWrappingContainer">
+                <Link to={`/quizzes/${quizPost.id}`}>
+                  <Card className="quizCard">
+                    <Card.Content className="quizCardContent">
+                      <Card.Header>{quizPost.title}</Card.Header>
+                      <Card.Description>
+                        {quizPost.description}
+                      </Card.Description>
+                    </Card.Content>
+                    <div className="quizLikesText">
+                      <span>
+                        <Icon name="heart" /> {quizPost.numberOfLikes}
+                      </span>
+                    </div>
+                  </Card>
+                </Link>
+              </div>
+            );
+          })}
+        </Card.Group>
+        <MultilineBreak lines={3} />
+      </div>
+    </div>
   );
 };

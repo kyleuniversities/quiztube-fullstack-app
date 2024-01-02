@@ -1,4 +1,4 @@
-import { Dropdown, Image, Menu } from 'semantic-ui-react';
+import { Container, Dropdown, Image, Menu } from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
 import { LinkButton } from './Component';
 import {
@@ -14,6 +14,11 @@ import { collectThumbnailPath } from '../service/file';
 import { loadUserRequest } from '../service/entity/user';
 import { isPassableId, logoutAction } from '../service/auth';
 import './index.css';
+import { useMediaQuery } from 'react-responsive';
+import {
+  BIG_SCREEN_QUERY,
+  MEDIUM_SCREEN_QUERY,
+} from '../../common/util/mobile';
 
 // A placeholder user to avoid reading errors
 const DEFAULT_USER: any = {
@@ -27,14 +32,23 @@ export const SiteHeader = (): JSX.Element => {
   // Set up color data
   const colorize = useColorize();
 
+  // Set up media data
+  const isBigScreen = useMediaQuery(BIG_SCREEN_QUERY);
+  const isMediumScreen = useMediaQuery(MEDIUM_SCREEN_QUERY);
+  const isSmallScreen = !isBigScreen && !isMediumScreen;
+
   // Return component
   return (
     <div className={colorize('siteHeaderSegment')}>
-      <Menu secondary borderless>
-        <SiteHeaderHomeIconItem />
-        <SiteHeaderTitleItem />
-        <SiteHeaderUserContent />
-      </Menu>
+      <Container fluid>
+        <Menu secondary borderless>
+          <SiteHeaderHomeIconItem />
+          <ConditionalContent condition={!isSmallScreen}>
+            <SiteHeaderTitleItem />
+          </ConditionalContent>
+          <SiteHeaderUserContent />
+        </Menu>
+      </Container>
     </div>
   );
 };
@@ -49,7 +63,7 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 
   // Return component
   return (
-    <Menu.Item>
+    <Menu.Item style={{ marginLeft: '0px', paddingLeft: '0px' }}>
       <Link to="/">
         <Image className="siteLogoImage" src={selectedLogo} />
       </Link>
@@ -66,7 +80,7 @@ const SiteHeaderTitleItem = (): JSX.Element => {
   return (
     <Menu.Item>
       <Link to="/">
-        <span className={colorize('siteHeaderTitleItem')}>Quizzical</span>
+        <span className={colorize('siteHeaderTitleItem')}>QuizTube</span>
       </Link>
     </Menu.Item>
   );
@@ -113,9 +127,15 @@ const SiteHeaderUserSignedInContent = (props: {
 
   // Return component
   return (
-    <Menu.Item position="right">
-      <Image src={collectThumbnailPath(user)} />
-      <Dropdown inline item text={props.username}>
+    <Menu.Item
+      style={{ marginRight: '0px', paddingRight: '0px' }}
+      position="right"
+    >
+      <Image
+        className="siteHeaderUserThumbnailImage"
+        src={collectThumbnailPath(user)}
+      />
+      <Dropdown direction="left" inline item text={props.username}>
         <Dropdown.Menu>
           <Dropdown.Item as={Link} to={`/users/${userId}`}>
             My Account

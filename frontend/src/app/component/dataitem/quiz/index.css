@@ -6,3 +6,34 @@
 /*.formContainer {
 
 }*/
+
+.quizCard {
+    margin-left: 10px;
+    margin-bottom: 12px;
+}
+
+.quizCardContent {
+    height: 110px;
+}
+
+.quizCardGroupContainer {
+    margin-left: 7px;
+}
+
+.quizCardWrappingContainer {
+    width: 600px;
+    margin-bottom: 13px;
+    margin-right: 13px;
+}
+
+.quizLikesText {
+    color: rgb(0,120,210);
+    margin-left: 10px;
+    margin-bottom: 0px;
+}
+
+.viewAllQuizzesSubContainer {
+    margin-left: 25px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
