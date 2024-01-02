@@ -136,7 +136,7 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     private void validateUsername(String text) {
         final String TAG = "Username";
         TextValidationHelper.validateNonNull(TAG, text);
-        TextValidationHelper.validateLength(TAG, text, 3, 30);
+        TextValidationHelper.validateLength(TAG, text, 3, 16);
         TextValidationHelper.validateToBeAlphanumeric(TAG, text);
         TextValidationHelper.validateFirstCharacterToBeAlphabetical(TAG, text);
         DatabaseValidationHelper.validateUniqueTextResource(TAG, text, this::getUserByUsername);
