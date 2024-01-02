@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Image } from 'semantic-ui-react';
 import {
   useAppContext,
+  useColorize,
   useUserId,
   useUsername,
 } from '../../context/AppContextManager';
@@ -25,8 +26,8 @@ import {
   loadQuizAsWholeRequest,
 } from '../../../service/entity/quiz';
 import { MultilineBreak } from '../../MultilineBreak';
-import './index.css';
 import { removeUserSessionDataIfTokenIsExpired } from '../../../service/auth';
+import './index.css';
 
 export const ViewQuizPage = (): JSX.Element => {
   // Set up parameter data
@@ -40,6 +41,9 @@ export const ViewQuizPage = (): JSX.Element => {
   const userContext = useAppContext();
   const userId: any = useUserId();
   const username: any = useUsername();
+
+  // Set up color data
+  const colorize = useColorize();
 
   // Set up navigation
   const navigate = useNavigate();
@@ -64,7 +68,7 @@ export const ViewQuizPage = (): JSX.Element => {
             src={collectDefaultThumbnailPathFromUsername(quiz.authorUsername)}
             style={{ maxWidth: '20px' }}
           />
-          <span className="authorText">
+          <span className={colorize('authorText')}>
             {' '}
             <b>{quiz.authorUsername}</b>
           </span>
@@ -103,7 +107,7 @@ export const ViewQuizPage = (): JSX.Element => {
       >
         <Button
           icon="heart"
-          color="black"
+          color="grey"
           content="Like"
           onClick={() => likeQuizRequest(id, userId)}
         />

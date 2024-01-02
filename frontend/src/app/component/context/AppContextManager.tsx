@@ -39,6 +39,9 @@ const NULL_SESSION_USER: SessionUser = {
 export const AppContextManager = (props: {
   children: ReactNode;
 }): JSX.Element => {
+  // Get starting color mode
+  const initialColorMode = collectInitialColorMode();
+
   // Set up user variable
   const [sessionUser, setSessionUser] = useState(NULL_SESSION_USER);
 
@@ -160,7 +163,12 @@ export const useUserId = () => {
 // Export useColorize Hook
 export const useColorize = () => {
   const colorContext: any = useAppContext();
-  const colorize = (className: string) => className + colorContext.colorMode;
+  const colorize = (className: string) => {
+    if (colorContext.colorMode === 'Dark') {
+      return className;
+    }
+    return className + colorContext.colorMode;
+  };
 
   // Get color mode
   colorize.colorMode = () => colorContext.colorMode;
@@ -168,7 +176,7 @@ export const useColorize = () => {
   // Set up toggle function
   colorize.toggle = () => {
     if (colorContext.colorMode === 'Light') {
-      colorContext.setColorModeSessionData('');
+      colorContext.setColorModeSessionData('Dark');
       return;
     }
     colorContext.setColorModeSessionData('Light');
@@ -179,4 +187,13 @@ export const useColorize = () => {
     return colorContext.colorMode === 'Light' ? 'Dark' : 'Light';
   };
   return colorize;
+};
+
+// Collects the color mode before rendering
+const collectInitialColorMode = (): string => {
+  const mode = localStorage.getItem('color_mode');
+  if (mode && mode !== 'undefined') {
+    return mode;
+  }
+  return 'Dark';
 };
