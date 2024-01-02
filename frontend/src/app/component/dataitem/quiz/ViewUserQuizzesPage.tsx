@@ -7,6 +7,7 @@ import { useUsername } from '../../context/AppContextManager';
 import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
 import { loadQuizzesFromUserRequest } from '../../../service/entity/quiz';
 import { ConditionalContent } from '../../ConditionalContent';
+import './index.css';
 
 /**
  * Page to View All Quizzes
@@ -29,38 +30,44 @@ export const ViewUserQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <Container fluid>
+      <div className="viewAllQuizzesSubContainer">
         <h1>
           {user.username === username
             ? 'My Quizzes'
             : `Quizzes by ${user.username}`}
         </h1>
-        <ConditionalContent condition={quizPosts.length === 0}>
-          This user has no quizzes yet.
-        </ConditionalContent>
-        <ConditionalContent condition={quizPosts.length > 0}>
-          <Card.Group itemsPerRow={5}>
-            {quizPosts.map((quizPost: any) => {
-              return (
-                <Link to={`/quizzes/${quizPost.id}`}>
-                  <Card style={{ marginLeft: '10px' }}>
-                    <Card.Content style={{ height: '110px' }}>
-                      <Card.Header>{quizPost.title}</Card.Header>
-                      <Card.Description>
-                        {quizPost.description}
-                      </Card.Description>
-                    </Card.Content>
-                    <span>
-                      <Icon name="heart" /> {quizPost.numberOfLikes}
-                    </span>
-                  </Card>
-                </Link>
-              );
-            })}
-          </Card.Group>
-        </ConditionalContent>
-        <MultilineBreak lines={3} />
-      </Container>
+        <div className="quizCardGroupContainer">
+          <ConditionalContent condition={quizPosts.length === 0}>
+            This user has no quizzes yet.
+          </ConditionalContent>
+          <ConditionalContent condition={quizPosts.length > 0}>
+            <Card.Group>
+              {quizPosts.map((quizPost: any) => {
+                return (
+                  <div className="quizCardWrappingContainer">
+                    <Link to={`/quizzes/${quizPost.id}`}>
+                      <Card className="quizCard">
+                        <Card.Content className="quizCardContent">
+                          <Card.Header>{quizPost.title}</Card.Header>
+                          <Card.Description>
+                            {quizPost.description}
+                          </Card.Description>
+                        </Card.Content>
+                        <div className="quizLikesText">
+                          <span>
+                            <Icon name="heart" /> {quizPost.numberOfLikes}
+                          </span>
+                        </div>
+                      </Card>
+                    </Link>
+                  </div>
+                );
+              })}
+            </Card.Group>
+          </ConditionalContent>
+          <MultilineBreak lines={3} />
+        </div>
+      </div>
     </SitePage>
   );
 };
