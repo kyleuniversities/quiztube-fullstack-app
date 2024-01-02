@@ -15,6 +15,7 @@ import { RegistrationPage } from './app/component/entryform/RegistrationPage';
 import { LoginPage } from './app/component/entryform/LoginPage';
 import { RequestPage } from './app/component/request/RequestPage';
 import { ViewSearchQuizzesPage } from './app/component/dataitem/quiz/ViewSearchedQuizzesPage';
+import { InfoPage } from './app/component/info/InfoPage';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="/users/:id" element={<ViewUserAccountPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/sections/:key" element={<InfoPage />} />
           <Route path="/request" element={<RequestPage />} />
         </Routes>
       </BrowserRouter>

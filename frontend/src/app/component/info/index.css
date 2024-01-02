@@ -1,0 +1,19 @@
+.infoPageContainer {
+    text-align: left;
+    font-size: 20px;
+    min-height: 100vh;
+    max-width: 100vw;
+}
+
+.infoPageWrapper {
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.reactMarkdown h1 {
+    color: white;
+}
+
+.reactMarkdown {
+    color: rgb(160,255,255);
+}
