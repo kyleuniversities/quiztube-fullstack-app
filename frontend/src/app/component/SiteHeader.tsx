@@ -58,7 +58,7 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
 
   // Return component
   return (
-    <Menu.Item style={{ marginLeft: '0px', paddingLeft: '0px' }}>
+    <Menu.Item id="siteLogoImageMenuItem">
       <Link to="/">
         <Image className="siteLogoImage" src={selectedLogo} />
       </Link>
