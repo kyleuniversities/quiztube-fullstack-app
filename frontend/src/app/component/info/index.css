@@ -13,7 +13,14 @@
 .reactMarkdown h1 {
     color: white;
 }
+.reactMarkdownLight h1 {
+    color: black;
+}
 
 .reactMarkdown {
     color: rgb(160,255,255);
+}
+
+.reactMarkdownLight {
+    color: rgb(0,96,0);
 }

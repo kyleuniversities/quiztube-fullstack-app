@@ -11,6 +11,7 @@ import {
   MEDIUM_SCREEN_QUERY,
 } from '../../../common/util/mobile';
 import './index.css';
+import { useColorize } from '../context/AppContextManager';
 
 /**
  * Page for displaying pure markdown info articles
@@ -18,6 +19,9 @@ import './index.css';
 export const InfoPage = (): JSX.Element => {
   // Set up parameter data
   const { key } = useParams();
+
+  // Set up color data
+  const colorize = useColorize();
 
   // Set up info page text data
   const [infoPageText, setInfoPageText] = useState('');
@@ -38,7 +42,10 @@ export const InfoPage = (): JSX.Element => {
       <Container fluid className="infoPageContainer">
         <div className="infoPageWrapper">
           <MultilineBreak lines={1} />
-          <ReactMarkdown className="reactMarkdown" children={infoPageText} />
+          <ReactMarkdown
+            className={colorize('reactMarkdown')}
+            children={infoPageText}
+          />
           <MultilineBreak lines={3} />
         </div>
       </Container>
