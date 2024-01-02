@@ -5,7 +5,7 @@ import { MultilineBreak } from '../MultilineBreak';
 import { useState } from 'react';
 import { addUserRequest } from '../../service/entity/user';
 import '../index.css';
-import { useColorize } from '../context/AppContextManager';
+import { useAppContext, useColorize } from '../context/AppContextManager';
 
 /**
  * Page for registering as a user into the site
@@ -15,6 +15,9 @@ export const RegistrationPage = (): JSX.Element => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Set up user data
+  const userContext = useAppContext();
 
   // Set up color data
   const colorize = useColorize();
@@ -56,7 +59,9 @@ export const RegistrationPage = (): JSX.Element => {
           fluid
           color="blue"
           content="Submit"
-          onClick={() => addUserRequest(navigate, username, email, password)}
+          onClick={() =>
+            addUserRequest(navigate, userContext, username, email, password)
+          }
         />
       </Container>
     </SitePage>

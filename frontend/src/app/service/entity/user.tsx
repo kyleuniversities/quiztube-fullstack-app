@@ -1,6 +1,6 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { handleException } from '../../util/exception';
-import { logoutAction } from '../auth';
+import { loginRequest, logoutAction } from '../auth';
 import { collectDefaultThumbnailKeyFromUsername } from '../file';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
@@ -20,6 +20,7 @@ export const NULL_USER = {
  */
 export const addUserRequest = async (
   navigate: any,
+  userContext: any,
   username: string,
   email: string,
   password: string
@@ -53,9 +54,9 @@ export const addUserRequest = async (
     .then(() => {
       // Navigate to the homepage if successful
       alert(`The user '${username}' was successfully registered!`);
-      navigate('/');
-      window.location.reload();
-      return PromiseHelper.newConservativeVoidPromise();
+
+      // Automatically log in as the user
+      return loginRequest(navigate, userContext, username, password);
     })
     .catch(handleException);
 };
