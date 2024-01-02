@@ -38,7 +38,7 @@ export const ViewUserQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div id="viewQuizzesContainerContainer">
+      <div id={colorize('viewQuizzesContainerContainer')}>
         <ViewQuizzesContainer
           title={title}
           quizPosts={quizPosts}
