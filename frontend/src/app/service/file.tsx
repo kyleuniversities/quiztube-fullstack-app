@@ -15,7 +15,7 @@ export const collectThumbnailPath = (item: any) => {
 export const collectDefaultThumbnailPathFromUsername = (username: string) => {
   const firstLetter = username.toLowerCase().charAt(0);
   const key = `static/user/user-picture-${firstLetter}_T.png`;
-  return `${deriveApiHost()}/file/image/${key}`;
+  return `${deriveApiHost()}/file/image/${encode(key)}`;
 };
 
 // Collect thumbnail image key
