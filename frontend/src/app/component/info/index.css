@@ -8,10 +8,30 @@
 .infoPageWrapper {
     margin-left: 200px;
     margin-right: 200px;
+
+    @media only screen and (max-width: 600px) {
+        margin-left: 0px;
+        margin-right: 0px;
+        font-size: 15px;
+    }  
+}
+
+.reactMarkdown img {
+    max-width: 70vw;
+}
+
+.reactMarkdownLight img {
+    max-width: 70vw;
 }
 
 .reactMarkdown h1 {
     color: white;
+
+    @media only screen and (max-width: 600px) {
+        margin-left: 0px;
+        margin-right: 0px;
+        font-size: 15px;
+    }  
 }
 
 .reactMarkdownLight h1 {
