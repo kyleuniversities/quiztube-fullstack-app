@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { MultilineBreak } from '../../MultilineBreak';
 
 /**
- * Sub Container to View All Arts Quizzes
+ * Sub Container to View Quizzes
  */
 export const ViewQuizzesContainer = (props: {
   title: string;
