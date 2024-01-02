@@ -97,7 +97,7 @@ export const ViewQuizPage = (): JSX.Element => {
       >
         <Button
           icon="heart"
-          color="blue"
+          color={colorize.getLikedButtonColor()}
           content="Liked"
           onClick={() => unlikeQuizRequest(id, like)}
         />
@@ -107,7 +107,7 @@ export const ViewQuizPage = (): JSX.Element => {
       >
         <Button
           icon="heart"
-          color="grey"
+          color={colorize.getUnlikedButtonColor()}
           content="Like"
           onClick={() => likeQuizRequest(id, userId)}
         />
@@ -115,7 +115,11 @@ export const ViewQuizPage = (): JSX.Element => {
       {quiz.authorUsername === username && (
         <>
           <Link to={`/quizzes/edit/${id}`}>
-            <Button icon="pencil" color="green" content="Edit Quiz" />
+            <Button
+              icon="pencil"
+              color={colorize.getEditButtonColor()}
+              content="Edit Quiz"
+            />
           </Link>
           <Button
             icon="trash"

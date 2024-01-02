@@ -189,6 +189,21 @@ export const useColorize = () => {
   colorize.opposite = () => {
     return colorContext.colorMode === 'Light' ? 'Dark' : 'Light';
   };
+
+  // Set up liked button color function
+  colorize.getLikedButtonColor = () => {
+    return colorContext.colorMode === 'Light' ? 'blue' : 'green';
+  };
+
+  // Set up unliked button color function
+  colorize.getUnlikedButtonColor = () => {
+    return colorContext.colorMode === 'Light' ? 'black' : 'grey';
+  };
+
+  // Set up edit button color function
+  colorize.getEditButtonColor = () => {
+    return colorContext.colorMode === 'Light' ? 'green' : 'teal';
+  };
   return colorize;
 };
 
