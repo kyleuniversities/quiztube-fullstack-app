@@ -51,7 +51,7 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
   return (
     <Menu.Item>
       <Link to="/">
-        <Image src={selectedLogo} />
+        <Image className="siteLogoImage" src={selectedLogo} />
       </Link>
     </Menu.Item>
   );
