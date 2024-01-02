@@ -26,6 +26,14 @@
     color: black;
 }
 
+.reactMarkdown strong {
+    color: white;
+}
+
+.reactMarkdownLight strong {
+    color: black;
+}
+
 .reactMarkdown {
     color: rgb(160,255,255);
 }
