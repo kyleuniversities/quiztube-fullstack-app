@@ -19,7 +19,7 @@ export const loadMarkdownRequest = async (
   setText: any
 ): Promise<void> => {
   // Set request url
-  const fullUrl = `${INFO_BUCKET_URL}/${key}/full.md`;
+  const fullUrl = `${INFO_BUCKET_URL}/sections/${key}/full.md`;
   debugAlert('MD_URL: ' + fullUrl);
 
   // Run request
