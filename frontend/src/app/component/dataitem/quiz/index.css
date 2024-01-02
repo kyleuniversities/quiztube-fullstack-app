@@ -24,6 +24,22 @@
     color: black;
 }
 
+#takeQuizContainer h3 {
+    color: rgb(124,255,255);
+}
+
+#takeQuizContainer p {
+    color: rgb(124,255,255);
+}
+
+#takeQuizContainerLight h3 {
+    color: rgb(0,0,0);
+}
+
+#takeQuizContainerLight p {
+    color: rgb(0,0,0);
+}
+
 .quizCard {
     margin-left: 10px;
     margin-bottom: 12px;

@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router';
 import { ConditionalContent } from '../../ConditionalContent';
 import { CentralContainer } from '../../Component';
 import { loadQuizQuestionsForQuizRequest } from '../../../service/entity/question';
+import { useColorize } from '../../context/AppContextManager';
+import './index.css';
 
 /**
  * Page for taking a Quiz
@@ -22,6 +24,9 @@ export const TakeQuizPage = (): JSX.Element => {
   const [answerIsSubmitted, setAnswerIsSubmitted] = useState(false);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
   const isAcceptingBlankAnswers = true;
+
+  // Set up color data
+  const colorize = useColorize();
 
   // Loads the quiz on render
   useEffect(() => {
@@ -67,25 +72,27 @@ export const TakeQuizPage = (): JSX.Element => {
   // Return Take Quiz Page Content
   return (
     <SitePage>
-      <CentralContainer>
-        <ConditionalContent condition={quizIsFinished}>
-          <FinishedQuizContent
-            quizId={quizId}
-            numberOfCorrectAnswers={numberOfCorrectAnswers}
-            questions={questions}
-          />
-        </ConditionalContent>
-        <ConditionalContent condition={!quizIsFinished}>
-          <UnfinishedQuizContent
-            question={question}
-            answerIsSubmitted={answerIsSubmitted}
-            enteredAnswer={enteredAnswer}
-            setEnteredAnswer={setEnteredAnswer}
-            submitAnswer={submitAnswer}
-            next={next}
-          />
-        </ConditionalContent>
-      </CentralContainer>
+      <div id={colorize('takeQuizContainer')}>
+        <CentralContainer>
+          <ConditionalContent condition={quizIsFinished}>
+            <FinishedQuizContent
+              quizId={quizId}
+              numberOfCorrectAnswers={numberOfCorrectAnswers}
+              questions={questions}
+            />
+          </ConditionalContent>
+          <ConditionalContent condition={!quizIsFinished}>
+            <UnfinishedQuizContent
+              question={question}
+              answerIsSubmitted={answerIsSubmitted}
+              enteredAnswer={enteredAnswer}
+              setEnteredAnswer={setEnteredAnswer}
+              submitAnswer={submitAnswer}
+              next={next}
+            />
+          </ConditionalContent>
+        </CentralContainer>
+      </div>
     </SitePage>
   );
 };
