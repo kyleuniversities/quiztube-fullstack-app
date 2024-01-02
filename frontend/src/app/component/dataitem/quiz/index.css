@@ -74,16 +74,24 @@
     margin-right: 13px;
 }
 
+.quizMetadataText {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
 .quizLikesText {
     color: rgb(0,200,0);
-    margin-left: 10px;
-    margin-bottom: 5px;
+    float: right;
 }
 
 .quizLikesTextLight {
     color: rgb(0,120,210);
-    margin-left: 10px;
-    margin-bottom: 5px;
+    float: right;
+}
+
+.quizLikesTextLight {
+    color: rgb(0,120,210);
 }
 
 .quizGroupTitle {
@@ -92,6 +100,14 @@
 
 .quizGroupTitleLight {
     color: rgb(0, 128, 0);
+}
+
+#quizCardUserThumbnailImage {
+    max-width: 20px;
+}
+
+#quizWholeUserThumbnailImage {
+    max-width: 20px;
 }
 
 .viewQuizzesContainer {

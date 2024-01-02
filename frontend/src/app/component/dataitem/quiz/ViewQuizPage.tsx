@@ -28,6 +28,7 @@ import {
 import { MultilineBreak } from '../../MultilineBreak';
 import { removeUserSessionDataIfTokenIsExpired } from '../../../service/auth';
 import './index.css';
+import { QuizUserThumbnailText } from './QuizUserThumbnailText';
 
 export const ViewQuizPage = (): JSX.Element => {
   // Set up parameter data
@@ -62,17 +63,7 @@ export const ViewQuizPage = (): JSX.Element => {
       <Image src={collectPicturePath(quiz)} style={{ maxWidth: '300px' }} />
       <MultilineBreak lines={1} />
       <p>
-        <Link to={`/users/${quiz.userId}`}>
-          <Image
-            inline
-            src={collectDefaultThumbnailPathFromUsername(quiz.authorUsername)}
-            style={{ maxWidth: '20px' }}
-          />
-          <span className={colorize('authorText')}>
-            {' '}
-            <b>{quiz.authorUsername}</b>
-          </span>
-        </Link>
+        <QuizUserThumbnailText id="quizWholeUserThumbnailImage" quiz={quiz} />
       </p>
       <p>
         <b>Description: </b>

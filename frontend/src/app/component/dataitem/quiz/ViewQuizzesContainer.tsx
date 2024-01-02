@@ -2,6 +2,7 @@ import { Card, Icon } from 'semantic-ui-react';
 import { useColorize } from '../../context/AppContextManager';
 import { Link } from 'react-router-dom';
 import { MultilineBreak } from '../../MultilineBreak';
+import { QuizUserThumbnailText } from './QuizUserThumbnailText';
 
 /**
  * Sub Container to View Quizzes
@@ -32,8 +33,14 @@ export const ViewQuizzesContainer = (props: {
                         {quizPost.description}
                       </p>
                     </div>
-                    <div className={colorize('quizLikesText')}>
+                    <div className="quizMetadataText">
                       <span>
+                        <QuizUserThumbnailText
+                          id="quizCardUserThumbnailImage"
+                          quiz={quizPost}
+                        />
+                      </span>
+                      <span className="quizLikesText">
                         <Icon name="heart" /> {quizPost.numberOfLikes}
                       </span>
                     </div>
