@@ -19,6 +19,46 @@
     }  
 }
 
+.siteFooterGridColumnHeader {
+    color: white;
+    font-size: 15px;
+}
+
+.siteFooterListItemContainer {
+    @media only screen and (min-width: 620px) and (max-width: 920px) and (min-height: 800px)  {
+        padding-bottom: 0px;
+    } 
+}
+
+.siteFooterListItem {
+    color: rgb(100, 100, 100);
+    font-size: 15px;
+}
+
+.siteFooterListItem:hover {
+    color: rgb(240, 240, 240);
+}
+
+.siteFooterSegment {
+    padding-left: 150px;
+    padding-right: 150px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    min-width: 100vw;
+    min-height: 15vh;
+    text-align: left;
+    background-color: black;
+
+    @media only screen and (max-width: 600px) {
+        padding-left: 10px;
+        padding-right: 10px;
+    }  
+
+    @media only screen and (min-width: 620px) and (max-width: 920px) and (min-height: 800px)  {
+        min-height: 40vh;
+    }  
+}
+
 .siteHeaderSegment {
     background-color: rgb(0,12,84);
     padding-left: 5px;
