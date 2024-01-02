@@ -21,7 +21,7 @@ export const likeQuizRequest = async (
 ): Promise<void> => {
   // Stop action if the user id is not passable
   if (!isPassableId(userId)) {
-    alert('ERROR: Must be logged in to perform the operation.');
+    alert('Must be logged in to perform the operation.');
     return PromiseHelper.newConservativeVoidPromise();
   }
 
