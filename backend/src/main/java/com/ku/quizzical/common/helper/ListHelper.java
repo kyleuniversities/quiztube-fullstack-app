@@ -32,12 +32,28 @@ public final class ListHelper {
     }
 
     /**
+     * Clears a List
+     */
+    public static <T> void clear(List<T> list) {
+        list.clear();
+    }
+
+    /**
      * Clones a List
      */
     public static <T> List<T> clone(List<T> list) {
         List<T> clone = ListHelper.newArrayList(list.size());
         ListHelper.forEach(list, (T item) -> clone.add(item));
         return clone;
+    }
+
+    /**
+     * Filters a list of items
+     */
+    public static <T> void filter(List<T> list, Predicate<T> condition) {
+        List<T> filtered = ListHelper.filterClone(list, condition);
+        ListHelper.clone(list);
+        ListHelper.addAll(list, filtered);
     }
 
     /**
@@ -232,6 +248,14 @@ public final class ListHelper {
             int index2 = RandomHelper.nextInt(size);
             ListHelper.swap(list, index1, index2);
         });
+    }
+
+    /**
+     * Shuffled elements in a List and returns the list
+     */
+    public static <T> List<T> shuffleWithFallthrough(List<T> list) {
+        ListHelper.shuffle(list);
+        return list;
     }
 
     /**

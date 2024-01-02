@@ -52,7 +52,8 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
                 FROM question
                 WHERE quiz_id = ?
                 """;
-        return this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId);
+        List<QuestionDto> questions = this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId);
+        return ListHelper.shuffleWithFallthrough(questions);
     }
 
     @Override

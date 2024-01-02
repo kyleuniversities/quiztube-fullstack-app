@@ -60,8 +60,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public List<QuizPostDto> getAllQuizzesAsPosts(String subjectId, int limit) {
-        return this.repository.findAll().stream().filter(this.makeQuizSubjectFilter(subjectId))
-                .map(this.postDtoMapper::apply)
+        return ListHelper.shuffleWithFallthrough(this.repository.findAll()).stream()
+                .filter(this.makeQuizSubjectFilter(subjectId)).map(this.postDtoMapper::apply)
                 .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
                 .limit(limit).toList();
     }
