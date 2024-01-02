@@ -22,6 +22,7 @@ export const ViewSearchQuizzesPage = () => {
 
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Set up color data
   const colorize = useColorize();
@@ -29,10 +30,10 @@ export const ViewSearchQuizzesPage = () => {
   // Load subjects
   useEffect(() => {
     if (query === '*') {
-      loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts);
+      loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts, setIsLoaded);
       return;
     }
-    loadQuizzesFromTitleQueryRequest(query, setQuizPosts);
+    loadQuizzesFromTitleQueryRequest(query, setQuizPosts, setIsLoaded);
   }, [query]);
 
   // Set up title text
@@ -46,6 +47,7 @@ export const ViewSearchQuizzesPage = () => {
         <MultilineBreak lines={3} />
         <ViewQuizzesContainer
           title={title}
+          isLoaded={isLoaded}
           quizPosts={quizPosts}
           absentText="I'm sorry, no quizzes match your query :("
         />

@@ -88,12 +88,14 @@ export const addModifyQuizRequest = async (
  */
 export const loadQuizzesRequest = async (
   limit: number,
-  setQuizzes: any
+  setQuizzes: any,
+  setIsLoaded: any
 ): Promise<void> => {
   // Run the request
   return request(`/quizzes/posts?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
+      setIsLoaded(true);
       return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);
@@ -105,11 +107,13 @@ export const loadQuizzesRequest = async (
  */
 export const loadQuizzesFromUserRequest = async (
   userId: string | undefined,
-  setQuizzes: any
+  setQuizzes: any,
+  setIsLoaded: any
 ): Promise<void> => {
   return request(`/users/${userId}/quizzes`)
     .then((res: any) => {
       setQuizzes(res);
+      setIsLoaded(true);
       return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);
@@ -122,11 +126,13 @@ export const loadQuizzesFromUserRequest = async (
 export const loadQuizzesFromSubjectRequest = async (
   subjectId: string | undefined,
   limit: number,
-  setQuizzes: any
+  setQuizzes: any,
+  setIsLoaded: any
 ): Promise<void> => {
   return request(`/quizzes/posts/${subjectId}?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
+      setIsLoaded(true);
       return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);
@@ -138,11 +144,13 @@ export const loadQuizzesFromSubjectRequest = async (
  */
 export const loadQuizzesFromTitleQueryRequest = async (
   title: string | undefined,
-  setQuizzes: any
+  setQuizzes: any,
+  setIsLoaded: any
 ): Promise<void> => {
   return request(`/quizzes/posts?title=${title}`)
     .then((res: any) => {
       setQuizzes(res);
+      setIsLoaded(true);
       return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);

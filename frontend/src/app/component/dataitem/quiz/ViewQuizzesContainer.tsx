@@ -10,6 +10,7 @@ import { ConditionalContent } from '../../ConditionalContent';
  */
 export const ViewQuizzesContainer = (props: {
   title: string;
+  isLoaded: boolean;
   quizPosts: any;
   absentText: string;
 }) => {
@@ -57,7 +58,12 @@ export const ViewQuizzesContainer = (props: {
         </div>
       </ConditionalContent>
       <ConditionalContent condition={props.quizPosts.length === 0}>
-        <p>{props.absentText}</p>
+        <ConditionalContent condition={props.isLoaded}>
+          <p>{props.absentText}</p>
+        </ConditionalContent>
+        <ConditionalContent condition={!props.isLoaded}>
+          Loading...
+        </ConditionalContent>
       </ConditionalContent>
     </div>
   );

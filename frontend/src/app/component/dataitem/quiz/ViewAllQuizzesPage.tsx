@@ -50,16 +50,18 @@ export const ViewAllQuizzesPage = () => {
 const ViewAllQuizzesMostPopularContainer = () => {
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load quizzes
   useEffect(() => {
-    loadQuizzesRequest(DEFAULT_QUIZ_LIMIT_VALUE, setQuizPosts);
+    loadQuizzesRequest(DEFAULT_QUIZ_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   }, []);
 
   // Return component
   return (
     <ViewQuizzesContainer
       title="Most Popular Quizzes"
+      isLoaded={isLoaded}
       quizPosts={quizPosts}
       absentText="No quizzes exist yet"
     />
@@ -72,13 +74,15 @@ const ViewAllQuizzesMostPopularContainer = () => {
 const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load quizzes
   useEffect(() => {
     loadQuizzesFromSubjectRequest(
       props.subject.id,
       DEFAULT_QUIZ_LIMIT_VALUE,
-      setQuizPosts
+      setQuizPosts,
+      setIsLoaded
     );
   }, [props.subject.id]);
 
@@ -86,6 +90,7 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   return (
     <ViewQuizzesContainer
       title={props.subject.text}
+      isLoaded={isLoaded}
       quizPosts={quizPosts}
       absentText="This subject has no quizzes yet"
     />
@@ -98,16 +103,18 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
 const ViewAllQuizzesContainer = () => {
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load quizzes
   useEffect(() => {
-    loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts);
+    loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   }, []);
 
   // Return component
   return (
     <ViewQuizzesContainer
       title="All Quizzes"
+      isLoaded={isLoaded}
       quizPosts={quizPosts}
       absentText="No quizzes exist yet"
     />

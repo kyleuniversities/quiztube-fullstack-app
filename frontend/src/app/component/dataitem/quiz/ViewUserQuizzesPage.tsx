@@ -20,6 +20,7 @@ export const ViewUserQuizzesPage = () => {
   // Set up user and quiz data
   const [user, setUser] = useState(NULL_USER);
   const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const username = useUsername();
 
   // Use color data
@@ -28,7 +29,7 @@ export const ViewUserQuizzesPage = () => {
   // Load user and quizzes
   useEffect(() => {
     loadUserRequest(id, setUser);
-    loadQuizzesFromUserRequest(id, setQuizPosts);
+    loadQuizzesFromUserRequest(id, setQuizPosts, setIsLoaded);
   }, [id]);
 
   // Set up quizzes page title
@@ -41,6 +42,7 @@ export const ViewUserQuizzesPage = () => {
       <div id={colorize('viewQuizzesContainerContainer')}>
         <ViewQuizzesContainer
           title={title}
+          isLoaded={isLoaded}
           quizPosts={quizPosts}
           absentText="This user has no quizzes yet"
         />
