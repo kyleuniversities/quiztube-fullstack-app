@@ -3,7 +3,7 @@ import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { Link, useParams } from 'react-router-dom';
-import { useUsername } from '../../context/AppContextManager';
+import { useColorize, useUsername } from '../../context/AppContextManager';
 import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
 import { loadQuizzesFromUserRequest } from '../../../service/entity/quiz';
 import { ConditionalContent } from '../../ConditionalContent';
@@ -21,6 +21,9 @@ export const ViewUserQuizzesPage = () => {
   const [quizPosts, setQuizPosts] = useState([]);
   const username = useUsername();
 
+  // Use color data
+  const colorize = useColorize();
+
   // Load user and quizzes
   useEffect(() => {
     loadUserRequest(id, setUser);
@@ -30,7 +33,7 @@ export const ViewUserQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div className="viewAllQuizzesSubContainer">
+      <div id="viewUserQuizzesContainer">
         <h1>
           {user.username === username
             ? 'My Quizzes'
@@ -47,13 +50,13 @@ export const ViewUserQuizzesPage = () => {
                   <div className="quizCardWrappingContainer">
                     <Link to={`/quizzes/${quizPost.id}`}>
                       <Card className="quizCard">
-                        <Card.Content className="quizCardContent">
-                          <Card.Header>{quizPost.title}</Card.Header>
-                          <Card.Description>
+                        <div className={colorize('quizCardContent')}>
+                          <h3 className="quizPostTitle">{quizPost.title}</h3>
+                          <p className="quizPostDescription">
                             {quizPost.description}
-                          </Card.Description>
-                        </Card.Content>
-                        <div className="quizLikesText">
+                          </p>
+                        </div>
+                        <div className={colorize('quizLikesText')}>
                           <span>
                             <Icon name="heart" /> {quizPost.numberOfLikes}
                           </span>

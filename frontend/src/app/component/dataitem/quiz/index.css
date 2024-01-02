@@ -91,3 +91,11 @@
 #viewAllQuizzesContainerLight .quizCard {
     background-color: white;
 }
+
+#viewUserQuizzesContainer .quizCard {
+    background-color: rgb(0,12,84);
+}
+
+#viewUserQuizzesContainerLight .quizCard {
+    background-color: white;
+}
