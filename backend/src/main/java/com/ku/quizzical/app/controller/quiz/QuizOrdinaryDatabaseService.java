@@ -17,15 +17,18 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     private final JdbcTemplate jdbcTemplate;
     private final QuizRepository repository;
     private final QuizDtoRowMapper dtoRowMapper;
-    private final QuizPostDtoMapper postDtoRowMapper;
+    private final QuizPostDtoMapper postDtoMapper;
+    private final QuizPostDtoRowMapper postDtoRowMapper;
 
     // Constructor Method
     public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository repository,
-            QuizDtoRowMapper dtoRowMapper, QuizPostDtoMapper postDtoRowMapper) {
+            QuizDtoRowMapper dtoRowMapper, QuizPostDtoMapper postDtoMapper,
+            QuizPostDtoRowMapper postDtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
         this.repository = repository;
         this.dtoRowMapper = dtoRowMapper;
+        this.postDtoMapper = postDtoMapper;
         this.postDtoRowMapper = postDtoRowMapper;
     }
 
@@ -58,7 +61,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     @Override
     public List<QuizPostDto> getAllQuizzesAsPosts(String subjectId) {
         return this.repository.findAll().stream().filter(this.makeQuizSubjectFilter(subjectId))
-                .map(this.postDtoRowMapper::apply)
+                .map(this.postDtoMapper::apply)
                 .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
                 .toList();
     }
@@ -66,7 +69,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     @Override
     public List<QuizPostDto> getAllQuizzesFromUser(String userId) {
         return this.repository.findAll().stream().filter(this.makeQuizUserFilter(userId))
-                .map(this.postDtoRowMapper::apply)
+                .map(this.postDtoMapper::apply)
                 .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
                 .toList();
     }
@@ -85,17 +88,19 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     public QuizPostDto getQuizAsPost(String id) {
         QuizDto quizDto = this.getQuiz(id);
         Quiz quiz = this.repository.findById(quizDto.id()).get();
-        return this.postDtoRowMapper.apply(quiz);
+        return this.postDtoMapper.apply(quiz);
     }
 
     @Override
-    public List<QuizDto> getAllQuizzesByTitleQuery(String titleQuery) {
+    public List<QuizPostDto> getAllQuizzesByTitleQuery(String titleQuery) {
         var sql = """
                 SELECT id, title, description, picture, thumbnail, user_id, subject_id
                 FROM quiz
                 WHERE title LIKE ?
                 """;
-        return this.jdbcTemplate.query(sql, this.dtoRowMapper, "%" + titleQuery + "%s");
+        String text = "%" + titleQuery + "%";
+        System.out.println("TEXT: " + text);
+        return this.jdbcTemplate.query(sql, this.postDtoRowMapper, text);
     }
 
     @Override

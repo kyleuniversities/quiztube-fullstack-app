@@ -38,7 +38,7 @@ export const ViewUserQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div id="viewUserQuizzesContainer">
+      <div id="viewQuizzesContainerContainer">
         <ViewQuizzesContainer title={title} quizPosts={quizPosts} />
       </div>
     </SitePage>

@@ -110,6 +110,22 @@ export const loadQuizzesFromSubjectRequest = async (
 
 /**
  * READ Method
+ * Loads quizzes from a title query
+ */
+export const loadQuizzesFromTitleQueryRequest = async (
+  title: string | undefined,
+  setQuizzes: any
+): Promise<void> => {
+  return request(`/quizzes/posts?title=${title}`)
+    .then((res: any) => {
+      setQuizzes(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
+};
+
+/**
+ * READ Method
  * Loads a quiz
  */
 export const loadQuizAsWholeRequest = async (

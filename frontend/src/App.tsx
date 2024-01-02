@@ -14,6 +14,7 @@ import { ViewUserAccountPage } from './app/component/dataitem/user/ViewUserAccou
 import { RegistrationPage } from './app/component/entryform/RegistrationPage';
 import { LoginPage } from './app/component/entryform/LoginPage';
 import { RequestPage } from './app/component/request/RequestPage';
+import { ViewSearchQuizzesPage } from './app/component/dataitem/quiz/ViewSearchedQuizzesPage';
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           />
           <Route path="/quizzes/add" element={<AddQuizPage />} />
           <Route path="/quizzes/edit/:id" element={<EditQuizPage />} />
+          <Route
+            path="/quizzes/search/:query"
+            element={<ViewSearchQuizzesPage />}
+          />
           <Route path="/users/:id/quizzes" element={<ViewUserQuizzesPage />} />
           <Route path="/users/:id" element={<ViewUserAccountPage />} />
           <Route path="/registration" element={<RegistrationPage />} />

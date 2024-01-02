@@ -1,12 +1,11 @@
-import { Card, Icon } from 'semantic-ui-react';
 import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
-import { Link } from 'react-router-dom';
 import { loadSubjectsRequest } from '../../../service/entity/subject';
 import { loadQuizzesFromSubjectRequest } from '../../../service/entity/quiz';
 import { useColorize } from '../../context/AppContextManager';
 import { ViewQuizzesContainer } from './ViewQuizzesContainer';
+import { QuizSearchContainer } from './QuizSearchContainer';
 
 /**
  * Page to View All Quizzes
@@ -26,7 +25,9 @@ export const ViewAllQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div id={colorize('viewAllQuizzesContainer')}>
+      <div id={colorize('viewQuizzesContainerContainer')}>
+        <QuizSearchContainer />
+        <MultilineBreak lines={3} />
         {subjects.map((subject: any) => {
           return <ViewAllQuizzesSubContainer subject={subject} />;
         })}

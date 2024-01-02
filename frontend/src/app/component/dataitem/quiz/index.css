@@ -110,24 +110,29 @@
     max-width: 20px;
 }
 
+#quizSearchBar {
+    max-width: 400px;
+    border-radius: 20px;
+}
+
+#quizSearchBarWrapper {
+    padding-right: 10px;
+}
+
+#quizSearchContainer .quizSearchButton {
+    border-radius: 20px;
+} 
+
 .viewQuizzesContainer {
     margin-left: 25px;
     margin-right: 0px;
     padding-right: 0px;
 }
 
-#viewAllQuizzesContainer .quizCard {
+#viewQuizzesContainerContainer .quizCard {
     background-color: rgb(0,12,84);
 }
 
-#viewAllQuizzesContainerLight .quizCard {
-    background-color: white;
-}
-
-#viewUserQuizzesContainer .quizCard {
-    background-color: rgb(0,12,84);
-}
-
-#viewUserQuizzesContainerLight .quizCard {
+#viewQuizzesContainerContainerLight .quizCard {
     background-color: white;
 }

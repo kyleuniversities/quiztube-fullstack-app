@@ -1,6 +1,7 @@
 package com.ku.quizzical.app.controller.quiz;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserRepository;
@@ -53,18 +55,27 @@ public final class QuizController {
         return this.service.getAllQuizzes();
     }
 
+    // READ Method
     // Gets all Quizzes as Posts from a Given User
     @GetMapping("/users/{userId}/quizzes")
     public List<QuizPostDto> getAllQuizzesFromUser(@PathVariable String userId) {
         return this.service.getAllQuizzesFromUser(userId);
     }
 
+    // READ Method
     // Gets all Quizzes as Posts
     @GetMapping("/quizzes/posts")
-    public List<QuizPostDto> getAllQuizzesAsPosts() {
+    public List<QuizPostDto> getAllQuizzesAsPosts(
+            @RequestParam("title") Optional<String> titleQuery) {
+        if (titleQuery.isPresent()) {
+            System.out.println("TITLE_QUERY_1: " + titleQuery.get());
+            return this.service.getAllQuizzesByTitleQuery(titleQuery.get());
+        }
+        System.out.println("TITLE_QUERY_0");
         return this.service.getAllQuizzesAsPosts(null);
     }
 
+    // READ Method
     // Gets all Quizzes as Posts from a Given Subject
     @GetMapping("/quizzes/posts/{subjectId}")
     public List<QuizPostDto> getAllQuizzesAsPosts(@PathVariable String subjectId) {
