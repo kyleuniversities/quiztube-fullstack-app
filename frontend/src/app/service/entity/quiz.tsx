@@ -18,6 +18,9 @@ export const NULL_QUIZ = {
   numberOfLikes: 0,
 };
 
+// Quiz request limit constant
+const DEFAULT_LIMIT = 5;
+
 /**
  * CREATE / UPDATE Method
  * Adding or editing a given quiz
@@ -78,6 +81,19 @@ export const addModifyQuizRequest = async (
 
 /**
  * READ Method
+ * Loads quizzes
+ */
+export const loadQuizzesRequest = async (setQuizzes: any): Promise<void> => {
+  return request(`/quizzes/posts?limit=${DEFAULT_LIMIT}`)
+    .then((res: any) => {
+      setQuizzes(res);
+      return PromiseHelper.newConservativeVoidPromise();
+    })
+    .catch(handleException);
+};
+
+/**
+ * READ Method
  * Loads quizzes from a user
  */
 export const loadQuizzesFromUserRequest = async (
@@ -100,7 +116,7 @@ export const loadQuizzesFromSubjectRequest = async (
   subjectId: string | undefined,
   setQuizzes: any
 ): Promise<void> => {
-  return request(`/quizzes/posts/${subjectId}`)
+  return request(`/quizzes/posts/${subjectId}?limit=${DEFAULT_LIMIT}`)
     .then((res: any) => {
       setQuizzes(res);
       return PromiseHelper.newConservativeVoidPromise();

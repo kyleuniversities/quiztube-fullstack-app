@@ -2,7 +2,10 @@ import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { loadSubjectsRequest } from '../../../service/entity/subject';
-import { loadQuizzesFromSubjectRequest } from '../../../service/entity/quiz';
+import {
+  loadQuizzesFromSubjectRequest,
+  loadQuizzesRequest,
+} from '../../../service/entity/quiz';
 import { useColorize } from '../../context/AppContextManager';
 import { ViewQuizzesContainer } from './ViewQuizzesContainer';
 import { QuizSearchContainer } from './QuizSearchContainer';
@@ -28,6 +31,7 @@ export const ViewAllQuizzesPage = () => {
       <div id={colorize('viewQuizzesContainerContainer')}>
         <QuizSearchContainer />
         <MultilineBreak lines={3} />
+        <ViewAllQuizzesMostPopularContainer />
         {subjects.map((subject: any) => {
           return <ViewAllQuizzesSubContainer subject={subject} />;
         })}
@@ -37,7 +41,28 @@ export const ViewAllQuizzesPage = () => {
 };
 
 /**
- * Sub Container to View All Arts Quizzes
+ * Sub Container to View Quizzes that are the most popular
+ */
+const ViewAllQuizzesMostPopularContainer = () => {
+  // Set up quiz data
+  const [quizPosts, setQuizPosts] = useState([]);
+
+  // Load quizzes
+  useEffect(() => {
+    loadQuizzesRequest(setQuizPosts);
+  }, []);
+
+  // Return component
+  return (
+    <ViewQuizzesContainer
+      title={'Most Popular Quizzes'}
+      quizPosts={quizPosts}
+    />
+  );
+};
+
+/**
+ * Sub Container to View Quizzes from a Subject
  */
 const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   // Set up quiz data

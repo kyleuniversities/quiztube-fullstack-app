@@ -18,6 +18,7 @@ import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
+import com.ku.quizzical.common.helper.ConditionalHelper;
 
 @CrossOrigin
 @RestController
@@ -66,20 +67,22 @@ public final class QuizController {
     // Gets all Quizzes as Posts
     @GetMapping("/quizzes/posts")
     public List<QuizPostDto> getAllQuizzesAsPosts(
-            @RequestParam("title") Optional<String> titleQuery) {
+            @RequestParam("title") Optional<String> titleQuery,
+            @RequestParam("limit") Optional<String> limit) {
         if (titleQuery.isPresent()) {
             System.out.println("TITLE_QUERY_1: " + titleQuery.get());
             return this.service.getAllQuizzesByTitleQuery(titleQuery.get());
         }
         System.out.println("TITLE_QUERY_0");
-        return this.service.getAllQuizzesAsPosts(null);
+        return this.service.getAllQuizzesAsPosts(null, this.parseLimit(limit));
     }
 
     // READ Method
     // Gets all Quizzes as Posts from a Given Subject
     @GetMapping("/quizzes/posts/{subjectId}")
-    public List<QuizPostDto> getAllQuizzesAsPosts(@PathVariable String subjectId) {
-        return this.service.getAllQuizzesAsPosts(subjectId);
+    public List<QuizPostDto> getAllQuizzesAsPosts(@PathVariable String subjectId,
+            @RequestParam("limit") Optional<String> limit) {
+        return this.service.getAllQuizzesAsPosts(subjectId, this.parseLimit(limit));
     }
 
     // READ Method
@@ -113,5 +116,10 @@ public final class QuizController {
                 matchingQuiz.getUserId());
         this.service.deleteQuiz(id);
         return "\"The Quiz with id \\\"" + id + "\\\" has been deleted.\"";
+    }
+
+    private int parseLimit(Optional<String> limit) {
+        return ConditionalHelper.newTernaryOperation(limit.isPresent(),
+                () -> Integer.parseInt(limit.get()), () -> Integer.MAX_VALUE);
     }
 }
