@@ -133,25 +133,27 @@ const SiteHeaderUserSignedInContent = (props: {
         className="siteHeaderUserThumbnailImage"
         src={collectThumbnailPath(user)}
       />
-      <Dropdown direction="left" inline item text={props.username}>
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} to={`/users/${userId}`}>
-            My Account
-          </Dropdown.Item>
-          <Dropdown.Item as={Link} to={`/users/${userId}/quizzes`}>
-            My Quizzes
-          </Dropdown.Item>
-          <Dropdown.Item as={Link} to={`/quizzes/add`}>
-            New Quiz
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => colorize.toggle()}>
-            {colorize.opposite()} Mode
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
-            Logout
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <div className={colorize('siteHeaderUserDropdown')}>
+        <Dropdown direction="left" inline item text={props.username}>
+          <Dropdown.Menu>
+            <Dropdown.Item as={Link} to={`/users/${userId}`}>
+              My Account
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to={`/users/${userId}/quizzes`}>
+              My Quizzes
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to={`/quizzes/add`}>
+              New Quiz
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => colorize.toggle()}>
+              {colorize.opposite()} Mode
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     </Menu.Item>
   );
 };
