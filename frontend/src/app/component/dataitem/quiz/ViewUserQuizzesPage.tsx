@@ -39,7 +39,11 @@ export const ViewUserQuizzesPage = () => {
   return (
     <SitePage>
       <div id="viewQuizzesContainerContainer">
-        <ViewQuizzesContainer title={title} quizPosts={quizPosts} />
+        <ViewQuizzesContainer
+          title={title}
+          quizPosts={quizPosts}
+          absentText="This user has no quizzes yet"
+        />
       </div>
     </SitePage>
   );

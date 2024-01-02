@@ -43,7 +43,11 @@ export const ViewSearchQuizzesPage = () => {
       <div id={colorize('viewQuizzesContainerContainer')}>
         <QuizSearchContainer />
         <MultilineBreak lines={3} />
-        <ViewQuizzesContainer title={title} quizPosts={quizPosts} />
+        <ViewQuizzesContainer
+          title={title}
+          quizPosts={quizPosts}
+          absentText="I'm sorry, no quizzes match your query :("
+        />
       </div>
     </SitePage>
   );

@@ -55,8 +55,9 @@ const ViewAllQuizzesMostPopularContainer = () => {
   // Return component
   return (
     <ViewQuizzesContainer
-      title={'Most Popular Quizzes'}
+      title="Most Popular Quizzes"
       quizPosts={quizPosts}
+      absentText="No quizzes exist yet"
     />
   );
 };
@@ -75,6 +76,10 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
 
   // Return component
   return (
-    <ViewQuizzesContainer title={props.subject.text} quizPosts={quizPosts} />
+    <ViewQuizzesContainer
+      title={props.subject.text}
+      quizPosts={quizPosts}
+      absentText="This subject has no quizzes yet"
+    />
   );
 };
