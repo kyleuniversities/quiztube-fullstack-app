@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { collectThumbnailPath } from '../service/file';
-import { loadUserRequest } from '../service/entity/user';
+import { NULL_USER, loadUserRequest } from '../service/entity/user';
 import { isPassableId, logoutAction } from '../service/auth';
 import './index.css';
 import { useMediaQuery } from 'react-responsive';
@@ -19,11 +19,6 @@ import {
   BIG_SCREEN_QUERY,
   MEDIUM_SCREEN_QUERY,
 } from '../../common/util/mobile';
-
-// A placeholder user to avoid reading errors
-const DEFAULT_USER: any = {
-  thumbnail: 'null',
-};
 
 /**
  * A header component for all site pages
@@ -111,11 +106,14 @@ const SiteHeaderUserSignedInContent = (props: {
   username: string;
 }): JSX.Element => {
   // Set up user viewing data
-  const [user, setUser] = useState(DEFAULT_USER);
+  const [user, setUser] = useState(NULL_USER);
 
   // Set up user session data
   const userContext = useAppContext();
   const userId = useUserId();
+
+  // Set up color session data
+  const colorize = useColorize();
 
   // Set up navigation
   const navigate = useNavigate();
@@ -146,6 +144,9 @@ const SiteHeaderUserSignedInContent = (props: {
           <Dropdown.Item as={Link} to={`/quizzes/add`}>
             New Quiz
           </Dropdown.Item>
+          <Dropdown.Item onClick={() => colorize.toggle()}>
+            {colorize.opposite()} Mode
+          </Dropdown.Item>
           <Dropdown.Item onClick={() => logoutAction(navigate, userContext)}>
             Logout
           </Dropdown.Item>
@@ -157,25 +158,35 @@ const SiteHeaderUserSignedInContent = (props: {
 
 // The content relating to the user whilst signed out
 const SiteHeaderUserSignedOutContent = (): JSX.Element => {
-  return (
-    <Menu.Item position="right">
-      <SiteHeaderSignedOutButton to="/login">Login</SiteHeaderSignedOutButton>
-      <SiteHeaderSignedOutButton to="/registration">
-        Sign Up
-      </SiteHeaderSignedOutButton>
-    </Menu.Item>
-  );
-};
+  // Set up user viewing data
+  const user = NULL_USER;
 
-// Link Button for Site Header Signed Out Content
-const SiteHeaderSignedOutButton = (props: {
-  to: string;
-  children: ReactNode;
-}): JSX.Element => {
-  const colorize = useColorize();
+  // Set up color context data
+  const colorize: any = useColorize();
+
+  // Return component
   return (
-    <LinkButton to={props.to} className={colorize('siteHeaderUserButton')}>
-      {props.children}
-    </LinkButton>
+    <Menu.Item
+      style={{ marginRight: '0px', paddingRight: '0px' }}
+      position="right"
+    >
+      <Image
+        className="siteHeaderUserThumbnailImage"
+        src={collectThumbnailPath(user)}
+      />
+      <Dropdown direction="left" inline item text={'Guest'}>
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} to={`/login`}>
+            Log In
+          </Dropdown.Item>
+          <Dropdown.Item as={Link} to={`/registration`}>
+            Sign Up
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => colorize.toggle()}>
+            {colorize.opposite()} Mode
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Menu.Item>
   );
 };

@@ -173,5 +173,10 @@ export const useColorize = () => {
     }
     colorContext.setColorModeSessionData('Light');
   };
+
+  // Set up opposite function
+  colorize.opposite = () => {
+    return colorContext.colorMode === 'Light' ? 'Dark' : 'Light';
+  };
   return colorize;
 };

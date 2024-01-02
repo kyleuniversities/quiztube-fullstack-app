@@ -1,21 +1,30 @@
+import { debugAlert } from './debug';
 import { deriveApiHost } from './request';
 
 // Collect picture image path
 export const collectPicturePath = (item: any) => {
-  const key = item.picture;
-  const encodedKey = key.replace(/\//g, '__');
-  return `${deriveApiHost()}/file/image/${encodedKey}`;
+  return `${deriveApiHost()}/file/image/${encode(item.picture)}`;
 };
 
 // Collect thumbnail image path
 export const collectThumbnailPath = (item: any) => {
-  const key = item.thumbnail;
-  const encodedKey = key.replace(/\//g, '__');
-  return `${deriveApiHost()}/file/image/${encodedKey}`;
+  return `${deriveApiHost()}/file/image/${encode(item.thumbnail)}`;
 };
 
 // Collect thumbnail image path
 export const collectDefaultThumbnailPathFromUsername = (username: string) => {
   const firstLetter = username.toLowerCase().charAt(0);
-  return `${deriveApiHost()}/file/image/static__user__user-picture-${firstLetter}_T.png`;
+  const key = `static/user/user-picture-${firstLetter}_T.png`;
+  return `${deriveApiHost()}/file/image/${key}`;
+};
+
+// Collect thumbnail image key
+export const collectDefaultThumbnailKeyFromUsername = (username: string) => {
+  const firstLetter = username.toLowerCase().charAt(0);
+  return `static/user/user-picture-${firstLetter}_T.png`;
+};
+
+// Encode file key to be passable in the url
+export const encode = (key: string): string => {
+  return key.replace(/\//g, '__').replace(/\#/g, '*');
 };

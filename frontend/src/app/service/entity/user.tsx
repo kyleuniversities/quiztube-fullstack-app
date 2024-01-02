@@ -1,6 +1,7 @@
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
 import { handleException } from '../../util/exception';
 import { logoutAction } from '../auth';
+import { collectDefaultThumbnailKeyFromUsername } from '../file';
 import { NULL_TEXT } from '../general';
 import { request } from '../request';
 
@@ -10,6 +11,7 @@ export const NULL_USER = {
   username: NULL_TEXT,
   email: NULL_TEXT,
   picture: NULL_TEXT,
+  thumbnail: collectDefaultThumbnailKeyFromUsername(NULL_TEXT),
 };
 
 /**

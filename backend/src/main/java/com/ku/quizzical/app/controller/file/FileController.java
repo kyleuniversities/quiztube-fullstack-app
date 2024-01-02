@@ -28,7 +28,8 @@ public final class FileController {
         if (key == null || key.equals("null")) {
             return new byte[] {};
         }
-        String decodedKey = StringReplacementHelper.replace(key, "__", "/");
+        String decodedKey = StringReplacementHelper
+                .replace(StringReplacementHelper.replace(key, "*", "#"), "__", "/");
         return this.s3StorageService.getObject(decodedKey);
     }
 }
