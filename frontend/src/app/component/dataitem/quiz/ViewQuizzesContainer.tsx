@@ -40,7 +40,7 @@ export const ViewQuizzesContainer = (props: {
                           quiz={quizPost}
                         />
                       </span>
-                      <span className="quizLikesText">
+                      <span className={colorize('quizLikesText')}>
                         <Icon name="heart" /> {quizPost.numberOfLikes}
                       </span>
                     </div>
