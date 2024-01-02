@@ -1,6 +1,5 @@
 import { Container, Dropdown, Image, Menu } from 'semantic-ui-react';
 import { ConditionalContent } from './ConditionalContent';
-import { LinkButton } from './Component';
 import {
   useAppContext,
   useColorize,
@@ -9,7 +8,7 @@ import {
 } from './context/AppContextManager';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { collectThumbnailPath } from '../service/file';
 import { NULL_USER, loadUserRequest } from '../service/entity/user';
 import { isPassableId, logoutAction } from '../service/auth';

@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { SiteHeader } from './SiteHeader';
-import { Container } from 'semantic-ui-react';
 import { useColorize } from './context/AppContextManager';
 import { MultilineBreak } from './MultilineBreak';
 import './index.css';

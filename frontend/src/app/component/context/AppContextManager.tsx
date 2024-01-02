@@ -46,7 +46,7 @@ export const AppContextManager = (props: {
   const [sessionUser, setSessionUser] = useState(NULL_SESSION_USER);
 
   // Set up color mode variable
-  const [colorMode, setColorMode] = useState('Light');
+  const [colorMode, setColorMode] = useState(initialColorMode);
 
   // Sets up user from token
   const setUserFromSession = () => {

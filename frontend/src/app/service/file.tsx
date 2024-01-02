@@ -1,4 +1,3 @@
-import { debugAlert } from './debug';
 import { deriveApiHost } from './request';
 
 // Collect picture image path
@@ -26,5 +25,5 @@ export const collectDefaultThumbnailKeyFromUsername = (username: string) => {
 
 // Encode file key to be passable in the url
 export const encode = (key: string): string => {
-  return key.replace(/\//g, '__').replace(/\#/g, '*');
+  return key.replace(/\//g, '__').replace(/#/g, '*');
 };
