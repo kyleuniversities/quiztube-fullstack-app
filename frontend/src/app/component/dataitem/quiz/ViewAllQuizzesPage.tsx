@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { loadSubjectsRequest } from '../../../service/entity/subject';
 import { loadQuizzesFromSubjectRequest } from '../../../service/entity/quiz';
 import { useColorize } from '../../context/AppContextManager';
+import { ViewQuizzesContainer } from './ViewQuizzesContainer';
 
 /**
  * Page to View All Quizzes
@@ -41,9 +42,6 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
 
-  // Set up color data
-  const colorize = useColorize();
-
   // Load quizzes
   useEffect(() => {
     loadQuizzesFromSubjectRequest(props.subject.id, setQuizPosts);
@@ -51,36 +49,6 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
 
   // Return component
   return (
-    <div className="viewAllQuizzesSubContainer">
-      <h1>
-        <div className={colorize('quizSubjectTitle')}>{props.subject.text}</div>
-      </h1>
-      <div className="quizCardGroupContainer">
-        <Card.Group>
-          {quizPosts.map((quizPost: any) => {
-            return (
-              <div className="quizCardWrappingContainer">
-                <Link to={`/quizzes/${quizPost.id}`}>
-                  <Card className="quizCard">
-                    <div className={colorize('quizCardContent')}>
-                      <h3 className="quizPostTitle">{quizPost.title}</h3>
-                      <p className="quizPostDescription">
-                        {quizPost.description}
-                      </p>
-                    </div>
-                    <div className={colorize('quizLikesText')}>
-                      <span>
-                        <Icon name="heart" /> {quizPost.numberOfLikes}
-                      </span>
-                    </div>
-                  </Card>
-                </Link>
-              </div>
-            );
-          })}
-        </Card.Group>
-        <MultilineBreak lines={3} />
-      </div>
-    </div>
+    <ViewQuizzesContainer title={props.subject.text} quizPosts={quizPosts} />
   );
 };

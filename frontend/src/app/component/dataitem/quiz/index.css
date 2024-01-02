@@ -86,15 +86,15 @@
     margin-bottom: 5px;
 }
 
-.quizSubjectTitle {
+.quizGroupTitle {
     color: rgb(255,255,255);
 }
 
-.quizSubjectTitleLight {
+.quizGroupTitleLight {
     color: rgb(0, 128, 0);
 }
 
-.viewAllQuizzesSubContainer {
+.viewQuizzesContainer {
     margin-left: 25px;
     margin-right: 0px;
     padding-right: 0px;

@@ -8,6 +8,7 @@ import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
 import { loadQuizzesFromUserRequest } from '../../../service/entity/quiz';
 import { ConditionalContent } from '../../ConditionalContent';
 import './index.css';
+import { ViewQuizzesContainer } from './ViewQuizzesContainer';
 
 /**
  * Page to View All Quizzes
@@ -30,46 +31,15 @@ export const ViewUserQuizzesPage = () => {
     loadQuizzesFromUserRequest(id, setQuizPosts);
   }, [id]);
 
+  // Set up quizzes page title
+  const title =
+    user.username === username ? 'My Quizzes' : `Quizzes by ${user.username}`;
+
   // Return component
   return (
     <SitePage>
       <div id="viewUserQuizzesContainer">
-        <h1>
-          {user.username === username
-            ? 'My Quizzes'
-            : `Quizzes by ${user.username}`}
-        </h1>
-        <div className="quizCardGroupContainer">
-          <ConditionalContent condition={quizPosts.length === 0}>
-            This user has no quizzes yet.
-          </ConditionalContent>
-          <ConditionalContent condition={quizPosts.length > 0}>
-            <Card.Group>
-              {quizPosts.map((quizPost: any) => {
-                return (
-                  <div className="quizCardWrappingContainer">
-                    <Link to={`/quizzes/${quizPost.id}`}>
-                      <Card className="quizCard">
-                        <div className={colorize('quizCardContent')}>
-                          <h3 className="quizPostTitle">{quizPost.title}</h3>
-                          <p className="quizPostDescription">
-                            {quizPost.description}
-                          </p>
-                        </div>
-                        <div className={colorize('quizLikesText')}>
-                          <span>
-                            <Icon name="heart" /> {quizPost.numberOfLikes}
-                          </span>
-                        </div>
-                      </Card>
-                    </Link>
-                  </div>
-                );
-              })}
-            </Card.Group>
-          </ConditionalContent>
-          <MultilineBreak lines={3} />
-        </div>
+        <ViewQuizzesContainer title={title} quizPosts={quizPosts} />
       </div>
     </SitePage>
   );
