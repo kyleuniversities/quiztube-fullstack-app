@@ -19,7 +19,10 @@ export const NULL_QUIZ = {
 };
 
 // Quiz request limit constant
-const DEFAULT_LIMIT = 5;
+export const DEFAULT_QUIZ_LIMIT_VALUE = 5;
+
+// Sentinel value for no limit
+export const NO_LIMIT_VALUE = 1000000000;
 
 /**
  * CREATE / UPDATE Method
@@ -84,14 +87,11 @@ export const addModifyQuizRequest = async (
  * Loads quizzes
  */
 export const loadQuizzesRequest = async (
-  useLimit: boolean,
+  limit: number,
   setQuizzes: any
 ): Promise<void> => {
-  // Determine if limit query will be used
-  const limitQueryText = useLimit ? `?limit=${DEFAULT_LIMIT}` : '';
-
   // Run the request
-  return request(`/quizzes/posts${limitQueryText}`)
+  return request(`/quizzes/posts?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
       return PromiseHelper.newConservativeVoidPromise();
@@ -121,9 +121,10 @@ export const loadQuizzesFromUserRequest = async (
  */
 export const loadQuizzesFromSubjectRequest = async (
   subjectId: string | undefined,
+  limit: number,
   setQuizzes: any
 ): Promise<void> => {
-  return request(`/quizzes/posts/${subjectId}?limit=${DEFAULT_LIMIT}`)
+  return request(`/quizzes/posts/${subjectId}?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
       return PromiseHelper.newConservativeVoidPromise();

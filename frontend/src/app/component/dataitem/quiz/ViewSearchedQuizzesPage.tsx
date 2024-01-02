@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
 import { loadSubjectsRequest } from '../../../service/entity/subject';
 import {
+  NO_LIMIT_VALUE,
   loadQuizzesFromSubjectRequest,
   loadQuizzesFromTitleQueryRequest,
   loadQuizzesRequest,
@@ -28,7 +29,7 @@ export const ViewSearchQuizzesPage = () => {
   // Load subjects
   useEffect(() => {
     if (query === '*') {
-      loadQuizzesRequest(false, setQuizPosts);
+      loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts);
       return;
     }
     loadQuizzesFromTitleQueryRequest(query, setQuizPosts);
