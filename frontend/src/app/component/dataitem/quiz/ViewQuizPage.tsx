@@ -9,10 +9,7 @@ import {
   useUserId,
   useUsername,
 } from '../../context/AppContextManager';
-import {
-  collectDefaultThumbnailPathFromUsername,
-  collectPicturePath,
-} from '../../../service/file';
+import { collectPicturePath } from '../../../service/file';
 import { ConditionalContent } from '../../ConditionalContent';
 import {
   NULL_LIKE,

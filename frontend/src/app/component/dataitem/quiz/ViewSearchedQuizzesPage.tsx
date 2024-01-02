@@ -1,10 +1,8 @@
 import { SitePage } from '../../SitePage';
 import { useEffect, useState } from 'react';
 import { MultilineBreak } from '../../MultilineBreak';
-import { loadSubjectsRequest } from '../../../service/entity/subject';
 import {
   NO_LIMIT_VALUE,
-  loadQuizzesFromSubjectRequest,
   loadQuizzesFromTitleQueryRequest,
   loadQuizzesRequest,
 } from '../../../service/entity/quiz';
