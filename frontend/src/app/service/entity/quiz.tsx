@@ -15,6 +15,7 @@ export const NULL_QUIZ = {
   subjectId: NULL_TEXT,
   authorUsername: NULL_TEXT,
   subject: NULL_TEXT,
+  numberOfQuestions: 0,
   numberOfLikes: 0,
 };
 

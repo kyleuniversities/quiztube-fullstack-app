@@ -80,9 +80,11 @@ export const ViewQuizPage = (): JSX.Element => {
       <Link to={`/quizzes/${id}/questions`}>
         <Button icon="eye" color="orange" content="View Questions" />
       </Link>
-      <Link to={`/quizzes/${id}/questions/take`}>
-        <Button icon="bolt" color="brown" content="Take Quiz" />
-      </Link>
+      <ConditionalContent condition={quiz.numberOfQuestions > 0}>
+        <Link to={`/quizzes/${id}/questions/take`}>
+          <Button icon="bolt" color="brown" content="Take Quiz" />
+        </Link>
+      </ConditionalContent>
       <ConditionalContent
         condition={like.userId !== undefined && like.userId.length > 10}
       >

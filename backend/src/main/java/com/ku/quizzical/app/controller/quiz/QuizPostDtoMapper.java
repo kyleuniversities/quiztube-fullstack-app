@@ -13,7 +13,8 @@ public class QuizPostDtoMapper implements Function<Quiz, QuizPostDto> {
         User user = quiz.getUser();
         Subject subject = quiz.getSubject();
         return new QuizPostDto(quiz.getId(), quiz.getTitle(), quiz.getDescription(),
-                quiz.getPicture(), quiz.getThumbnail(), user.getId(), subject.getId(), user.getUsername(),
-                subject.getText(), quiz.getLikes().size());
+                quiz.getPicture(), quiz.getThumbnail(), user.getId(), subject.getId(),
+                user.getUsername(), subject.getText(), quiz.getQuestions().size(),
+                quiz.getLikes().size());
     }
 }

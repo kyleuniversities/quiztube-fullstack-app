@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import com.ku.quizzical.common.helper.number.IntegerHelper;
 
 /**
  * Helper class for List Operations
@@ -242,7 +243,7 @@ public final class ListHelper {
      */
     public static <T> void shuffle(List<T> list) {
         int size = list.size();
-        int startIndex = RandomHelper.nextInt(size);
+        int startIndex = RandomHelper.nextInt(IntegerHelper.max(size, 1));
         IterationHelper.forEach(size, (Integer i) -> {
             int index1 = (startIndex + i) % size;
             int index2 = RandomHelper.nextInt(size);
