@@ -82,8 +82,9 @@ const QuestionsListColumn = (props: { quiz: any; questions: any[] }) => {
   const colorize = useColorize();
   const questionImage = require('../../../resource/question-image.png');
   const questionImageLight = require('../../../resource/question-image-light.png');
-  const selectedQuestionImage =
-    colorize.colorMode().length === 0 ? questionImage : questionImageLight;
+  const selectedQuestionImage = colorize.isDefaultMode()
+    ? questionImage
+    : questionImageLight;
 
   // Return component
   return (

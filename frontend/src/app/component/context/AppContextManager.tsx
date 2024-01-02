@@ -173,6 +173,9 @@ export const useColorize = () => {
   // Get color mode
   colorize.colorMode = () => colorContext.colorMode;
 
+  // Check if is in default mode
+  colorize.isDefaultMode = () => colorize.colorMode() === 'Dark';
+
   // Set up toggle function
   colorize.toggle = () => {
     if (colorContext.colorMode === 'Light') {

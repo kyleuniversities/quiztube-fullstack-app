@@ -54,7 +54,7 @@ const SiteHeaderHomeIconItem = (): JSX.Element => {
   const colorize = useColorize();
   const logo = require('../resource/logo.png');
   const logoLight = require('../resource/logo-light.png');
-  const selectedLogo = colorize.colorMode().length === 0 ? logo : logoLight;
+  const selectedLogo = colorize.isDefaultMode() ? logo : logoLight;
 
   // Return component
   return (
