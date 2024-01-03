@@ -45,16 +45,16 @@ export const LoginPage = (): JSX.Element => {
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
+          <MultilineBreak lines={1} />
+          <Button
+            fluid
+            color="blue"
+            content="Submit"
+            onClick={() =>
+              loginRequest(navigate, userContext, username, password)
+            }
+          />
         </Form>
-        <MultilineBreak lines={1} />
-        <Button
-          fluid
-          color="blue"
-          content="Submit"
-          onClick={() =>
-            loginRequest(navigate, userContext, username, password)
-          }
-        />
       </Container>
     </SitePage>
   );
