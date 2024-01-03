@@ -208,8 +208,9 @@ export const deleteQuizRequest = async (
   // Run request
   return request(`/quizzes/${id}`, { method: 'DELETE' })
     .then((res) => {
-      // Navigate back
-      navigate(-1);
+      // Navigate to user quizzes page
+      navigate(`/users/${userId}/quizzes`);
+      window.location.reload();
       return PromiseHelper.newConservativeVoidPromise();
     })
     .catch(handleException);
