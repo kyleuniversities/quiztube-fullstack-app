@@ -111,13 +111,11 @@ export const loadQuizzesFromUserRequest = async (
   setQuizzes: any,
   setIsLoaded: any
 ): Promise<void> => {
-  return request(`/users/${userId}/quizzes`)
-    .then((res: any) => {
-      setQuizzes(res);
-      setIsLoaded(true);
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/users/${userId}/quizzes`).then((res: any) => {
+    setQuizzes(res);
+    setIsLoaded(true);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**

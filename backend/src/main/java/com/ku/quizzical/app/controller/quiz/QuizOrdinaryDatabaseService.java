@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
@@ -16,17 +17,19 @@ import com.ku.quizzical.common.helper.number.IdHelper;
 public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
+    private final UserRepository userRepository;
     private final QuizRepository repository;
     private final QuizDtoRowMapper dtoRowMapper;
     private final QuizPostDtoMapper postDtoMapper;
     private final QuizPostDtoRowMapper postDtoRowMapper;
 
     // Constructor Method
-    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository repository,
-            QuizDtoRowMapper dtoRowMapper, QuizPostDtoMapper postDtoMapper,
-            QuizPostDtoRowMapper postDtoRowMapper) {
+    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserRepository userRepository,
+            QuizRepository repository, QuizDtoRowMapper dtoRowMapper,
+            QuizPostDtoMapper postDtoMapper, QuizPostDtoRowMapper postDtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.userRepository = userRepository;
         this.repository = repository;
         this.dtoRowMapper = dtoRowMapper;
         this.postDtoMapper = postDtoMapper;
@@ -69,6 +72,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public List<QuizPostDto> getAllQuizzesFromUser(String userId) {
+        DatabaseValidationHelper.validateExistingResource("User", "id", userId,
+                this.userRepository::findById);
         return this.repository.findAll().stream().filter(this.makeQuizUserFilter(userId))
                 .map(this.postDtoMapper::apply)
                 .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
