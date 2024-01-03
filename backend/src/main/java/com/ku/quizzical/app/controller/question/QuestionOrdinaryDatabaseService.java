@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ku.quizzical.app.controller.quiz.Quiz;
 import com.ku.quizzical.app.controller.quiz.QuizRepository;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
@@ -17,14 +18,16 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
     private QuizRepository quizRepository;
+    private QuestionRepository repository;
     private final QuestionDtoRowMapper dtoRowMapper;
 
     // Constructor Method
     public QuestionOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository quizRepository,
-            QuestionDtoRowMapper dtoRowMapper) {
+            QuestionRepository repository, QuestionDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
         this.quizRepository = quizRepository;
+        this.repository = repository;
         this.dtoRowMapper = dtoRowMapper;
     }
 
@@ -52,6 +55,8 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
                 FROM question
                 WHERE quiz_id = ?
                 """;
+        DatabaseValidationHelper.validateExistingResource("Quiz", "id", quizId,
+                this.quizRepository::findById);
         List<QuestionDto> questions = this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId);
         return ListHelper.shuffleWithFallthrough(questions);
     }
@@ -63,6 +68,10 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
                 FROM question
                 WHERE id = ?
                 """;
+        DatabaseValidationHelper.validateExistingResource("Quiz", "id", id,
+                this.quizRepository::findById);
+        DatabaseValidationHelper.validateExistingResource("Question", "id", id,
+                this.repository::findById);
         return ListHelper.getApparentValue(this.jdbcTemplate.query(sql, this.dtoRowMapper, id), 0);
     }
 

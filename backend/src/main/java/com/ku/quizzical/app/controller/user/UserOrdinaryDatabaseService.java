@@ -65,6 +65,8 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 FROM user
                 WHERE id = ?
                 """;
+        DatabaseValidationHelper.validateExistingResource("User", "id", id,
+                this.repository::findById);
         return ListHelper.getApparentValue(this.jdbcTemplate.query(sql, this.dtoRowMapper, id), 0);
     }
 

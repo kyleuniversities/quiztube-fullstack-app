@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
@@ -81,6 +82,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
                 FROM quiz
                 WHERE id = ?
                 """;
+        DatabaseValidationHelper.validateExistingResource("Quiz", "id", id,
+                this.repository::findById);
         return ListHelper.getApparentValue(this.jdbcTemplate.query(sql, this.dtoRowMapper, id), 0);
     }
 

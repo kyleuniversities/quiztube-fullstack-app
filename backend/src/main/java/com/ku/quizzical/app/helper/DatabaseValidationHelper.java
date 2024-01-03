@@ -13,6 +13,21 @@ public class DatabaseValidationHelper {
     /**
      * Validate if a resource is exists
      */
+    public static <T> T validateExistingResource(String entityName, String attributeName,
+            String queryToken, Function<String, Optional<T>> existingResourceCollector) {
+        try {
+            return DatabaseValidationHelper.validateExistingResourceWithFallthrough(attributeName,
+                    existingResourceCollector.apply(queryToken)).get();
+        } catch (Exception exception) {
+            ApiExceptionHelper.throwResourceNotFoundException(
+                    StringHelper.format("%s %s does not exist.", entityName, attributeName));
+        }
+        return null;
+    }
+
+    /**
+     * Validate if a resource is exists
+     */
     public static <T> T validateExistingResourceWithFallthrough(String attributeName,
             String queryToken, Function<String, Optional<T>> existingResourceCollector) {
         try {
