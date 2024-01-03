@@ -53,16 +53,16 @@ export const RegistrationPage = (): JSX.Element => {
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
+          <MultilineBreak lines={1} />
+          <Button
+            fluid
+            color="blue"
+            content="Submit"
+            onClick={() =>
+              addUserRequest(navigate, userContext, username, email, password)
+            }
+          />
         </Form>
-        <MultilineBreak lines={1} />
-        <Button
-          fluid
-          color="blue"
-          content="Submit"
-          onClick={() =>
-            addUserRequest(navigate, userContext, username, email, password)
-          }
-        />
       </Container>
     </SitePage>
   );

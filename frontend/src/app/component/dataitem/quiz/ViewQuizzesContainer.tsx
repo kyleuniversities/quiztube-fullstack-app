@@ -32,10 +32,15 @@ export const ViewQuizzesContainer = (props: {
   const [quizPosts, setQuizPosts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Set up use effect data
+  const loadQuizzesFunction = props.loadQuizzesFunction;
+  const loadQuizzesFunctionDependencyArray =
+    props.loadQuizzesFunctionDependencyArray;
+
   // Load quizzes
   useEffect(() => {
-    props.loadQuizzesFunction(setQuizPosts, setIsLoaded);
-  }, [props.loadQuizzesFunctionDependencyArray]);
+    loadQuizzesFunction(setQuizPosts, setIsLoaded);
+  }, [loadQuizzesFunction, loadQuizzesFunctionDependencyArray]);
 
   // Set up color data
   const colorize = useColorize();
