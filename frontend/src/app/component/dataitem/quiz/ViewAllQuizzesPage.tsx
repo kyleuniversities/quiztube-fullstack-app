@@ -9,7 +9,7 @@ import {
   loadQuizzesRequest,
 } from '../../../service/entity/quiz';
 import { useColorize } from '../../context/AppContextManager';
-import { ViewQuizzesContainer } from './ViewQuizzesContainer';
+import { Updater, ViewQuizzesContainer } from './ViewQuizzesContainer';
 import { QuizSearchContainer } from './QuizSearchContainer';
 
 /**
@@ -48,21 +48,20 @@ export const ViewAllQuizzesPage = () => {
  * Sub Container to View Quizzes that are the most popular
  */
 const ViewAllQuizzesMostPopularContainer = () => {
-  // Set up quiz data
-  const [quizPosts, setQuizPosts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load quizzes
-  useEffect(() => {
+  // Set up load quizzes function
+  const loadQuizzesFunction = (
+    setQuizPosts: Updater,
+    setIsLoaded: Updater
+  ): void => {
     loadQuizzesRequest(DEFAULT_QUIZ_LIMIT_VALUE, setQuizPosts, setIsLoaded);
-  }, []);
+  };
 
   // Return component
   return (
     <ViewQuizzesContainer
       title="Most Popular Quizzes"
-      isLoaded={isLoaded}
-      quizPosts={quizPosts}
+      loadQuizzesFunction={loadQuizzesFunction}
+      loadQuizzesFunctionDependencyArray={[]}
       absentText="No quizzes exist yet"
     />
   );
@@ -72,26 +71,25 @@ const ViewAllQuizzesMostPopularContainer = () => {
  * Sub Container to View Quizzes from a Subject
  */
 const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
-  // Set up quiz data
-  const [quizPosts, setQuizPosts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load quizzes
-  useEffect(() => {
+  // Set up load quizzes function
+  const loadQuizzesFunction = (
+    setQuizPosts: Updater,
+    setIsLoaded: Updater
+  ): void => {
     loadQuizzesFromSubjectRequest(
       props.subject.id,
       DEFAULT_QUIZ_LIMIT_VALUE,
       setQuizPosts,
       setIsLoaded
     );
-  }, [props.subject.id]);
+  };
 
   // Return component
   return (
     <ViewQuizzesContainer
       title={props.subject.text}
-      isLoaded={isLoaded}
-      quizPosts={quizPosts}
+      loadQuizzesFunction={loadQuizzesFunction}
+      loadQuizzesFunctionDependencyArray={[props.subject.id]}
       absentText="This subject has no quizzes yet"
     />
   );
@@ -101,21 +99,20 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
  * Sub Container to All Quizzes
  */
 const ViewAllQuizzesContainer = () => {
-  // Set up quiz data
-  const [quizPosts, setQuizPosts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load quizzes
-  useEffect(() => {
+  // Set up load quizzes function
+  const loadQuizzesFunction = (
+    setQuizPosts: Updater,
+    setIsLoaded: Updater
+  ): void => {
     loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts, setIsLoaded);
-  }, []);
+  };
 
   // Return component
   return (
     <ViewQuizzesContainer
       title="All Quizzes"
-      isLoaded={isLoaded}
-      quizPosts={quizPosts}
+      loadQuizzesFunction={loadQuizzesFunction}
+      loadQuizzesFunctionDependencyArray={[]}
       absentText="No quizzes exist yet"
     />
   );

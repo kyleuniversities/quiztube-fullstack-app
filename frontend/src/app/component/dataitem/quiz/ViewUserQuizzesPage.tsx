@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useColorize, useUsername } from '../../context/AppContextManager';
 import { NULL_USER, loadUserRequest } from '../../../service/entity/user';
 import { loadQuizzesFromUserRequest } from '../../../service/entity/quiz';
-import { ViewQuizzesContainer } from './ViewQuizzesContainer';
+import { Updater, ViewQuizzesContainer } from './ViewQuizzesContainer';
 import './index.css';
 
 /**
@@ -16,8 +16,6 @@ export const ViewUserQuizzesPage = () => {
 
   // Set up user and quiz data
   const [user, setUser] = useState(NULL_USER);
-  const [quizPosts, setQuizPosts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
   const username = useUsername();
 
   // Use color data
@@ -26,8 +24,15 @@ export const ViewUserQuizzesPage = () => {
   // Load user and quizzes
   useEffect(() => {
     loadUserRequest(id, setUser);
-    loadQuizzesFromUserRequest(id, setQuizPosts, setIsLoaded);
   }, [id]);
+
+  // Set up load quizzes function
+  const loadQuizzesFunction = (
+    setQuizPosts: Updater,
+    setIsLoaded: Updater
+  ): void => {
+    loadQuizzesFromUserRequest(id, setQuizPosts, setIsLoaded);
+  };
 
   // Set up quizzes page title
   const title =
@@ -39,8 +44,8 @@ export const ViewUserQuizzesPage = () => {
       <div id={colorize('viewQuizzesContainerContainer')}>
         <ViewQuizzesContainer
           title={title}
-          isLoaded={isLoaded}
-          quizPosts={quizPosts}
+          loadQuizzesFunction={loadQuizzesFunction}
+          loadQuizzesFunctionDependencyArray={[id]}
           absentText="This user has no quizzes yet"
         />
       </div>

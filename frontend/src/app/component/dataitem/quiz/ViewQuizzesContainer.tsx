@@ -4,67 +4,134 @@ import { Link } from 'react-router-dom';
 import { MultilineBreak } from '../../MultilineBreak';
 import { QuizUserThumbnailText } from './QuizUserThumbnailText';
 import { ConditionalContent } from '../../ConditionalContent';
+import { useEffect, useState } from 'react';
+
+/**
+ * Type for quiz attribute updater
+ */
+export type Updater = (item: any) => void;
+
+/**
+ * Type for quiz loading function
+ */
+export type LoadQuizzesFunction = (
+  setQuizPosts: (quizPosts: any) => void,
+  setIsLoading: (isLoaded: any) => void
+) => void;
 
 /**
  * Sub Container to View Quizzes
  */
 export const ViewQuizzesContainer = (props: {
   title: string;
-  isLoaded: boolean;
-  quizPosts: any;
+  loadQuizzesFunction: LoadQuizzesFunction;
+  loadQuizzesFunctionDependencyArray: any[];
   absentText: string;
 }) => {
+  // Set up quiz data
+  const [quizPosts, setQuizPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load quizzes
+  useEffect(() => {
+    props.loadQuizzesFunction(setQuizPosts, setIsLoaded);
+  }, [props.loadQuizzesFunctionDependencyArray]);
+
   // Set up color data
   const colorize = useColorize();
 
   // Return component
   return (
     <div className="viewAllQuizzesContainer">
-      <h1>
-        <div className={colorize('quizGroupTitle')}>{props.title}</div>
-      </h1>
-      <ConditionalContent condition={props.quizPosts.length > 0}>
-        <div className="quizCardGroupContainer">
-          <Card.Group>
-            {props.quizPosts.map((quizPost: any) => {
-              return (
-                <div className="quizCardWrappingContainer">
-                  <Link to={`/quizzes/${quizPost.id}`}>
-                    <Card className="quizCard">
-                      <div className={colorize('quizCardContent')}>
-                        <h3 className="quizPostTitle">{quizPost.title}</h3>
-                        <p className="quizPostDescription">
-                          {quizPost.description}
-                        </p>
-                      </div>
-                      <div className="quizMetadataText">
-                        <span>
-                          <QuizUserThumbnailText
-                            id="quizCardUserThumbnailImage"
-                            quiz={quizPost}
-                          />
-                        </span>
-                        <span className={colorize('quizLikesText')}>
-                          <Icon name="heart" /> {quizPost.numberOfLikes}
-                        </span>
-                      </div>
-                    </Card>
-                  </Link>
-                </div>
-              );
-            })}
-          </Card.Group>
-          <MultilineBreak lines={3} />
-        </div>
+      <ViewQuizzesHeader colorize={colorize} title={props.title} />
+      <ConditionalContent condition={quizPosts.length > 0}>
+        <QuizCardGroupContainer colorize={colorize} quizPosts={quizPosts} />
       </ConditionalContent>
-      <ConditionalContent condition={props.quizPosts.length === 0}>
-        <ConditionalContent condition={props.isLoaded}>
-          <p>{props.absentText}</p>
-        </ConditionalContent>
-        <ConditionalContent condition={!props.isLoaded}>
-          Loading...
-        </ConditionalContent>
+      <ConditionalContent condition={quizPosts.length === 0}>
+        <EmptyQuizListContainer
+          colorize={colorize}
+          absentText={props.absentText}
+          isLoaded={isLoaded}
+        />
       </ConditionalContent>
+    </div>
+  );
+};
+
+/**
+ * Header for viewing Quizzes
+ */
+const ViewQuizzesHeader = (props: { colorize: any; title: string }) => {
+  return (
+    <h1>
+      <div className={props.colorize('quizGroupTitle')}>{props.title}</div>
+    </h1>
+  );
+};
+
+/**
+ * Container for a group Quiz Cards
+ */
+const QuizCardGroupContainer = (props: { colorize: any; quizPosts: any }) => {
+  return (
+    <div className="quizCardGroupContainer">
+      <Card.Group>
+        {props.quizPosts.map((quizPost: any) => {
+          return (
+            <QuizCardContainer colorize={props.colorize} quizPost={quizPost} />
+          );
+        })}
+      </Card.Group>
+      <MultilineBreak lines={3} />
+    </div>
+  );
+};
+
+/**
+ * Container for empty Quiz list
+ */
+const EmptyQuizListContainer = (props: {
+  colorize: any;
+  absentText: string;
+  isLoaded: boolean;
+}) => {
+  return (
+    <>
+      <ConditionalContent condition={props.isLoaded}>
+        <p>{props.absentText}</p>
+      </ConditionalContent>
+      <ConditionalContent condition={!props.isLoaded}>
+        Loading...
+      </ConditionalContent>
+    </>
+  );
+};
+
+/**
+ * Container for Quiz Cards
+ */
+const QuizCardContainer = (props: { colorize: any; quizPost: any }) => {
+  return (
+    <div className="quizCardWrappingContainer">
+      <Link to={`/quizzes/${props.quizPost.id}`}>
+        <Card className="quizCard">
+          <div className={props.colorize('quizCardContent')}>
+            <h3 className="quizPostTitle">{props.quizPost.title}</h3>
+            <p className="quizPostDescription">{props.quizPost.description}</p>
+          </div>
+          <div className="quizMetadataText">
+            <span>
+              <QuizUserThumbnailText
+                id="quizCardUserThumbnailImage"
+                quiz={props.quizPost}
+              />
+            </span>
+            <span className={props.colorize('quizLikesText')}>
+              <Icon name="heart" /> {props.quizPost.numberOfLikes}
+            </span>
+          </div>
+        </Card>
+      </Link>
     </div>
   );
 };
