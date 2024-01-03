@@ -87,7 +87,9 @@ const SiteFooterGridColumn = (props: SiteSectionGroupProps): JSX.Element => {
       <SiteFooterGridColumnHeader title={props.title} />
       <List link inverted>
         {props.sectionKeys.map((key) => (
-          <SiteFooterListItem siteSection={props.sectionMap[key]} />
+          <div key={key}>
+            <SiteFooterListItem key={key} siteSection={props.sectionMap[key]} />
+          </div>
         ))}
       </List>
     </Grid.Column>
