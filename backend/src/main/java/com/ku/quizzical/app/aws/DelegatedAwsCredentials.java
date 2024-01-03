@@ -2,6 +2,9 @@ package com.ku.quizzical.app.aws;
 
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 
+/**
+ * Structure class for AWS Credentials
+ */
 public final class DelegatedAwsCredentials implements AwsCredentials {
     // Instance Fields
     private String accessKeyId;

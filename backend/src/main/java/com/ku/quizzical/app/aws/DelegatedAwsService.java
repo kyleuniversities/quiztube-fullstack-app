@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 
+/**
+ * Service class for AWS related operations
+ */
 @Service
 public class DelegatedAwsService implements AwsCredentialsProvider {
     private DelegatedAwsConfiguration configuration;
