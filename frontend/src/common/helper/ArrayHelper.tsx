@@ -21,6 +21,17 @@ export class ArrayHelper {
   }
 
   /**
+   * Filters an array: Returns a new array of elements that satisfy a
+   * condition.  It does not modify the original array
+   */
+  public static filter<T>(
+    array: Array<T>,
+    condition: (condition: T) => boolean
+  ): Array<T> {
+    return array.filter(condition);
+  }
+
+  /**
    * Iterates through all elements in an array
    */
   public static forEach<T>(array: Array<T>, action: (item: T) => void): void {
@@ -50,7 +61,7 @@ export class ArrayHelper {
   }
 
   /**
-   * Maps a list
+   * Maps an array
    */
   public static map<T, U>(array: Array<T>, mapping: (item: T) => U): U[] {
     return array.map((item: T) => mapping(item));
@@ -67,5 +78,48 @@ export class ArrayHelper {
       }
     }
     return nullItem;
+  }
+
+  /**
+   * Reduces an array: Synthesizes each element in a array.
+   * The initial value is supplied, and a function is applied
+   * to it and the next elements over and over until the end is reached.
+   * The final value is returned.
+   */
+  public static reduce<T, U>(
+    array: Array<T>,
+    accumulator: (sum: U, nextValue: T) => U,
+    initialValue: U
+  ): U {
+    return array.reduce(accumulator, initialValue);
+  }
+
+  /**
+   * Slices an array: Iterates through the array from a start index to
+   * an up to index and returns the iterated sub array. Same thing as
+   * subList().  slice() == subList()
+   */
+  public static slice<T>(
+    array: Array<T>,
+    start: number,
+    upTo: number
+  ): Array<T> {
+    return array.slice(start, upTo);
+  }
+
+  /**
+   * Splices an array: Iterates through the array from a start index by
+   * a given length.  Let upTo = start + length
+   *
+   * Iterates from a start index by a length, deleting iterated values
+   * and moving them into a new array.  Returns the array of deleted
+   * elements, having the original array modified.
+   */
+  public static splice<T>(
+    array: Array<T>,
+    start: number,
+    length: number
+  ): Array<T> {
+    return array.splice(start, length);
   }
 }
