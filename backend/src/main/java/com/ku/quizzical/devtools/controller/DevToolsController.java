@@ -8,6 +8,9 @@ import com.ku.quizzical.common.helper.number.IdHelper;
 import com.ku.quizzical.devtools.config.DevToolsConfiguration;
 import com.ku.quizzical.devtools.util.synthetic.SyntheticDataGenerator;
 
+/**
+ * Controller class for Dev Tools related operations
+ */
 @CrossOrigin
 @RestController
 public final class DevToolsController {

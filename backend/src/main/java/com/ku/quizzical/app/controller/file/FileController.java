@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.s3.S3StorageService;
 import com.ku.quizzical.common.helper.string.StringReplacementHelper;
 
+/**
+ * Controller class for File related operations
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/file")

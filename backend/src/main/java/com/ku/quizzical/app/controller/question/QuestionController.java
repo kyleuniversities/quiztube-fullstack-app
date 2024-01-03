@@ -17,6 +17,9 @@ import com.ku.quizzical.app.controller.quiz.QuizRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 
+/**
+ * Controller class for Question related operations
+ */
 @CrossOrigin
 @RestController
 public final class QuestionController {

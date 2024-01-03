@@ -16,6 +16,9 @@ import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 
+/**
+ * Controller class for Like related operations
+ */
 @CrossOrigin
 @RestController
 public final class LikeController {

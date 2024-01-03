@@ -20,6 +20,9 @@ import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 
+/**
+ * Controller class for Quiz related operations
+ */
 @CrossOrigin
 @RestController
 public final class QuizController {

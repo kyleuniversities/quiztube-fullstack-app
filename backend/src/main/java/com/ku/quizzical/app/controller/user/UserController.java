@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 
+/**
+ * Controller class for User related operations
+ */
 @CrossOrigin
 @RestController
 public final class UserController {
