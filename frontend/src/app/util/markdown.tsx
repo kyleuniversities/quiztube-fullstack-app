@@ -112,22 +112,3 @@ export class CardMarkdownReformatter {
     this.reformattedLines = [];
   }
 }
-
-/*
-public reformat(text: string): string {
-    const reformattedLines: string[] = [];
-    const lines = text.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      const isLink =
-        line.length > 1 &&
-        line.charAt(0) == '[' &&
-        line.charAt(line.length - 1) == ')';
-      if (isLink) {
-      }
-      if (!isLink) {
-      }
-    }
-    return text; // reformattedLines.join('\n');
-  }
-**/
