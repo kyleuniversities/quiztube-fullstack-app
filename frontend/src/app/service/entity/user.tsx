@@ -65,12 +65,14 @@ export const addUserRequest = async (
  * READ Method
  * Loads a user
  */
-export const loadUserRequest = (id: string | undefined, setUser: any): void => {
-  request(`/users/${id}`)
-    .then((res: any) => {
-      setUser(res);
-    })
-    .catch(handleException);
+export const loadUserRequest = (
+  id: string | undefined,
+  setUser: any
+): Promise<void> => {
+  return request(`/users/${id}`).then((res: any) => {
+    setUser(res);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**

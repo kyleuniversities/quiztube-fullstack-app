@@ -165,12 +165,10 @@ export const loadQuizAsWholeRequest = async (
   id: string | undefined,
   setQuiz: any
 ): Promise<void> => {
-  return request(`/quizzes/${id}`)
-    .then((res: any) => {
-      setQuiz(res);
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/quizzes/${id}`).then((res: any) => {
+    setQuiz(res);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**
@@ -185,15 +183,13 @@ export const loadQuizAsPartsRequest = async (
   setSubjectText: any,
   setSubjectId: any
 ): Promise<void> => {
-  return request(`/quizzes/${id}`)
-    .then((res: any) => {
-      setTitle(res.title);
-      setDescription(res.description);
-      setSubjectText(res.subject);
-      setSubjectId(res.subjectId);
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/quizzes/${id}`).then((res: any) => {
+    setTitle(res.title);
+    setDescription(res.description);
+    setSubjectText(res.subject);
+    setSubjectId(res.subjectId);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**

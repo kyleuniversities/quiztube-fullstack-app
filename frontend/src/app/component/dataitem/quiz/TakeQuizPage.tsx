@@ -8,6 +8,8 @@ import { CentralContainer } from '../../Component';
 import { loadQuizQuestionsForQuizRequest } from '../../../service/entity/question';
 import { useColorize } from '../../context/AppContextManager';
 import './index.css';
+import { handleAbsentResourceException } from '../../../util/exception';
+import { LoadedResourceContainer } from '../LoadedResourceContainer';
 
 /**
  * Page for taking a Quiz
@@ -23,6 +25,7 @@ export const TakeQuizPage = (): JSX.Element => {
   const [enteredAnswer, setEnteredAnswer] = useState('');
   const [answerIsSubmitted, setAnswerIsSubmitted] = useState(false);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
+  const [isAbsent, setIsAbsent] = useState(false);
   const isAcceptingBlankAnswers = true;
 
   // Set up color data
@@ -36,7 +39,9 @@ export const TakeQuizPage = (): JSX.Element => {
       setQuestionIndex,
       setNumberOfCorrectAnswers,
       setQuizIsFinished
-    );
+    ).catch((exception: any) => {
+      handleAbsentResourceException(exception, setIsAbsent);
+    });
   }, [quizId]);
 
   // Load current question
@@ -72,27 +77,33 @@ export const TakeQuizPage = (): JSX.Element => {
   // Return Take Quiz Page Content
   return (
     <SitePage>
-      <div id={colorize('takeQuizContainer')}>
-        <CentralContainer>
-          <ConditionalContent condition={quizIsFinished}>
-            <FinishedQuizContent
-              quizId={quizId}
-              numberOfCorrectAnswers={numberOfCorrectAnswers}
-              questions={questions}
-            />
-          </ConditionalContent>
-          <ConditionalContent condition={!quizIsFinished}>
-            <UnfinishedQuizContent
-              question={question}
-              answerIsSubmitted={answerIsSubmitted}
-              enteredAnswer={enteredAnswer}
-              setEnteredAnswer={setEnteredAnswer}
-              submitAnswer={submitAnswer}
-              next={next}
-            />
-          </ConditionalContent>
-        </CentralContainer>
-      </div>
+      <LoadedResourceContainer
+        entityName="Quiz"
+        id={quizId}
+        isAbsent={isAbsent}
+      >
+        <div id={colorize('takeQuizContainer')}>
+          <CentralContainer>
+            <ConditionalContent condition={quizIsFinished}>
+              <FinishedQuizContent
+                quizId={quizId}
+                numberOfCorrectAnswers={numberOfCorrectAnswers}
+                questions={questions}
+              />
+            </ConditionalContent>
+            <ConditionalContent condition={!quizIsFinished}>
+              <UnfinishedQuizContent
+                question={question}
+                answerIsSubmitted={answerIsSubmitted}
+                enteredAnswer={enteredAnswer}
+                setEnteredAnswer={setEnteredAnswer}
+                submitAnswer={submitAnswer}
+                next={next}
+              />
+            </ConditionalContent>
+          </CentralContainer>
+        </div>
+      </LoadedResourceContainer>
     </SitePage>
   );
 };

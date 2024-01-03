@@ -10,6 +10,8 @@ import {
 import { useAppContext, useColorize } from '../../context/AppContextManager';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
 import './index.css';
+import { handleAbsentResourceException } from '../../../util/exception';
+import { LoadedResourceContainer } from '../LoadedResourceContainer';
 
 /**
  * Page for adding or modifying a Question
@@ -25,6 +27,7 @@ export const AddModifyQuestionPage = (props: {
   // Set up form fields
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  const [isAbsent, setIsAbsent] = useState(false);
 
   // Set up user data
   const userContext = useAppContext();
@@ -43,51 +46,67 @@ export const AddModifyQuestionPage = (props: {
       navigate
     );
     if (isEditing) {
-      loadQuizQuestionRequest(props.quizId, props.id, setQuestion, setAnswer);
+      loadQuizQuestionRequest(
+        props.quizId,
+        props.id,
+        setQuestion,
+        setAnswer
+      ).catch((exception: any) =>
+        handleAbsentResourceException(exception, setIsAbsent)
+      );
     }
   }, [userContext, navigate, isEditing, props.quizId, props.id]);
+
+  // Set up combined id
+  const combinedId = `${props.quizId}/${props.quizId}`;
 
   // Return component
   return (
     <SitePage>
-      <Container fluid className="formContainer">
-        <Header id={colorize('formHeader')}>{title}</Header>
-        <Form id={colorize('formWrapper')}>
-          <Form.Input
+      <LoadedResourceContainer
+        entityName="Quiz Question"
+        id={combinedId}
+        isAbsent={isAbsent}
+      >
+        <Container fluid className="formContainer">
+          <Header id={colorize('formHeader')}>{title}</Header>
+          <Form id={colorize('formWrapper')}>
+            <Form.Input
+              fluid
+              label="Question"
+              placeholder="Enter a Question"
+              value={question}
+              onChange={(e: any) => setQuestion(e.target.value)}
+            />
+            <Form.Input
+              fluid
+              label="Answer"
+              placeholder="Enter an Answer"
+              value={answer}
+              onChange={(e: any) => setAnswer(e.target.value)}
+            />
+          </Form>
+          <MultilineBreak lines={1} />
+          <Button
             fluid
-            label="Question"
-            placeholder="Enter a Question"
-            value={question}
-            onChange={(e: any) => setQuestion(e.target.value)}
+            color="blue"
+            content={isEditing ? 'Save' : 'Submit'}
+            onClick={() =>
+              addModifyQuestionRequest(
+                navigate,
+                question,
+                answer,
+                props.quizId,
+                props.id,
+                isEditing ? 'PATCH' : 'POST',
+                isEditing
+                  ? `/quizzes/${props.quizId}/questions/${props.id}`
+                  : `/quizzes/${props.quizId}/questions`
+              )
+            }
           />
-          <Form.Input
-            fluid
-            label="Answer"
-            placeholder="Enter an Answer"
-            value={answer}
-            onChange={(e: any) => setAnswer(e.target.value)}
-          />
-        </Form>
-        <MultilineBreak lines={1} />
-        <Button
-          fluid
-          color="blue"
-          content={isEditing ? 'Save' : 'Submit'}
-          onClick={() =>
-            addModifyQuestionRequest(
-              navigate,
-              question,
-              answer,
-              props.quizId,
-              props.id,
-              isEditing ? 'PATCH' : 'POST',
-              isEditing
-                ? `/quizzes/${props.quizId}/questions/${props.id}`
-                : `/quizzes/${props.quizId}/questions`
-            )
-          }
-        />
-      </Container>
+        </Container>
+      </LoadedResourceContainer>
     </SitePage>
   );
 };

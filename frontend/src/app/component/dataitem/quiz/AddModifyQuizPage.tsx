@@ -16,6 +16,8 @@ import { loadSubjectsAsOptionsRequest } from '../../../service/entity/subject';
 import '../../index.css';
 import { ArrayHelper } from '../../../../common/helper/ArrayHelper';
 import { redirectFromUnauthorizedQuizActionRequest } from '../../../service/auth';
+import { LoadedResourceContainer } from '../LoadedResourceContainer';
+import { handleAbsentResourceException } from '../../../util/exception';
 
 /**
  * Page for adding or modifying a Title
@@ -32,6 +34,7 @@ export const AddModifyQuizPage = (props: {
   const [description, setDescription] = useState('');
   const [subjectText, setSubjectText] = useState('');
   const [subjectId, setSubjectId] = useState('');
+  const [isAbsent, setIsAbsent] = useState(false);
 
   // Set up user data
   const userContext = useAppContext();
@@ -63,70 +66,78 @@ export const AddModifyQuizPage = (props: {
         setDescription,
         setSubjectText,
         setSubjectId
-      );
+      ).catch((exception: any) => {
+        handleAbsentResourceException(exception, setIsAbsent);
+      });
     }
   }, [isEditing, props.id, subjectOptions]);
 
   // Return component
   return (
     <SitePage>
-      <Container fluid className="formContainer">
-        <Header id={colorize('formHeader')}>
-          {isEditing ? 'Edit' : 'Add'} Quiz
-        </Header>
-        <Form id={colorize('formWrapper')}>
-          <Form.Input
+      <LoadedResourceContainer
+        entityName="Quiz"
+        id={props.id}
+        isAbsent={isAbsent}
+      >
+        <Container fluid className="formContainer">
+          <Header id={colorize('formHeader')}>
+            {isEditing ? 'Edit' : 'Add'} Quiz
+          </Header>
+          <Form id={colorize('formWrapper')}>
+            <Form.Input
+              fluid
+              label="Title"
+              placeholder="Enter a Title"
+              value={title}
+              onChange={(e: any) => setTitle(e.target.value)}
+            />
+            <Form.Input
+              fluid
+              label="Description"
+              placeholder="Enter an Description"
+              value={description}
+              onChange={(e: any) => setDescription(e.target.value)}
+            />
+          </Form>
+          <MultilineBreak lines={2} />
+          <span>
+            Subject:{' '}
+            <Dropdown
+              inline
+              options={subjectOptions}
+              text={subjectText}
+              onChange={(e, data: any) =>
+                selectSubject(
+                  subjectOptions,
+                  data.value,
+                  setSubjectId,
+                  setSubjectText
+                )
+              }
+            />
+          </span>
+          <MultilineBreak lines={2} />
+          <Button
             fluid
-            label="Title"
-            placeholder="Enter a Title"
-            value={title}
-            onChange={(e: any) => setTitle(e.target.value)}
-          />
-          <Form.Input
-            fluid
-            label="Description"
-            placeholder="Enter an Description"
-            value={description}
-            onChange={(e: any) => setDescription(e.target.value)}
-          />
-        </Form>
-        <MultilineBreak lines={2} />
-        <span>
-          Subject:{' '}
-          <Dropdown
-            inline
-            options={subjectOptions}
-            text={subjectText}
-            onChange={(e, data: any) =>
-              selectSubject(
+            color="blue"
+            content={isEditing ? 'Save' : 'Submit'}
+            onClick={() =>
+              addModifyQuizRequest(
+                navigate,
+                title,
+                description,
+                subjectId,
+                userId,
+                props.id,
                 subjectOptions,
-                data.value,
-                setSubjectId,
-                setSubjectText
+                isEditing ? 'PATCH' : 'POST',
+                isEditing ? `/quizzes/${props.id}` : `/quizzes`
               )
             }
           />
-        </span>
-        <MultilineBreak lines={2} />
-        <Button
-          fluid
-          color="blue"
-          content={isEditing ? 'Save' : 'Submit'}
-          onClick={() =>
-            addModifyQuizRequest(
-              navigate,
-              title,
-              description,
-              subjectId,
-              userId,
-              props.id,
-              subjectOptions,
-              isEditing ? 'PATCH' : 'POST',
-              isEditing ? `/quizzes/${props.id}` : `/quizzes`
-            )
-          }
-        />
-      </Container>
+        </Container>
+      </LoadedResourceContainer>
     </SitePage>
   );
 };

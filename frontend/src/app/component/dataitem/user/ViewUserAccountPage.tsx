@@ -16,6 +16,8 @@ import {
 } from '../../../service/entity/user';
 import { ConditionalContent } from '../../ConditionalContent';
 import './index.css';
+import { handleAbsentResourceException } from '../../../util/exception';
+import { LoadedResourceContainer } from '../LoadedResourceContainer';
 
 export const ViewUserAccountPage = (): JSX.Element => {
   // Set up parameter data
@@ -23,6 +25,7 @@ export const ViewUserAccountPage = (): JSX.Element => {
 
   // Set up user viewing data
   const [user, setUser] = useState(NULL_USER);
+  const [isAbsent, setIsAbsent] = useState(false);
 
   // Set up user session data
   const userContext = useAppContext();
@@ -34,36 +37,44 @@ export const ViewUserAccountPage = (): JSX.Element => {
 
   // Load user
   useEffect(() => {
-    loadUserRequest(id, setUser);
+    loadUserRequest(id, setUser).catch((exception: any) =>
+      handleAbsentResourceException(exception, setIsAbsent)
+    );
   }, [id]);
 
   // Return component
   return (
     <SitePage>
       <Container fluid>
-        <h1>
-          {user.username === username ? 'My Account' : `${user.username}`}
-        </h1>
-        <Image id="userProfileImage" src={collectPicturePath(user)} />
-        <p>
-          <b>Username: </b>
-          {user.username}
-        </p>
-        <p>
-          <b>Email: </b>
-          {user.email}
-        </p>
-        <Link to={`/users/${id}/quizzes`}>
-          <Button icon="file alternate" color="orange" content="View Quizzes" />
-        </Link>
-        <ConditionalContent condition={userId === id}>
-          <Button
-            icon="trash"
-            color="red"
-            content="Delete Account"
-            onClick={() => deleteUserRequest(navigate, userContext, id)}
-          />
-        </ConditionalContent>
+        <LoadedResourceContainer entityName="User" id={id} isAbsent={isAbsent}>
+          <h1>
+            {user.username === username ? 'My Account' : `${user.username}`}
+          </h1>
+          <Image id="userProfileImage" src={collectPicturePath(user)} />
+          <p>
+            <b>Username: </b>
+            {user.username}
+          </p>
+          <p>
+            <b>Email: </b>
+            {user.email}
+          </p>
+          <Link to={`/users/${id}/quizzes`}>
+            <Button
+              icon="file alternate"
+              color="orange"
+              content="View Quizzes"
+            />
+          </Link>
+          <ConditionalContent condition={userId === id}>
+            <Button
+              icon="trash"
+              color="red"
+              content="Delete Account"
+              onClick={() => deleteUserRequest(navigate, userContext, id)}
+            />
+          </ConditionalContent>
+        </LoadedResourceContainer>
       </Container>
     </SitePage>
   );

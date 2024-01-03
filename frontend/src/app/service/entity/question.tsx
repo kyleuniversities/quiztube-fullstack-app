@@ -61,12 +61,10 @@ export const loadQuizQuestionsRequest = async (
   quizId: string | undefined,
   setQuestions: any
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions`)
-    .then((data) => {
-      setQuestions(data);
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/quizzes/${quizId}/questions`).then((data) => {
+    setQuestions(data);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**
@@ -80,17 +78,15 @@ export const loadQuizQuestionsForQuizRequest = async (
   setNumberOfCorrectAnswers: (amount: number) => void,
   setQuizIsFinished: (quizIsFinished: boolean) => void
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions`)
-    .then((questions: any) => {
-      setQuestions(questions);
-      setQuestionIndex(0);
-      setNumberOfCorrectAnswers(0);
-      if (questions.length === 0) {
-        setQuizIsFinished(true);
-      }
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/quizzes/${quizId}/questions`).then((questions: any) => {
+    setQuestions(questions);
+    setQuestionIndex(0);
+    setNumberOfCorrectAnswers(0);
+    if (questions.length === 0) {
+      setQuizIsFinished(true);
+    }
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**
@@ -103,13 +99,11 @@ export const loadQuizQuestionRequest = (
   setQuestion: any,
   setAnswer: any
 ): Promise<void> => {
-  return request(`/quizzes/${quizId}/questions/${id}`)
-    .then((questionItem) => {
-      setQuestion(questionItem.question);
-      setAnswer(questionItem.answer);
-      return PromiseHelper.newConservativeVoidPromise();
-    })
-    .catch(handleException);
+  return request(`/quizzes/${quizId}/questions/${id}`).then((questionItem) => {
+    setQuestion(questionItem.question);
+    setAnswer(questionItem.answer);
+    return PromiseHelper.newConservativeVoidPromise();
+  });
 };
 
 /**

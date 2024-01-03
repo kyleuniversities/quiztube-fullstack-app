@@ -15,6 +15,8 @@ import {
   loadQuizAsWholeRequest,
 } from '../../../service/entity/quiz';
 import './index.css';
+import { handleAbsentResourceException } from '../../../util/exception';
+import { LoadedResourceContainer } from '../LoadedResourceContainer';
 
 export const ViewQuizQuestionsPage = (): JSX.Element => {
   // Set up parameter data
@@ -25,40 +27,48 @@ export const ViewQuizQuestionsPage = (): JSX.Element => {
 
   // Set up form
   const [quiz, setQuiz] = useState(NULL_QUIZ);
+  const [isAbsent, setIsAbsent] = useState(false);
 
   // Set up data items
   const [questions, setQuestions] = useState([]);
 
+  // Set up quiz not found handling method
+  const handleException = (exception: any) => {
+    handleAbsentResourceException(exception, setIsAbsent);
+  };
+
   // Load data items on render
   useEffect(() => {
-    loadQuizQuestionsRequest(id, setQuestions);
-    loadQuizAsWholeRequest(id, setQuiz);
+    loadQuizQuestionsRequest(id, setQuestions).catch(handleException);
+    loadQuizAsWholeRequest(id, setQuiz).catch(handleException);
   }, [id]);
 
   // Returns the page
   return (
     <SitePage>
-      <h2>{quiz.title}</h2>
-      <QuestionsListColumnContainer>
-        <Link to={`/quizzes/${id}`}>
-          <Button
-            icon="angle left"
-            color="purple"
-            content="Back to Quiz View"
-          />
-        </Link>
-        <ConditionalContent condition={questions.length > 0}>
-          <Link to={`/quizzes/${id}/questions/take`}>
-            <Button icon="bolt" color="brown" content="Take Quiz" />
+      <LoadedResourceContainer entityName="Quiz" id={id} isAbsent={isAbsent}>
+        <h2>{quiz.title}</h2>
+        <QuestionsListColumnContainer>
+          <Link to={`/quizzes/${id}`}>
+            <Button
+              icon="angle left"
+              color="purple"
+              content="Back to Quiz View"
+            />
           </Link>
-        </ConditionalContent>
-        <ConditionalContent condition={quiz.authorUsername === username}>
-          <Link to={`/quizzes/${id}/questions/add`}>
-            <Button icon="plus" color="blue" content="New Question" />
-          </Link>
-        </ConditionalContent>
-        <QuestionsListColumn quiz={quiz} questions={questions} />
-      </QuestionsListColumnContainer>
+          <ConditionalContent condition={questions.length > 0}>
+            <Link to={`/quizzes/${id}/questions/take`}>
+              <Button icon="bolt" color="brown" content="Take Quiz" />
+            </Link>
+          </ConditionalContent>
+          <ConditionalContent condition={quiz.authorUsername === username}>
+            <Link to={`/quizzes/${id}/questions/add`}>
+              <Button icon="plus" color="blue" content="New Question" />
+            </Link>
+          </ConditionalContent>
+          <QuestionsListColumn quiz={quiz} questions={questions} />
+        </QuestionsListColumnContainer>
+      </LoadedResourceContainer>
     </SitePage>
   );
 };
