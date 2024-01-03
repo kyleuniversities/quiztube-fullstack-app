@@ -1,5 +1,5 @@
+import { ArrayHelper } from '../../../common/helper/ArrayHelper';
 import { PromiseHelper } from '../../../common/helper/js/PromiseHelper';
-import { indexOf } from '../../../common/util/list';
 import { handleException } from '../../util/exception';
 import { isPassableId } from '../auth';
 import { NULL_TEXT } from '../general';
@@ -229,10 +229,10 @@ const collectThumbnailText = (subjectId: string, subjectOptions: any) => {
 // Gets the default image text for the quiz
 const collectImageText = (
   subjectId: string,
-  subjectOptions: any,
+  subjectOptions: any[],
   extenderText: string
 ): string => {
-  const index = indexOf(
+  const index = ArrayHelper.indexOf(
     subjectOptions,
     (subject: any) => subject.id === subjectId
   );

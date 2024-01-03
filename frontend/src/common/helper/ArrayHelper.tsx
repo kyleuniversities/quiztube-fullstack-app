@@ -35,6 +35,21 @@ export class ArrayHelper {
   }
 
   /**
+   * Returns the index of the first instance of an item matching the given query
+   */
+  public static indexOf<T>(
+    array: Array<T>,
+    query: (item: T) => boolean
+  ): number {
+    for (let i = 0; i < array.length; i++) {
+      if (query(array[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
    * Maps a list
    */
   public static map<T, U>(array: Array<T>, mapping: (item: T) => U): U[] {
