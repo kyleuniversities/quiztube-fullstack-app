@@ -40,6 +40,10 @@
     color: rgb(0,0,0);
 }
 
+#questionAnswerContainer {
+    max-width:185px;
+}
+
 .quizCard {
     margin-left: 10px;
     margin-bottom: 12px;

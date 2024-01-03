@@ -109,7 +109,7 @@ const UnfinishedQuizContent = (props: {
   next: (answerIsCorrect: boolean) => void;
 }): JSX.Element => {
   return (
-    <>
+    <Form>
       <ConditionalContent condition={props.question === null}>
         <p>Loading...</p>
       </ConditionalContent>
@@ -128,21 +128,29 @@ const UnfinishedQuizContent = (props: {
             {props.question ? props.question.answer : 'Loading...'}
           </Header>
         </Transition>
-        <Form.Input
-          value={props.enteredAnswer}
-          disabled={props.answerIsSubmitted}
-          onChange={(e: any) => props.setEnteredAnswer(e.target.value)}
-        />
+        <div id="questionAnswerContainer">
+          <span id="questionAnswerBarWrapper">
+            <Form.Input
+              value={props.enteredAnswer}
+              disabled={props.answerIsSubmitted}
+              onChange={(e: any) => props.setEnteredAnswer(e.target.value)}
+            />
+          </span>
+        </div>
         <MultilineBreak lines={1} />
         <ConditionalContent condition={props.answerIsSubmitted}>
           <Button content={'Correct '} onClick={() => props.next(true)} />
           <Button content={'Incorrect '} onClick={() => props.next(false)} />
         </ConditionalContent>
         <ConditionalContent condition={!props.answerIsSubmitted}>
-          <Button content={'Check '} onClick={() => props.submitAnswer()} />
+          <Button
+            type="submit"
+            content={'Check '}
+            onClick={() => props.submitAnswer()}
+          />
         </ConditionalContent>
       </ConditionalContent>
-    </>
+    </Form>
   );
 };
 
