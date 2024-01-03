@@ -68,7 +68,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
                 FROM question
                 WHERE id = ?
                 """;
-        DatabaseValidationHelper.validateExistingResource("Quiz", "id", id,
+        DatabaseValidationHelper.validateExistingResource("Quiz", "id", quizId,
                 this.quizRepository::findById);
         DatabaseValidationHelper.validateExistingResource("Question", "id", id,
                 this.repository::findById);
