@@ -14,6 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.ku.quizzical.app.util.jwt.JwtAuthenticationFilter;
 
+/**
+ * Configuration class for security filter chain of the app
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityFilterChainConfiguration {

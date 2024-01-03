@@ -7,6 +7,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * Configuration class for CORS security of the app
+ */
 @Configuration
 public class WebSecurityCorsConfiguration {
     @Bean

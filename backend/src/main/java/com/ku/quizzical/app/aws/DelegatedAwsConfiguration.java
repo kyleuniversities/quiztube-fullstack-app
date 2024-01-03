@@ -3,6 +3,9 @@ package com.ku.quizzical.app.aws;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for AWS Related Operations
+ */
 @Configuration
 public class DelegatedAwsConfiguration {
     // Instance Fields

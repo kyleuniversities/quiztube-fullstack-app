@@ -7,6 +7,9 @@ import com.ku.quizzical.app.aws.DelegatedAwsService;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
+/**
+ * Configuration class for S3 related operations
+ */
 @Configuration
 public class S3StorageConfiguration {
     // Instance Fields
