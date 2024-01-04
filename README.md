@@ -143,7 +143,7 @@ There were several other challenges to this project as well, but fortunately I w
 
 ## Github Repositories
 
-[https://github.com/kyleuniversities/quizzical-fullstack-app](https://github.com/kyleuniversities/quizzical-fullstack-app)
+[https://github.com/kyleuniversities/quiztube-fullstack-app](https://github.com/kyleuniversities/quiztube-fullstack-app)
 
 [https://github.com/kyleuniversities/quizzical-frontend-app-beta](https://github.com/kyleuniversities/quizzical-frontend-app-beta)
 
