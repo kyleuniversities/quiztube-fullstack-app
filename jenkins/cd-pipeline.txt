@@ -9,7 +9,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/app/deployment']],
                 doGenerateSubmoduleConfigurations: false, extensions: [],
                 submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', 
-                url: 'https://github.com/kyleuniversities/quizzical-fullstack-app']]])
+                url: 'https://github.com/kyleuniversities/quiztube-fullstack-app']]])
             }
         }
         stage("Build Backend App") {
