@@ -27,13 +27,6 @@ public final class SubjectController {
         this.service = service;
     }
 
-    // CREATE Method
-    // Saves a Subject
-    @PostMapping("/subjects")
-    public ResponseEntity<SubjectDto> saveSubject(@RequestBody SubjectDto subject) {
-        return new ResponseEntity<SubjectDto>(this.service.saveSubject(subject), HttpStatus.OK);
-    }
-
     // READ Method
     // Gets all Subjects
     @GetMapping("/subjects")
@@ -53,26 +46,5 @@ public final class SubjectController {
     @GetMapping("/subjects/text/{text}")
     public ResponseEntity<SubjectDto> getSubjectByTitle(@PathVariable String text) {
         return new ResponseEntity<SubjectDto>(this.service.getSubjectByText(text), HttpStatus.OK);
-    }
-
-    // UPDATE Method
-    // Updates a Subject
-    @PatchMapping("/subjects/{id}")
-    public ResponseEntity<SubjectDto> updateSubject(@PathVariable String id,
-            @RequestBody SubjectUpdateRequest subject) {
-        return new ResponseEntity<SubjectDto>(this.service.updateSubject(id, subject),
-                HttpStatus.OK);
-    }
-
-    // DELETE Method
-    // Deletes a Subject
-    @DeleteMapping("/subjects/{id}")
-    public String deleteSubject(@PathVariable String id) {
-        try {
-            this.service.deleteSubject(id);
-        } catch (Exception e) {
-            // Do Nothing
-        }
-        return "\"The Subject with id \\\"" + id + "\\\" has been deleted.\"";
     }
 }
