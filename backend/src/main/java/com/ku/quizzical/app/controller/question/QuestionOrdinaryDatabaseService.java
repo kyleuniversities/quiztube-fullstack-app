@@ -13,6 +13,9 @@ import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
+/**
+ * Service class for Question Database related operations
+ */
 @Service
 public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService {
     // Instance Fields

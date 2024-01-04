@@ -10,6 +10,9 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+/**
+ * Service class for S3 related operations
+ */
 @Service
 public class S3StorageService {
     // Instance Fields

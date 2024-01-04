@@ -7,6 +7,9 @@ import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
+/**
+ * Service class for Like Database related operations
+ */
 @Service
 public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
     // Instance Fields

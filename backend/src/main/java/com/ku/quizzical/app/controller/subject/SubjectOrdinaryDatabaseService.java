@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 
+/**
+ * Service class for Service Database related operations
+ */
 @Service
 public class SubjectOrdinaryDatabaseService implements SubjectDatabaseService {
     // Instance Fields

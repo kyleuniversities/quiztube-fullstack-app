@@ -10,6 +10,9 @@ import com.ku.quizzical.app.controller.user.UserDtoMapper;
 import com.ku.quizzical.app.helper.ApiExceptionHelper;
 import com.ku.quizzical.app.helper.JwtHelper;
 
+/**
+ * Service class for Authentication related operations
+ */
 @Service
 public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
