@@ -19,6 +19,14 @@ public final class RandomHelper {
     }
 
     /**
+     * Generates a random number within a range
+     */
+    public static int nextIntWithinRange(int start, int upTo) {
+        int length = upTo - start;
+        return start + RandomHelper.nextInt(length);
+    }
+
+    /**
      * Makes a new Random Object
      */
     public static Random newRandom() {
