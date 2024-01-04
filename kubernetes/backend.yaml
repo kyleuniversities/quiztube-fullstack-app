@@ -31,6 +31,8 @@ spec:
           env:
             - name: QUIZTUBE_DATABASE_FULL_HOST
               value: _QUIZTUBE_DATABASE_FULL_HOST
+            - name: QUIZTUBE_DATABASE_FULL_TEST_HOST
+              value: _QUIZTUBE_DATABASE_FULL_TEST_HOST
             - name: QUIZTUBE_DATABASE_USERNAME
               value: _QUIZTUBE_DATABASE_USERNAME
             - name: QUIZTUBE_DATABASE_PASSWORD

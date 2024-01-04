@@ -51,6 +51,7 @@ pipeline {
                 cat ./kubernetes/frontend.yaml
                 sed -i -e "s/latest/${BUILD_NUMBER}/g" ./kubernetes/backend.yaml
                 sed -i -e "s/_QUIZTUBE_DATABASE_FULL_HOST/${QUIZTUBE_DATABASE_FULL_HOST}/g" ./kubernetes/backend.yaml
+                sed -i -e "s/_QUIZTUBE_DATABASE_FULL_HOST/${QUIZTUBE_DATABASE_FULL_TEST_HOST}/g" ./kubernetes/backend.yaml
                 sed -i -e "s/_QUIZTUBE_DATABASE_USERNAME/${QUIZTUBE_DATABASE_USERNAME}/g" ./kubernetes/backend.yaml
                 sed -i -e "s/_QUIZTUBE_DATABASE_PASSWORD/${QUIZTUBE_DATABASE_PASSWORD}/g" ./kubernetes/backend.yaml
                 sed -i -e "s/_QUIZTUBE_AWS_BUCKET_PATH/${QUIZTUBE_AWS_BUCKET_PATH}/g" ./kubernetes/backend.yaml
