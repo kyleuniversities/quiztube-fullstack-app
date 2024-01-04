@@ -73,10 +73,8 @@ public final class QuizController {
             @RequestParam("title") Optional<String> titleQuery,
             @RequestParam("limit") Optional<String> limit) {
         if (titleQuery.isPresent()) {
-            System.out.println("TITLE_QUERY_1: " + titleQuery.get());
             return this.service.getAllQuizzesByTitleQuery(titleQuery.get());
         }
-        System.out.println("TITLE_QUERY_0");
         return this.service.getAllQuizzesAsPosts(null, this.parseLimit(limit));
     }
 
