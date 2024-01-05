@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
+import com.ku.quizzical.app.util.dto.BooleanDto;
 
 /**
  * Controller class for User related operations
@@ -60,17 +60,12 @@ public final class UserController {
         return new ResponseEntity<UserDto>(this.service.getUserByUsername(username), HttpStatus.OK);
     }
 
-    // UPDATE Method
-    // Updates a User
-    @PatchMapping("/users/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable String id,
-            @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody UserUpdateRequest user) {
-        User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough("User",
-                id, this.repository::findById);
-        AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
-                matchingUser.getId());
-        return new ResponseEntity<UserDto>(this.service.updateUser(id, user), HttpStatus.OK);
+    // READ Method
+    // Checks if a User by its username exists
+    @GetMapping("/users/username-exists/{username}")
+    public ResponseEntity<BooleanDto> userByUsernameExists(@PathVariable String username) {
+        return new ResponseEntity<BooleanDto>(this.service.userByUsernameExists(username),
+                HttpStatus.OK);
     }
 
     // DELETE Method

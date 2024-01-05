@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.app.helper.UserHelper;
+import com.ku.quizzical.app.util.dto.BooleanDto;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
@@ -85,6 +86,16 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     }
 
     @Override
+    public BooleanDto userByUsernameExists(String username) {
+        var sql = """
+                SELECT id, username, email, password, picture, thumbnail
+                FROM user
+                WHERE username = ?
+                """;
+        return new BooleanDto(this.jdbcTemplate.query(sql, this.dtoRowMapper, username).size() > 0);
+    }
+
+    @Override
     public UserDto getUserByEmail(String email) {
         var sql = """
                 SELECT id, username, email, password, picture, thumbnail
@@ -93,23 +104,6 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
                 """;
         return ListHelper.getApparentValue(this.jdbcTemplate.query(sql, this.dtoRowMapper, email),
                 0);
-    }
-
-    @Override
-    public UserDto updateUser(String id, UserUpdateRequest update) {
-        this.updateUserAttribute(update, "username", UserUpdateRequest::username);
-        this.updateUserAttribute(update, "email", UserUpdateRequest::email);
-        this.updateUserAttribute(update, "password", UserUpdateRequest::password);
-        this.updateUserAttribute(update, "picture", UserUpdateRequest::picture);
-        this.updateUserAttribute(update, "thumbnail", UserUpdateRequest::thumbnail);
-        TextValidationHelper.validateIfExists(update::username, this::validateUsername);
-        TextValidationHelper.validateIfExists(update::email, this::validateEmail);
-        TextValidationHelper.validateIfExists(update::password, this::validatePassword);
-        DatabaseValidationHelper.validateUniqueTextResourceIfExists("Username", update::username,
-                this::getUserByUsername);
-        DatabaseValidationHelper.validateUniqueTextResourceIfExists("Email", update::email,
-                this::getUserByEmail);
-        return this.getUser(id);
     }
 
     @Override

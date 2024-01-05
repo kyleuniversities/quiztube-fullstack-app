@@ -1,6 +1,7 @@
 package com.ku.quizzical.app.controller.user;
 
 import java.util.List;
+import com.ku.quizzical.app.util.dto.BooleanDto;
 
 public interface UserDatabaseService {
     UserDto saveUser(UserRegistrationRequest user);
@@ -13,7 +14,7 @@ public interface UserDatabaseService {
 
     UserDto getUserByEmail(String email);
 
-    UserDto updateUser(String id, UserUpdateRequest user);
+    BooleanDto userByUsernameExists(String username);
 
     void deleteUser(String id);
 }
