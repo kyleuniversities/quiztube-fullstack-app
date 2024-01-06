@@ -3,7 +3,7 @@ package com.ku.quizzical.app.controller.quiz;
 import java.util.List;
 
 public interface QuizDatabaseService {
-    QuizDto saveQuiz(QuizDto quiz);
+    QuizDto saveQuiz(QuizAddRequest quiz);
 
     List<QuizDto> getAllQuizzes();
 

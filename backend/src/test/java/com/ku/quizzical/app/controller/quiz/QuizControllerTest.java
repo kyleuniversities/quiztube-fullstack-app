@@ -10,13 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.user.UserDto;
-import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
-import com.ku.quizzical.app.helper.controller.AuthenticationTestHelper;
+import com.ku.quizzical.app.helper.controller.QuizTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
-import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
+import com.ku.quizzical.common.util.function.TriConsumer;
 
 /**
  * Test Class for Quiz Controller
@@ -35,7 +33,79 @@ public class QuizControllerTest {
     @Test
     void quizPostTest() throws Exception {
         this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
-            // TODO
+            // Set up quiz add request
+            QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
+
+            // Test POST Method
+            List<QuizDto> quizzes1 = QuizTestHelper.getAllQuizzes(container);
+            QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
+            List<QuizDto> quizzes2 = QuizTestHelper.getAllQuizzes(container);
+            assertThat(quizzes1.size() + 1).isEqualTo(quizzes2.size());
+
+            // Cleanup
+            QuizTestHelper.deleteQuizById(quiz.id(), container);
+        });
+    }
+
+    // READ Method Test
+    // Tests the Get Quizzes Operation
+    @Test
+    void quizzesGetTest() throws Exception {
+        // Set up template container
+        TestRestTemplateContainer container =
+                TestRestTemplateContainer.newInstance(this.restTemplate, this::toFullUrl);
+
+        // Test GET
+        List<QuizDto> quizzes = QuizTestHelper.getAllQuizzes(container);
+        assertThat(quizzes.size()).isGreaterThan(-1);
+    }
+
+    // READ Method Test
+    // Tests the Get Quiz by Id Operation
+    @Test
+    void quizGetByIdTest() throws Exception {
+        this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
+            QuizDto matchingQuiz = QuizTestHelper.getById(quiz.id(), container);
+            assertThat(quiz.id()).isEqualTo(matchingQuiz.id());
+        });
+    }
+
+    // UPDATE Method Test
+    // Tests the Update Quiz by Id Operation
+    @Test
+    void updateQuizById() throws Exception {
+        this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
+            // Set up update request
+            QuizUpdateRequest request = QuizTestHelper.newRandomQuizUpdateRequest(container);
+
+            // Test PATCH request
+            QuizTestHelper.updateQuizById(quiz.id(), request, container);
+            QuizDto updatedQuiz = QuizTestHelper.getById(quiz.id(), container);
+            assertThat(request.title()).isEqualTo(updatedQuiz.title());
+        });
+    }
+
+    // DELETE Method Test
+    // Tests the Delete Quiz by Id Operation
+    // The testWithNewQuiz() method already does this
+    @Test
+    void deleteQuizById() throws Exception {
+        this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
+        });
+    }
+
+    // Method to test operation with a registered user
+    private void testWithNewQuiz(TriConsumer<QuizDto, UserDto, TestRestTemplateContainer> action) {
+        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
+            // Create new quiz
+            QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
+            QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
+
+            // Perform action
+            action.accept(quiz, user, container);
+
+            // Cleanup
+            QuizTestHelper.deleteQuizById(quiz.id(), container);
         });
     }
 

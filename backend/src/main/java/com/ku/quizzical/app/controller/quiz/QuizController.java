@@ -43,7 +43,7 @@ public final class QuizController {
     // CREATE Method
     // Saves a Quiz
     @PostMapping("/quizzes")
-    public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizDto quiz,
+    public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizAddRequest quiz,
             @RequestHeader("Authorization") String authorizationHeader) {
         User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough(
                 "Quiz User", quiz.userId(), this.userRepository::findById);

@@ -3,7 +3,6 @@ package com.ku.quizzical.app.util;
 import java.util.List;
 import org.json.JSONObject;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import com.ku.quizzical.app.helper.HttpHelper;

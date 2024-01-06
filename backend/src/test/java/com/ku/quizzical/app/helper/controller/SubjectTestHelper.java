@@ -3,6 +3,7 @@ package com.ku.quizzical.app.helper.controller;
 import java.util.List;
 import com.ku.quizzical.app.controller.subject.SubjectDto;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
+import com.ku.quizzical.common.helper.ListHelper;
 
 /**
  * Helper class for Subject Test Operations
@@ -27,6 +28,14 @@ public class SubjectTestHelper {
      */
     public static SubjectDto getByText(String text, TestRestTemplateContainer container) {
         return container.getObject("/subjects/text/" + text, SubjectDto.class);
+    }
+
+    /**
+     * Returns a new Random subject
+     */
+    public static SubjectDto getRandomSubject(TestRestTemplateContainer container) {
+        List<SubjectDto> subjects = SubjectTestHelper.getAllSubjects(container);
+        return ListHelper.getRandomValue(subjects);
     }
 
     /**

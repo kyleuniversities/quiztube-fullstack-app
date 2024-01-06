@@ -11,7 +11,6 @@ import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
-import com.ku.quizzical.common.helper.number.IdHelper;
 
 /**
  * Service class for Quiz Database related operations
@@ -41,18 +40,18 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     // Interface Methods
     @Override
-    public QuizDto saveQuiz(QuizDto quizDto) {
-        this.validateAddQuizRequest(quizDto);
+    public QuizDto saveQuiz(QuizAddRequest quiz) {
+        this.validateAddQuizRequest(quiz);
+        String id = this.nextId();
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
-        String id = IdHelper.nextMockId();
-        int result = this.jdbcTemplate.update(sql, id, quizDto.title(), quizDto.description(),
-                quizDto.picture(), quizDto.thumbnail(), quizDto.userId(), quizDto.subjectId());
+        int result = this.jdbcTemplate.update(sql, id, quiz.title(), quiz.description(),
+                quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId());
         System.out.println("POST QUIZ RESULT = " + result);
-        return new QuizDto(id, quizDto.title(), quizDto.description(), quizDto.picture(),
-                quizDto.thumbnail(), quizDto.userId(), quizDto.subjectId());
+        return new QuizDto(id, quiz.title(), quiz.description(), quiz.picture(), quiz.thumbnail(),
+                quiz.userId(), quiz.subjectId());
     }
 
     @Override
@@ -171,7 +170,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     // Validation Major Methods
-    private void validateAddQuizRequest(QuizDto quiz) {
+    private void validateAddQuizRequest(QuizAddRequest quiz) {
         validateTitle(quiz.title());
         validateDescription(quiz.description());
     }
@@ -185,5 +184,10 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     private void validateDescription(String text) {
         TextValidationHelper.validateNonNull("Description", text);
         TextValidationHelper.validateLength("Description", text, 1, 250);
+    }
+
+    // Id Methods
+    private String nextId() {
+        return new Quiz().getId();
     }
 }
