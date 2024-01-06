@@ -2,7 +2,6 @@ package com.ku.quizzical.app.helper.controller;
 
 import java.util.List;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
 import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.auth.AuthenticationResponse;
 import com.ku.quizzical.app.controller.user.UserDto;
