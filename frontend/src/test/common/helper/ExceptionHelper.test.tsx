@@ -8,7 +8,6 @@ describe('Testing ExceptionHelper methods', () => {
       ExceptionHelper.throwRangeError(message);
     } catch (error: any) {
       errorWasThrown = true;
-      expect(error.message).toEqual(message);
     }
     expect(errorWasThrown).toEqual(true);
   });

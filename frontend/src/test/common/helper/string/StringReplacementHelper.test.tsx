@@ -1,10 +1,9 @@
-import { StringCodeHelper } from '../../../../common/helper/string/StringCodeHelper';
 import { StringHelper } from '../../../../common/helper/string/StringHelper';
 import { StringReplacementHelper } from '../../../../common/helper/string/StringReplacementHelper';
 import { StringMap } from '../../../../common/util/string';
 
 describe('Testing String Replacement methods', () => {
-  test('Test Replace all with text and target', () => {
+  test('Replace all with text and target', () => {
     const text: string = 'The water was floating way down South.';
     const target: string = 'The gutter guts floating guty down South.';
     expect(StringReplacementHelper.replaceAll(text, 'wa', 'gut')).toEqual(
@@ -12,7 +11,7 @@ describe('Testing String Replacement methods', () => {
     );
   });
 
-  test('Test Replace all with String Map', () => {
+  test('Replace all with String Map', () => {
     const text: string =
       'public static void add(int a, int b)\n' +
       '\treturn a + b;\n' +

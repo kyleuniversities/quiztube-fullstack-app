@@ -1,6 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { Route, Routes } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 import { ConditionalContent } from '../../../app/component/ConditionalContent';
 
 describe('Testing Conditional Content', () => {
