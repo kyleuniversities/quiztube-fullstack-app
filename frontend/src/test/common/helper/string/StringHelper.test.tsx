@@ -1,10 +1,25 @@
 import { StringHelper } from '../../../../common/helper/string/StringHelper';
-import { StringList } from '../../../../common/util/string';
+import { StringList, StringMap } from '../../../../common/util/string';
 
 describe('Testing StringList methods', () => {
   test('newEmptyStringList() makes an empty StringList', () => {
     const list: StringList = StringHelper.newEmptyStringList();
     expect(list.length).toBe(0);
+  });
+
+  test('stringMap() makes a String Map', () => {
+    const map: StringMap = StringHelper.newStringMap();
+    expect(map.size).toEqual(0);
+  });
+
+  test('stringMap() makes a String Map from double array', () => {
+    const map: StringMap = StringHelper.newStringMapFromDoubleArray([
+      ['public', 'private'],
+      ['int', 'double'],
+      ['+', '*'],
+      ['-', '/'],
+    ]);
+    expect(map.size).toEqual(4);
   });
 
   test('substringEquals() identifies substring', () => {
