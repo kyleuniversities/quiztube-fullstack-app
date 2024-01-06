@@ -1,7 +1,7 @@
 # QuizTube v1.0.0
 
 The QuizTube Application (formerly called Quizzical) is a Spring Boot web application designed for users to be able to quiz
-themselves by making their own quizzes. The app was developed using Type Script React for
+themselves by making their own quizzes. The app was developed using TypeScript React for
 the frontend and Spring Boot for the backend.
 
 &nbsp;
@@ -39,6 +39,7 @@ Throughout the frontend development of this application, I incorporated various 
 - **Separating Functions and Components:** Separated request functions as their own section in the file infrastructure as services to help with organization
 - **Code Reuse:** Several components are made as a product of two or more very similar components, such the AddModifyQuizPage, which acts as a parent to the similar AddQuizPage and EditQuizPage.
 - **Code Organization:** Made user that all methods and code are neatly organized and readable
+- **Unit Testing:** Made several unit tests for several utility helper classes.
 - **Linting:** Ran linting regularly to make sure there were no wastefulness in symbol usage
 
 &nbsp;
@@ -72,6 +73,8 @@ Throughout the development of this application, I incorporated various coding pr
 - **JWT Token Usage:** Required proper credentials using JWTs to ensure secure requests
 - **Request Validation:** Supplied validation for users entering faulty text data or data conflicting with existing resources.
 - **Proper Exception Handling:** Used a default exception handler to retrun an informative error response during an exception.
+- **Unit Testing:** Made several unit tests for several utility helper classes.
+- **Endpoint Testing:** Made several endpoint tests for the main API controllers.
 - **Microservice Architecture:** Divided classes into several services rather than a single or few tightly couple classes
 
 &nbsp;
