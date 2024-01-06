@@ -165,8 +165,7 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         String attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE quiz SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), id);
             System.out.println("UPDATE QUIZ " + attributeName + " RESULT = " + result);
         });
     }
