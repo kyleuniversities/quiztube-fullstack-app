@@ -62,6 +62,13 @@ public final class UserController {
 
     // READ Method
     // Checks if a User by its username exists
+    @GetMapping("/users/exists/{username}")
+    public ResponseEntity<BooleanDto> userByIdExists(@PathVariable String username) {
+        return new ResponseEntity<BooleanDto>(this.service.userByIdExists(username), HttpStatus.OK);
+    }
+
+    // READ Method
+    // Checks if a User by its username exists
     @GetMapping("/users/username-exists/{username}")
     public ResponseEntity<BooleanDto> userByUsernameExists(@PathVariable String username) {
         return new ResponseEntity<BooleanDto>(this.service.userByUsernameExists(username),

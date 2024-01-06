@@ -14,6 +14,8 @@ public interface UserDatabaseService {
 
     UserDto getUserByEmail(String email);
 
+    BooleanDto userByIdExists(String username);
+
     BooleanDto userByUsernameExists(String username);
 
     void deleteUser(String id);

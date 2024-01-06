@@ -86,6 +86,16 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     }
 
     @Override
+    public BooleanDto userByIdExists(String id) {
+        var sql = """
+                SELECT id, username, email, password, picture, thumbnail
+                FROM user
+                WHERE id = ?
+                """;
+        return new BooleanDto(this.jdbcTemplate.query(sql, this.dtoRowMapper, id).size() > 0);
+    }
+
+    @Override
     public BooleanDto userByUsernameExists(String username) {
         var sql = """
                 SELECT id, username, email, password, picture, thumbnail
