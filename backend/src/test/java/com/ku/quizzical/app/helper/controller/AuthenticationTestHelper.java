@@ -3,11 +3,8 @@ package com.ku.quizzical.app.helper.controller;
 import org.json.JSONObject;
 import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.auth.AuthenticationResponse;
-import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.helper.JsonHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
-import com.ku.quizzical.common.helper.RandomHelper;
-import com.ku.quizzical.common.helper.number.IndexHelper;
 
 /**
  * Helper class for Authentication Test Operations

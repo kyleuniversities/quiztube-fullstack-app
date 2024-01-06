@@ -2,14 +2,12 @@ package com.ku.quizzical.app.controller.question;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
-import java.util.function.BiConsumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import com.ku.quizzical.app.controller.quiz.QuizDto;
 import com.ku.quizzical.app.controller.user.UserDto;

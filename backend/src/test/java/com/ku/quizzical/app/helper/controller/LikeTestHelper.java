@@ -1,15 +1,11 @@
 package com.ku.quizzical.app.helper.controller;
 
-import java.util.List;
 import org.json.JSONObject;
 import com.ku.quizzical.app.controller.like.LikeAddRequest;
 import com.ku.quizzical.app.controller.like.LikeDto;
-import com.ku.quizzical.app.controller.like.LikeDtoList;
 import com.ku.quizzical.app.helper.JsonHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 import com.ku.quizzical.app.util.dto.IntegerDto;
-import com.ku.quizzical.common.helper.RandomHelper;
-import com.ku.quizzical.common.helper.number.IndexHelper;
 
 /**
  * Helper class for Like Test Operations
