@@ -1,9 +1,8 @@
 # QuizTube v1.0.0
 
-The QuizTube Application (formerly called Quizzical) is a Springboot web application designed for users to be able to quiz
-themselves by making their own quizzes. The app was developed using Typescript React for
-the frontend and Springboot for the backend. I have undertaken this project to help myself become
-more experienced with the Springboot framework.
+The QuizTube Application (formerly called Quizzical) is a Spring Boot web application designed for users to be able to quiz
+themselves by making their own quizzes. The app was developed using Type Script React for
+the frontend and Spring Boot for the backend.
 
 &nbsp;
 
@@ -23,7 +22,7 @@ QuizTube is a publicly deployed full stack application, which can be found here:
 
 Throughout the development of this website, I incorporated various frontend technologies including:
 
-- **Typescript React:** Invoked the use of Typescript React classes, functions, and types.
+- **TypeScript React:** Invoked the use of Typescript React classes, functions, and types.
 - **Semantic UI:** Invoked Semantic UI as a framework on top of React for components.
 - **React Markdown:** Invoked React Markdown to display MD files within components.
 - **React Responsive:** Invoked React Responsive to adjust for different devices, such as iPhone usage
