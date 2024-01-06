@@ -4,6 +4,7 @@ import java.util.List;
 import org.json.JSONObject;
 import com.ku.quizzical.app.controller.quiz.QuizAddRequest;
 import com.ku.quizzical.app.controller.quiz.QuizDto;
+import com.ku.quizzical.app.controller.quiz.QuizDtoList;
 import com.ku.quizzical.app.controller.quiz.QuizUpdateRequest;
 import com.ku.quizzical.app.helper.JsonHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
@@ -25,7 +26,7 @@ public class QuizTestHelper {
      * Gets a list of all Quizzes
      */
     public static List<QuizDto> getAllQuizzes(TestRestTemplateContainer container) {
-        return container.getList("/quizzes");
+        return container.getList("/quizzes", QuizDtoList.class);
     }
 
     /**

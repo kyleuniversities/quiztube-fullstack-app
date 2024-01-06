@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.auth.AuthenticationResponse;
 import com.ku.quizzical.app.controller.user.UserDto;
+import com.ku.quizzical.app.controller.user.UserDtoList;
 import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.helper.JsonHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
@@ -50,7 +51,7 @@ public class UserTestHelper {
      * Gets a list of all Users
      */
     public static List<UserDto> getAllUsers(TestRestTemplateContainer container) {
-        return container.getList("/users");
+        return container.getList("/users", UserDtoList.class);
     }
 
     /**

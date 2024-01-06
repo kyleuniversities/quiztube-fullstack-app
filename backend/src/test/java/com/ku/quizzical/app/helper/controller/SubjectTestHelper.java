@@ -2,6 +2,7 @@ package com.ku.quizzical.app.helper.controller;
 
 import java.util.List;
 import com.ku.quizzical.app.controller.subject.SubjectDto;
+import com.ku.quizzical.app.controller.subject.SubjectDtoList;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 import com.ku.quizzical.common.helper.ListHelper;
 
@@ -12,8 +13,8 @@ public class SubjectTestHelper {
     /**
      * Gets a list of all Subjects
      */
-    public static List<SubjectDto> getAllSubjects(TestRestTemplateContainer container) {
-        return container.getList("/subjects");
+    public static SubjectDtoList getAllSubjects(TestRestTemplateContainer container) {
+        return container.getList("/subjects", SubjectDtoList.class);
     }
 
     /**

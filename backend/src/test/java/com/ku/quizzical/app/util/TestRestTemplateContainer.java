@@ -56,9 +56,9 @@ public final class TestRestTemplateContainer {
                 HttpHelper.newHttpEntity(body, this.headers), responseType).getBody();
     }
 
-    public <T> List<T> getList(String url) {
-        return (List<T>) this.restTemplate.exchange(this.toFullUrl.apply(url), HttpMethod.GET,
-                HttpHelper.newHttpEntity(JsonHelper.newJsonObject(), this.headers), List.class)
+    public <T, L extends List<T>> L getList(String url, Class<L> responseType) {
+        return this.restTemplate.exchange(this.toFullUrl.apply(url), HttpMethod.GET,
+                HttpHelper.newHttpEntity(JsonHelper.newJsonObject(), this.headers), responseType)
                 .getBody();
     }
 
