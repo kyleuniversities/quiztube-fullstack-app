@@ -6,7 +6,7 @@ import { StringMap } from '../../../../common/util/string';
 describe('Testing String Replacement methods', () => {
   test('Test Replace all with text and target', () => {
     const text: string = 'The water was floating way down South.';
-    const target: string = 'The gutter guts floating way down South.';
+    const target: string = 'The gutter guts floating guty down South.';
     expect(StringReplacementHelper.replaceAll(text, 'wa', 'gut')).toEqual(
       target
     );

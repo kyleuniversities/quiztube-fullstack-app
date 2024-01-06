@@ -21,15 +21,15 @@ export class MathHelper {
   /**
    * Applies the max function to a value
    */
-  public static max(value: number): number {
-    return Math.max(value);
+  public static max(a: number, b: number): number {
+    return Math.max(a, b);
   }
 
   /**
    * Applies the min function to a value
    */
-  public static min(value: number): number {
-    return Math.max(value);
+  public static min(a: number, b: number): number {
+    return Math.min(a, b);
   }
 
   /**
