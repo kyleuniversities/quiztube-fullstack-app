@@ -74,7 +74,7 @@ public class QuizTestHelper {
         JsonHelper.put(object, "picture", request.picture());
         JsonHelper.put(object, "thumbnail", request.thumbnail());
         JsonHelper.put(object, "userId", request.userId());
-        JsonHelper.put(object, "subjectId", request.thumbnail());
+        JsonHelper.put(object, "subjectId", request.subjectId());
         return container.post("/quizzes", object, QuizDto.class);
     }
 
@@ -88,8 +88,8 @@ public class QuizTestHelper {
         JsonHelper.put(object, "description", request.description());
         JsonHelper.put(object, "picture", request.picture());
         JsonHelper.put(object, "thumbnail", request.thumbnail());
-        JsonHelper.put(object, "subjectId", request.thumbnail());
-        return container.post("/quizzes/" + id, object, QuizDto.class);
+        JsonHelper.put(object, "subjectId", request.subjectId());
+        return container.patch("/quizzes/" + id, object, QuizDto.class);
     }
 
     /**

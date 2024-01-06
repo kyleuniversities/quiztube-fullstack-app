@@ -11,6 +11,8 @@ import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.PrintHelper;
+import com.ku.quizzical.common.helper.number.IdHelper;
 
 /**
  * Service class for Quiz Database related operations
@@ -41,15 +43,20 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Interface Methods
     @Override
     public QuizDto saveQuiz(QuizAddRequest quiz) {
+        PrintHelper.printLine("3.1");
         this.validateAddQuizRequest(quiz);
+        PrintHelper.printLine("3.2");
         String id = this.nextId();
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
+        PrintHelper.printLine("3.3");
+        PrintHelper.printEntry("id", id);
         int result = this.jdbcTemplate.update(sql, id, quiz.title(), quiz.description(),
                 quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId());
         System.out.println("POST QUIZ RESULT = " + result);
+        PrintHelper.printLine("3.4");
         return new QuizDto(id, quiz.title(), quiz.description(), quiz.picture(), quiz.thumbnail(),
                 quiz.userId(), quiz.subjectId());
     }
@@ -135,13 +142,16 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public QuizDto updateQuiz(String id, QuizUpdateRequest update) {
+        PrintHelper.printLine("1");
         this.updateQuizAttribute(id, update, "title", QuizUpdateRequest::title);
         this.updateQuizAttribute(id, update, "description", QuizUpdateRequest::description);
         this.updateQuizAttribute(id, update, "picture", QuizUpdateRequest::picture);
         this.updateQuizAttribute(id, update, "thumbnail", QuizUpdateRequest::thumbnail);
         this.updateQuizAttribute(id, update, "subject_id", QuizUpdateRequest::subjectId);
+        PrintHelper.printLine("2");
         TextValidationHelper.validateIfExists(update::title, this::validateTitle);
         TextValidationHelper.validateIfExists(update::description, this::validateDescription);
+        PrintHelper.printLine("3");
         return this.getQuiz(id);
     }
 
@@ -188,6 +198,6 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     // Id Methods
     private String nextId() {
-        return new Quiz().getId();
+        return IdHelper.nextMockId();
     }
 }

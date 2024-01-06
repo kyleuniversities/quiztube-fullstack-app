@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import com.ku.quizzical.app.controller.user.UserDto;
 import com.ku.quizzical.app.helper.controller.QuizTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
+import com.ku.quizzical.common.helper.PrintHelper;
 import com.ku.quizzical.common.util.function.TriConsumer;
 
 /**
@@ -32,6 +34,7 @@ public class QuizControllerTest {
     // Tests the Quiz Post Operation
     @Test
     void quizPostTest() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ POST TEST>>");
         this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
             // Set up quiz add request
             QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
@@ -51,6 +54,7 @@ public class QuizControllerTest {
     // Tests the Get Quizzes Operation
     @Test
     void quizzesGetTest() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ GET ALL TEST>>");
         // Set up template container
         TestRestTemplateContainer container =
                 TestRestTemplateContainer.newInstance(this.restTemplate, this::toFullUrl);
@@ -64,6 +68,7 @@ public class QuizControllerTest {
     // Tests the Get Quiz by Id Operation
     @Test
     void quizGetByIdTest() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ GET BY ID TEST>>");
         this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
             QuizDto matchingQuiz = QuizTestHelper.getById(quiz.id(), container);
             assertThat(quiz.id()).isEqualTo(matchingQuiz.id());
@@ -74,6 +79,7 @@ public class QuizControllerTest {
     // Tests the Update Quiz by Id Operation
     @Test
     void updateQuizById() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ UPDATE TEST>>");
         this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
             // Set up update request
             QuizUpdateRequest request = QuizTestHelper.newRandomQuizUpdateRequest(container);
@@ -90,6 +96,7 @@ public class QuizControllerTest {
     // The testWithNewQuiz() method already does this
     @Test
     void deleteQuizById() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ DELETE TEST>>");
         this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
         });
     }

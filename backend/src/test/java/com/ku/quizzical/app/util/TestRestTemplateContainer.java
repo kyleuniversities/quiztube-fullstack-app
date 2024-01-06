@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import com.ku.quizzical.app.helper.HttpHelper;
 import com.ku.quizzical.app.helper.JsonHelper;
 import com.ku.quizzical.common.util.string.StringFunction;

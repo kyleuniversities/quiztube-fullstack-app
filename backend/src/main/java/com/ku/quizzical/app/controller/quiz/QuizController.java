@@ -19,6 +19,7 @@ import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
+import com.ku.quizzical.common.helper.PrintHelper;
 
 /**
  * Controller class for Quiz related operations
@@ -45,10 +46,19 @@ public final class QuizController {
     @PostMapping("/quizzes")
     public ResponseEntity<QuizDto> saveQuiz(@RequestBody QuizAddRequest quiz,
             @RequestHeader("Authorization") String authorizationHeader) {
+        PrintHelper.printLine("1");
+        PrintHelper.printEntry("title", quiz.title());
+        PrintHelper.printEntry("description", quiz.description());
+        PrintHelper.printEntry("picture", quiz.picture());
+        PrintHelper.printEntry("thumbnail", quiz.thumbnail());
+        PrintHelper.printEntry("subjectId", quiz.subjectId());
+        PrintHelper.printEntry("userId", quiz.userId());
         User matchingUser = DatabaseValidationHelper.validateExistingResourceWithFallthrough(
                 "Quiz User", quiz.userId(), this.userRepository::findById);
+        PrintHelper.printLine("2");
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingUser.getId());
+        PrintHelper.printLine("3");
         return new ResponseEntity<QuizDto>(this.service.saveQuiz(quiz), HttpStatus.OK);
     }
 
@@ -99,10 +109,18 @@ public final class QuizController {
     public ResponseEntity<QuizDto> updateQuiz(@PathVariable String id,
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody QuizUpdateRequest quiz) {
+        PrintHelper.printEntry("title", quiz.title());
+        PrintHelper.printEntry("description", quiz.description());
+        PrintHelper.printEntry("picture", quiz.picture());
+        PrintHelper.printEntry("thumbnail", quiz.thumbnail());
+        PrintHelper.printEntry("subjectId", quiz.subjectId());
+        PrintHelper.printLine("1.0");
         Quiz matchingQuiz = DatabaseValidationHelper.validateExistingResourceWithFallthrough("Quiz",
                 id, this.repository::findById);
+        PrintHelper.printLine("2.0");
         AuthorizationValidationHelper.validateAuthorization(authorizationHeader,
                 matchingQuiz.getUserId());
+        PrintHelper.printLine("3.0");
         return new ResponseEntity<QuizDto>(this.service.updateQuiz(id, quiz), HttpStatus.OK);
     }
 
