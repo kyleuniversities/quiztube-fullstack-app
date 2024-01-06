@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.helper.controller.AuthenticationTestHelper;
+import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 
@@ -103,32 +103,13 @@ public class UserControllerTest {
         });
     }
 
-    // Helper method for test after creating a new user
+    // Method to test operation with a registered user
     private void testWithNewUser(BiConsumer<UserDto, TestRestTemplateContainer> action) {
-        // Set up test user variablees
-        UserRegistrationRequest registrationRequest = UserTestHelper.newRandomRegistrationRequest();
-
-        // Set up template container
-        TestRestTemplateContainer container =
-                TestRestTemplateContainer.newInstance(this.restTemplate, this::toFullUrl);
-
-        // Register user
-        UserDto user = UserTestHelper.clearSaveUser(registrationRequest, container);
-
-        // Log In user
-        AuthenticationRequest loginRequest = AuthenticationTestHelper
-                .newLoginRequest(registrationRequest.username(), registrationRequest.password());
-        AuthenticationTestHelper.logIn(loginRequest, container);
-
-        // Run test
-        action.accept(user, container);
-
-        // Cleanup
-        UserTestHelper.deleteUserIfUsernameExists(user.username(), container);
-        AuthenticationTestHelper.resetHeaders(container);
+        TestHelper.testWithNewUser(this.restTemplate, this::toFullUrl, action);
     }
 
+    // Method to return full requets URL
     private String toFullUrl(String url) {
-        return "http://localhost:" + port + url;
+        return TestHelper.toFullUrl(this.port, url);
     }
 }

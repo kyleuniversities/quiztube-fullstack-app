@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import com.ku.quizzical.app.helper.controller.SubjectTestHelper;
+import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 import com.ku.quizzical.common.helper.ListHelper;
 
@@ -71,6 +72,6 @@ public class SubjectControllerTest {
     }
 
     private String toFullUrl(String url) {
-        return "http://localhost:" + port + url;
+        return TestHelper.toFullUrl(this.port, url);
     }
 }
