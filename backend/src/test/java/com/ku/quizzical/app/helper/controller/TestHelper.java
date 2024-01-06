@@ -3,15 +3,38 @@ package com.ku.quizzical.app.helper.controller;
 import java.util.function.BiConsumer;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
+import com.ku.quizzical.app.controller.quiz.QuizAddRequest;
+import com.ku.quizzical.app.controller.quiz.QuizDto;
 import com.ku.quizzical.app.controller.user.UserDto;
 import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
+import com.ku.quizzical.common.util.function.TriConsumer;
 import com.ku.quizzical.common.util.string.StringFunction;
 
 /**
  * Helper class for Subject Test Operations
  */
 public class TestHelper {
+    /**
+     * Performs a test after registering and logging in with a new user and creating a new quiz
+     */
+    public static void testWithNewQuiz(TestRestTemplate restTemplate, StringFunction toFullUrl,
+            TriConsumer<QuizDto, UserDto, TestRestTemplateContainer> action) {
+        TestHelper.testWithNewUser(restTemplate, toFullUrl,
+                (UserDto user, TestRestTemplateContainer container) -> {
+                    // Create new quiz
+                    QuizAddRequest request =
+                            QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
+                    QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
+
+                    // Perform action
+                    action.accept(quiz, user, container);
+
+                    // Cleanup
+                    QuizTestHelper.deleteQuizById(quiz.id(), container);
+                });
+    }
+
     /**
      * Performs a test after registering and logging in with a new user
      */

@@ -101,19 +101,9 @@ public class QuizControllerTest {
         });
     }
 
-    // Method to test operation with a registered user
+    // Method to test operation with a new quiz
     private void testWithNewQuiz(TriConsumer<QuizDto, UserDto, TestRestTemplateContainer> action) {
-        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
-            // Create new quiz
-            QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
-            QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
-
-            // Perform action
-            action.accept(quiz, user, container);
-
-            // Cleanup
-            QuizTestHelper.deleteQuizById(quiz.id(), container);
-        });
+        TestHelper.testWithNewQuiz(this.restTemplate, this::toFullUrl, action);
     }
 
     // Method to test operation with a registered user

@@ -36,7 +36,7 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
 
     // Interface Methods
     @Override
-    public QuestionDto saveQuestion(String quizId, QuestionDto questionDto) {
+    public QuestionDto saveQuestion(String quizId, QuestionAddRequest questionDto) {
         this.validateAddQuestionRequest(questionDto);
         var sql = """
                 INSERT INTO question(id, question, answer, number_of_milliseconds, quiz_id)
@@ -80,9 +80,9 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
 
     @Override
     public QuestionDto updateQuestion(String quizId, String id, QuestionUpdateRequest update) {
-        this.updateQuestionAttribute(update, "question", QuestionUpdateRequest::question);
-        this.updateQuestionAttribute(update, "answer", QuestionUpdateRequest::answer);
-        this.updateQuestionAttribute(update, "number_of_milliseconds",
+        this.updateQuestionAttribute(id, update, "question", QuestionUpdateRequest::question);
+        this.updateQuestionAttribute(id, update, "answer", QuestionUpdateRequest::answer);
+        this.updateQuestionAttribute(id, update, "number_of_milliseconds",
                 QuestionUpdateRequest::numberOfMilliseconds);
         TextValidationHelper.validateIfExists(update::question, this::validateQuestion);
         TextValidationHelper.validateIfExists(update::answer, this::validateAnswer);
@@ -100,19 +100,18 @@ public class QuestionOrdinaryDatabaseService implements QuestionDatabaseService 
         System.out.println("DELETE QUESTION RESULT = " + result);
     }
 
-    private <T> void updateQuestionAttribute(QuestionUpdateRequest update, String attributeName,
-            Function<QuestionUpdateRequest, T> attributeCollector) {
+    private <T> void updateQuestionAttribute(String id, QuestionUpdateRequest update,
+            String attributeName, Function<QuestionUpdateRequest, T> attributeCollector) {
         T attribute = attributeCollector.apply(update);
         ConditionalHelper.ifThen(attribute != null, () -> {
             String sql = String.format("UPDATE question SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
+            int result = this.jdbcTemplate.update(sql, attributeCollector.apply(update), id);
             System.out.println("UPDATE QUESTION " + attributeName + " RESULT = " + result);
         });
     }
 
     // Validation Major Methods
-    private void validateAddQuestionRequest(QuestionDto quiz) {
+    private void validateAddQuestionRequest(QuestionAddRequest quiz) {
         validateQuestion(quiz.question());
         validateAnswer(quiz.answer());
     }

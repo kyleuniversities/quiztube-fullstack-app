@@ -42,7 +42,7 @@ public final class QuestionController {
         @PostMapping("/quizzes/{quizId}/questions")
         public ResponseEntity<QuestionDto> saveQuestion(@PathVariable String quizId,
                         @RequestHeader("Authorization") String authorizationHeader,
-                        @RequestBody QuestionDto question) {
+                        @RequestBody QuestionAddRequest question) {
                 Quiz matchingQuiz = DatabaseValidationHelper
                                 .validateExistingResourceWithFallthrough("Question Quiz",
                                                 question.quizId(), this.quizRepository::findById);
