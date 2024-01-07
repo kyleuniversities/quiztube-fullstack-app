@@ -74,23 +74,6 @@ public class LikeControllerTest {
                 });
     }
 
-    // // UPDATE Method Test
-    // // Tests the Update Like by Id Operation
-    // @Test
-    // void updateLikeById() throws Exception {
-    // PrintHelper.printLine("\n\n\n<<LIKE UPDATE TEST>>");
-    // this.testWithNewLike((LikeDto like, UserDto user, TestRestTemplateContainer
-    // container) -> {
-    // // Set up update request
-    // LikeUpdateRequest request = LikeTestHelper.newRandomLikeUpdateRequest(container);
-
-    // // Test PATCH request
-    // LikeTestHelper.updateLikeById(like.id(), request, container);
-    // LikeDto updatedLike = LikeTestHelper.getById(like.id(), container);
-    // assertThat(request.title()).isEqualTo(updatedLike.title());
-    // });
-    // }
-
     // DELETE Method Test
     // Tests the Delete Like by Id Operation
     // The testWithNewLike() method already does this

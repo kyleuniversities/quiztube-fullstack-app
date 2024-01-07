@@ -75,22 +75,24 @@ public class QuestionControllerTest {
         });
     }
 
-    // // UPDATE Method Test
-    // // Tests the Update Question by Id Operation
-    // @Test
-    // void updateQuestionById() throws Exception {
-    // PrintHelper.printLine("\n\n\n<<QUESTION UPDATE TEST>>");
-    // this.testWithNewQuestion((QuestionDto question, UserDto user, TestRestTemplateContainer
-    // container) -> {
-    // // Set up update request
-    // QuestionUpdateRequest request = QuestionTestHelper.newRandomQuestionUpdateRequest(container);
+    // UPDATE Method Test
+    // Tests the Update Question by Id Operation
+    @Test
+    void updateQuestionById() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUESTION UPDATE TEST>>");
+        this.testWithNewQuestion((QuestionDto question, QuizDto quiz, UserDto user,
+                TestRestTemplateContainer container) -> {
+            // Set up update request
+            QuestionUpdateRequest request =
+                    QuestionTestHelper.newRandomQuestionUpdateRequest(container);
 
-    // // Test PATCH request
-    // QuestionTestHelper.updateQuestionById(question.id(), request, container);
-    // QuestionDto updatedQuestion = QuestionTestHelper.getById(question.id(), container);
-    // assertThat(request.title()).isEqualTo(updatedQuestion.title());
-    // });
-    // }
+            // Test PATCH request
+            QuestionTestHelper.updateQuestionById(quiz.id(), question.id(), request, container);
+            QuestionDto updatedQuestion =
+                    QuestionTestHelper.getById(quiz.id(), question.id(), container);
+            assertThat(request.question()).isEqualTo(updatedQuestion.question());
+        });
+    }
 
     // DELETE Method Test
     // Tests the Delete Question by Id Operation
