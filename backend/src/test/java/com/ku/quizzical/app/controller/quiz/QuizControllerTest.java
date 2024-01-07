@@ -64,6 +64,48 @@ public class QuizControllerTest {
     }
 
     // READ Method Test
+    // Tests the Get Quizzes From User Operation
+    @Test
+    void quizzesGetFromUserTest() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ GET ALL FROM USER TEST>>");
+        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
+            // Set up quiz add request
+            QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
+
+            // Test POST Method
+            List<QuizDto> quizzes1 = QuizTestHelper.getAllQuizzesFromUser(user.id(), container);
+            QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
+            List<QuizDto> quizzes2 = QuizTestHelper.getAllQuizzesFromUser(user.id(), container);
+            assertThat(quizzes1.size() + 1).isEqualTo(quizzes2.size());
+
+            // Cleanup
+            QuizTestHelper.deleteQuizById(quiz.id(), container);
+        });
+    }
+
+    // READ Method Test
+    // Tests the Get Quizzes From Subject Operation
+    @Test
+    void quizzesGetFromSubjectTest() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ GET ALL FROM USER TEST>>");
+        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
+            // Set up quiz add request
+            QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(user.id(), container);
+
+            // Test POST Method
+            List<QuizDto> quizzes1 =
+                    QuizTestHelper.getAllQuizzesFromSubject(request.subjectId(), container);
+            QuizDto quiz = QuizTestHelper.saveQuiz(request, container);
+            List<QuizDto> quizzes2 =
+                    QuizTestHelper.getAllQuizzesFromSubject(request.subjectId(), container);
+            assertThat(quizzes1.size() + 1).isEqualTo(quizzes2.size());
+
+            // Cleanup
+            QuizTestHelper.deleteQuizById(quiz.id(), container);
+        });
+    }
+
+    // READ Method Test
     // Tests the Get Quiz by Id Operation
     @Test
     void quizGetByIdTest() throws Exception {

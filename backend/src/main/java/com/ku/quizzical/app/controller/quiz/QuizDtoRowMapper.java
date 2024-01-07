@@ -7,11 +7,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class QuizDtoRowMapper implements RowMapper<QuizDto> {
+        private QuizRepository repository;
+        private QuizDtoMapper dtoMapper;
+
+        public QuizDtoRowMapper(QuizRepository repository, QuizDtoMapper dtoMapper) {
+                this.repository = repository;
+                this.dtoMapper = dtoMapper;
+        }
+
         @Override
         public QuizDto mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
-                return new QuizDto(resultSet.getString("id"), resultSet.getString("title"),
-                                resultSet.getString("description"), resultSet.getString("picture"),
-                                resultSet.getString("thumbnail"), resultSet.getString("user_id"),
-                                resultSet.getString("subject_id"));
+                Quiz quiz = this.repository.findById(resultSet.getString("id")).get();
+                return this.dtoMapper.apply(quiz);
         }
 }

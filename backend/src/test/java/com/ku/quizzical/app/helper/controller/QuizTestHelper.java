@@ -30,6 +30,23 @@ public class QuizTestHelper {
     }
 
     /**
+     * Gets a list of all Quizzes
+     */
+    public static List<QuizDto> getAllQuizzesFromUser(String userId,
+            TestRestTemplateContainer container) {
+        return container.getList(String.format("/users/%s/quizzes", userId), QuizDtoList.class);
+    }
+
+    /**
+     * Gets a list of all Quizzes
+     */
+    public static List<QuizDto> getAllQuizzesFromSubject(String subjectId,
+            TestRestTemplateContainer container) {
+        return container.getList(String.format("/subjects/%s/quizzes", subjectId),
+                QuizDtoList.class);
+    }
+
+    /**
      * Gets a Quiz by id
      */
     public static QuizDto getById(String id, TestRestTemplateContainer container) {

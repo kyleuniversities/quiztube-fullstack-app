@@ -5,13 +5,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
-import com.ku.quizzical.common.helper.PrintHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
 /**
@@ -21,72 +19,46 @@ import com.ku.quizzical.common.helper.number.IdHelper;
 public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
-    private final UserRepository userRepository;
     private final QuizRepository repository;
+    private final QuizDtoMapper dtoMapper;
     private final QuizDtoRowMapper dtoRowMapper;
-    private final QuizPostDtoMapper postDtoMapper;
-    private final QuizPostDtoRowMapper postDtoRowMapper;
 
     // Constructor Method
-    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, UserRepository userRepository,
-            QuizRepository repository, QuizDtoRowMapper dtoRowMapper,
-            QuizPostDtoMapper postDtoMapper, QuizPostDtoRowMapper postDtoRowMapper) {
+    public QuizOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, QuizRepository repository,
+            QuizDtoMapper dtoMapper, QuizDtoRowMapper dtoRowMapper) {
         super();
         this.jdbcTemplate = jdbcTemplate;
-        this.userRepository = userRepository;
         this.repository = repository;
+        this.dtoMapper = dtoMapper;
         this.dtoRowMapper = dtoRowMapper;
-        this.postDtoMapper = postDtoMapper;
-        this.postDtoRowMapper = postDtoRowMapper;
     }
 
     // Interface Methods
     @Override
     public QuizDto saveQuiz(QuizAddRequest quiz) {
-        PrintHelper.printLine("3.1");
         this.validateAddQuizRequest(quiz);
-        PrintHelper.printLine("3.2");
         String id = this.nextId();
         var sql = """
                 INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
-        PrintHelper.printLine("3.3");
-        PrintHelper.printEntry("id", id);
         int result = this.jdbcTemplate.update(sql, id, quiz.title(), quiz.description(),
                 quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId());
         System.out.println("POST QUIZ RESULT = " + result);
-        PrintHelper.printLine("3.4");
-        return new QuizDto(id, quiz.title(), quiz.description(), quiz.picture(), quiz.thumbnail(),
-                quiz.userId(), quiz.subjectId());
+        return this.dtoMapper.apply(this.repository.findById(id).get());
     }
 
     @Override
-    public List<QuizDto> getAllQuizzes() {
-        var sql = """
-                SELECT id, title, description, picture, thumbnail, user_id, subject_id
-                FROM quiz
-                LIMIT 100
-                """;
-        return this.jdbcTemplate.query(sql, this.dtoRowMapper);
-    }
-
-    @Override
-    public List<QuizPostDto> getAllQuizzesAsPosts(String subjectId, int limit) {
-        return ListHelper.shuffleWithFallthrough(this.repository.findAll()).stream()
-                .filter(this.makeQuizSubjectFilter(subjectId)).map(this.postDtoMapper::apply)
-                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
-                .limit(limit).toList();
-    }
-
-    @Override
-    public List<QuizPostDto> getAllQuizzesFromUser(String userId) {
-        DatabaseValidationHelper.validateExistingResource("User", "id", userId,
-                this.userRepository::findById);
-        return this.repository.findAll().stream().filter(this.makeQuizUserFilter(userId))
-                .map(this.postDtoMapper::apply)
-                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizPostDto::numberOfLikes))
-                .toList();
+    public List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery,
+            int limit) {
+        List<QuizDto> q = ListHelper.toArrayList(ListHelper
+                .shuffleWithFallthrough(this.repository.findAll()).stream()
+                .filter(this.makeQuizUserIdFilter(userId))
+                .filter(this.makeQuizSubjectIdFilter(subjectId))
+                .filter(this.makeQuizTitleQueryFilter(titleQuery)).map(this.dtoMapper::apply)
+                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizDto::numberOfLikes))
+                .limit(limit).toList());
+        return q;
     }
 
     @Override
@@ -102,56 +74,14 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     @Override
-    public QuizPostDto getQuizAsPost(String id) {
-        QuizDto quizDto = this.getQuiz(id);
-        Quiz quiz = this.repository.findById(quizDto.id()).get();
-        return this.postDtoMapper.apply(quiz);
-    }
-
-    @Override
-    public List<QuizPostDto> getAllQuizzesByTitleQuery(String titleQuery) {
-        var sql = """
-                SELECT id, title, description, picture, thumbnail, user_id, subject_id
-                FROM quiz
-                WHERE title LIKE ?
-                """;
-        String text = "%" + titleQuery + "%";
-        System.out.println("TEXT: " + text);
-        return this.jdbcTemplate.query(sql, this.postDtoRowMapper, text);
-    }
-
-    @Override
-    public List<QuizDto> getAllQuizzesByUserId(String userId) {
-        var sql = """
-                SELECT id, title, description, picture, thumbnail, user_id, subject_id
-                FROM quiz
-                WHERE user_id = ?
-                """;
-        return this.jdbcTemplate.query(sql, this.dtoRowMapper, userId);
-    }
-
-    @Override
-    public List<QuizDto> getAllQuizzesBySubjectId(String subjectId) {
-        var sql = """
-                SELECT id, title, description, picture, thumbnail, user_id, subject_id
-                FROM quiz
-                WHERE user_id = ?
-                """;
-        return this.jdbcTemplate.query(sql, this.dtoRowMapper, subjectId);
-    }
-
-    @Override
     public QuizDto updateQuiz(String id, QuizUpdateRequest update) {
-        PrintHelper.printLine("1");
         this.updateQuizAttribute(id, update, "title", QuizUpdateRequest::title);
         this.updateQuizAttribute(id, update, "description", QuizUpdateRequest::description);
         this.updateQuizAttribute(id, update, "picture", QuizUpdateRequest::picture);
         this.updateQuizAttribute(id, update, "thumbnail", QuizUpdateRequest::thumbnail);
         this.updateQuizAttribute(id, update, "subject_id", QuizUpdateRequest::subjectId);
-        PrintHelper.printLine("2");
         TextValidationHelper.validateIfExists(update::title, this::validateTitle);
         TextValidationHelper.validateIfExists(update::description, this::validateDescription);
-        PrintHelper.printLine("3");
         return this.getQuiz(id);
     }
 
@@ -161,12 +91,16 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
         System.out.println("DELETE QUIZ RESULT = " + 1);
     }
 
-    private Predicate<Quiz> makeQuizSubjectFilter(String subjectId) {
-        return (Quiz quiz) -> subjectId == null || quiz.getSubject().getId().equals(subjectId);
+    private Predicate<Quiz> makeQuizUserIdFilter(String userId) {
+        return (Quiz quiz) -> userId == null || quiz.getUserId().contains(userId);
     }
 
-    private Predicate<Quiz> makeQuizUserFilter(String userId) {
-        return (Quiz quiz) -> userId == null || quiz.getUser().getId().equals(userId);
+    private Predicate<Quiz> makeQuizSubjectIdFilter(String subjectId) {
+        return (Quiz quiz) -> subjectId == null || quiz.getSubject().getId().contains(subjectId);
+    }
+
+    private Predicate<Quiz> makeQuizTitleQueryFilter(String titleQuery) {
+        return (Quiz quiz) -> titleQuery == null || quiz.getTitle().contains(titleQuery);
     }
 
     private void updateQuizAttribute(String id, QuizUpdateRequest update, String attributeName,

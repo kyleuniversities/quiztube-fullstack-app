@@ -14,7 +14,7 @@ public class PrintHelper {
     /**
      * Prints a line
      */
-    public static void printEntry(String key, String value) {
+    public static void printEntry(String key, Object value) {
         PrintHelper.printLine(key + ": " + value);
     }
 

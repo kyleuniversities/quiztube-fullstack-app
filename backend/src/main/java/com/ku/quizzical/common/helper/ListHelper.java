@@ -297,12 +297,19 @@ public final class ListHelper {
     }
 
     /**
+     * Converts an iterable into an Array List
+     */
+    public static <T> ArrayList<T> toArrayList(Iterable<T> iterable) {
+        ArrayList<T> list = ListHelper.newArrayList();
+        IterableHelper.forEach(iterable, (T item) -> list.add(item));
+        return list;
+    }
+
+    /**
      * Converts an iterable into an List
      */
     public static <T> List<T> toList(Iterable<T> iterable) {
-        List<T> list = ListHelper.newArrayList();
-        IterableHelper.forEach(iterable, (T item) -> list.add(item));
-        return list;
+        return ListHelper.toArrayList(iterable);
     }
 
     /**
