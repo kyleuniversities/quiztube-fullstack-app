@@ -14,6 +14,7 @@ import com.ku.quizzical.app.helper.controller.AuthenticationTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
+import com.ku.quizzical.common.util.wrapper.OrdinaryWrapper;
 
 /**
  * Test Class for User Controller
@@ -87,6 +88,42 @@ public class UserControllerTest {
             UserDto matchingUser = UserTestHelper.getByUsername(user.username(), container);
             assertThat(user.id()).isEqualTo(matchingUser.id());
         });
+    }
+
+    // READ Method Test
+    // Tests the User Exists by Id Operation
+    @Test
+    void userUsernameExistsByIdTest() throws Exception {
+        OrdinaryWrapper<UserDto> userWrapper = OrdinaryWrapper.newInstance(null);
+        OrdinaryWrapper<TestRestTemplateContainer> containerWrapper =
+                OrdinaryWrapper.newInstance(null);
+        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
+            assertThat(UserTestHelper.userByIdExists(user.id(), container).value()).isEqualTo(true);
+            userWrapper.setValue(user);
+            containerWrapper.setValue(container);
+        });
+        UserDto user = userWrapper.getValue();
+        TestRestTemplateContainer container = containerWrapper.getValue();
+        assertThat(UserTestHelper.userByIdExists(user.id(), container).value()).isEqualTo(false);
+    }
+
+    // READ Method Test
+    // Tests the User Exists by Username Operation
+    @Test
+    void userUsernameExistsByUsernameTest() throws Exception {
+        OrdinaryWrapper<UserDto> userWrapper = OrdinaryWrapper.newInstance(null);
+        OrdinaryWrapper<TestRestTemplateContainer> containerWrapper =
+                OrdinaryWrapper.newInstance(null);
+        this.testWithNewUser((UserDto user, TestRestTemplateContainer container) -> {
+            assertThat(UserTestHelper.userByUsernameExists(user.username(), container).value())
+                    .isEqualTo(true);
+            userWrapper.setValue(user);
+            containerWrapper.setValue(container);
+        });
+        UserDto user = userWrapper.getValue();
+        TestRestTemplateContainer container = containerWrapper.getValue();
+        assertThat(UserTestHelper.userByIdExists(user.username(), container).value())
+                .isEqualTo(false);
     }
 
     // DELETE Method Test
