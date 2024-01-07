@@ -74,21 +74,21 @@ public class QuizControllerTest {
         });
     }
 
-    // // UPDATE Method Test
-    // // Tests the Update Quiz by Id Operation
-    // @Test
-    // void updateQuizById() throws Exception {
-    // PrintHelper.printLine("\n\n\n<<QUIZ UPDATE TEST>>");
-    // this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
-    // // Set up update request
-    // QuizUpdateRequest request = QuizTestHelper.newRandomQuizUpdateRequest(container);
+    // UPDATE Method Test
+    // Tests the Update Quiz by Id Operation
+    @Test
+    void updateQuizById() throws Exception {
+        PrintHelper.printLine("\n\n\n<<QUIZ UPDATE TEST>>");
+        this.testWithNewQuiz((QuizDto quiz, UserDto user, TestRestTemplateContainer container) -> {
+            // Set up update request
+            QuizUpdateRequest request = QuizTestHelper.newRandomQuizUpdateRequest(container);
 
-    // // Test PATCH request
-    // QuizTestHelper.updateQuizById(quiz.id(), request, container);
-    // QuizDto updatedQuiz = QuizTestHelper.getById(quiz.id(), container);
-    // assertThat(request.title()).isEqualTo(updatedQuiz.title());
-    // });
-    // }
+            // Test PATCH request
+            QuizTestHelper.updateQuizById(quiz.id(), request, container);
+            QuizDto updatedQuiz = QuizTestHelper.getById(quiz.id(), container);
+            assertThat(request.title()).isEqualTo(updatedQuiz.title());
+        });
+    }
 
     // DELETE Method Test
     // Tests the Delete Quiz by Id Operation
