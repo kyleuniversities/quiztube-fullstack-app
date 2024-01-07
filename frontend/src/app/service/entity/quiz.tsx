@@ -93,7 +93,7 @@ export const loadQuizzesRequest = async (
   setIsLoaded: any
 ): Promise<void> => {
   // Run the request
-  return request(`/quizzes/posts?limit=${limit}`)
+  return request(`/quizzes?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
       setIsLoaded(true);
@@ -128,7 +128,7 @@ export const loadQuizzesFromSubjectRequest = async (
   setQuizzes: any,
   setIsLoaded: any
 ): Promise<void> => {
-  return request(`/quizzes/posts/${subjectId}?limit=${limit}`)
+  return request(`/subjects/${subjectId}/quizzes?limit=${limit}`)
     .then((res: any) => {
       setQuizzes(res);
       setIsLoaded(true);
@@ -146,7 +146,7 @@ export const loadQuizzesFromTitleQueryRequest = async (
   setQuizzes: any,
   setIsLoaded: any
 ): Promise<void> => {
-  return request(`/quizzes/posts?title=${title}`)
+  return request(`/quizzes?title=${title}`)
     .then((res: any) => {
       setQuizzes(res);
       setIsLoaded(true);
