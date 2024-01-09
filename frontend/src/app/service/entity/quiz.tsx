@@ -146,7 +146,7 @@ export const loadQuizzesFromTitleQueryRequest = async (
   setQuizzes: any,
   setIsLoaded: any
 ): Promise<void> => {
-  return request(`/quizzes?title=${title}`)
+  return request(`/quizzes?titleQuery=${title}`)
     .then((res: any) => {
       setQuizzes(res);
       setIsLoaded(true);
