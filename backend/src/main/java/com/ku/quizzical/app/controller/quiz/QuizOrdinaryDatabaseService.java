@@ -100,7 +100,8 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     }
 
     private Predicate<Quiz> makeQuizTitleQueryFilter(String titleQuery) {
-        return (Quiz quiz) -> titleQuery == null || quiz.getTitle().contains(titleQuery);
+        return (Quiz quiz) -> titleQuery == null
+                || quiz.getTitle().toLowerCase().contains(titleQuery.toLowerCase());
     }
 
     private void updateQuizAttribute(String id, QuizUpdateRequest update, String attributeName,
