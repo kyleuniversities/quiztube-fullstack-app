@@ -82,7 +82,14 @@ public class UserTestHelper {
      * Creates a random registration request
      */
     public static UserRegistrationRequest newRandomRegistrationRequest() {
-        String tag = "test" + IndexHelper.toIndexText(RandomHelper.nextInt(1000000), 6);
+        return UserTestHelper.newRandomRegistrationRequest("test");
+    }
+
+    /**
+     * Creates a random registration request
+     */
+    public static UserRegistrationRequest newRandomRegistrationRequest(String tagPrefix) {
+        String tag = tagPrefix + IndexHelper.toIndexText(RandomHelper.nextInt(1000000), 6);
         String username = tag;
         String email = tag + "@gamil.com";
         String password = tag + "!";

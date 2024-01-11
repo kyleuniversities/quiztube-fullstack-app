@@ -10,6 +10,20 @@ import java.util.function.Predicate;
  */
 public final class FunctionHelper {
     /**
+     * An elegant implementation of doing nothing
+     */
+    public static void doNothing() {
+        // Do Nothing
+    }
+
+    /**
+     * Serves as an identity mapping function
+     */
+    public static <T> T identityMapping(T item) {
+        return item;
+    }
+
+    /**
      * Creates a BiPredicate from a BiConsumer, returning a default true value
      */
     public static <T, U> BiPredicate<T, U> newBiPredicateFromBiConsumer(BiConsumer<T, U> action) {
@@ -21,8 +35,8 @@ public final class FunctionHelper {
      */
     public static <T, U> BiPredicate<T, U> newBiPredicateFromBiConsumer(BiConsumer<T, U> action,
             boolean returnedValue) {
-        return (T item1, U item2) -> FunctionHelper.performFallThroughAction(() -> action.accept(item1, item2),
-                returnedValue);
+        return (T item1, U item2) -> FunctionHelper
+                .performFallThroughAction(() -> action.accept(item1, item2), returnedValue);
     }
 
     /**
@@ -42,8 +56,10 @@ public final class FunctionHelper {
     /**
      * Creates a Predicate from a consumer, returning a default value
      */
-    public static <T> Predicate<T> newPredicateFromConsumer(Consumer<T> action, boolean returnedValue) {
-        return (T item) -> FunctionHelper.performFallThroughAction(() -> action.accept(item), returnedValue);
+    public static <T> Predicate<T> newPredicateFromConsumer(Consumer<T> action,
+            boolean returnedValue) {
+        return (T item) -> FunctionHelper.performFallThroughAction(() -> action.accept(item),
+                returnedValue);
     }
 
     /**

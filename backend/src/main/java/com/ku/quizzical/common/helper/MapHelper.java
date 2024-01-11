@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -14,6 +15,15 @@ import com.ku.quizzical.common.util.entry.Entry;
  * Helper class for Map Operations
  */
 public final class MapHelper {
+    /**
+     * Clones a Map
+     */
+    public static <K, V> Map<K, V> clone(Map<K, V> map) {
+        Map<K, V> clone = MapHelper.newLinkedHashMap();
+        MapHelper.forEach(map, (K key, V value) -> MapHelper.put(map, key, value));
+        return clone;
+    }
+
     /**
      * Checks if a map contains a key
      */
@@ -64,6 +74,15 @@ public final class MapHelper {
     }
 
     /**
+     * Maps a Map to a List
+     */
+    public static <K, V, T> List<T> mapToList(Map<K, V> map, BiFunction<K, V, T> mapping) {
+        List<T> mapped = ListHelper.newArrayList(map.size());
+        MapHelper.forEach(map, (K key, V value) -> mapped.add(mapping.apply(key, value)));
+        return mapped;
+    }
+
+    /**
      * Maps the values of a Map
      */
     public static <K, V, W> Map<K, W> mapValues(Map<K, V> map, Function<V, W> mapping) {
@@ -100,6 +119,13 @@ public final class MapHelper {
         List<Entry<K, V>> entryList = ListHelper.newArrayList();
         MapHelper.forEach(map, (K key, V value) -> entryList.add(EntryHelper.newEntry(key, value)));
         return entryList;
+    }
+
+    /**
+     * Converts a Map to an Value List
+     */
+    public static <K, V> List<V> toValueList(Map<K, V> map) {
+        return ListHelper.map(MapHelper.toEntryList(map), Entry::getValue);
     }
 
     /**

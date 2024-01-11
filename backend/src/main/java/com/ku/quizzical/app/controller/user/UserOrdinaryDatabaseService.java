@@ -1,7 +1,6 @@
 package com.ku.quizzical.app.controller.user;
 
 import java.util.List;
-import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.app.util.dto.BooleanDto;
-import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
@@ -120,18 +118,6 @@ public class UserOrdinaryDatabaseService implements UserDatabaseService {
     public void deleteUser(String id) {
         this.repository.deleteById(id);
         System.out.println("DELETE USER RESULT = " + 1);
-    }
-
-    // Interface Minor Methods
-    private void updateUserAttribute(UserUpdateRequest update, String attributeName,
-            Function<UserUpdateRequest, String> attributeCollector) {
-        String attribute = attributeCollector.apply(update);
-        ConditionalHelper.ifThen(attribute != null, () -> {
-            String sql = String.format("UPDATE user SET %s = ? WHERE id = ?", attributeName);
-            int result =
-                    this.jdbcTemplate.update(sql, attributeCollector.apply(update), update.id());
-            System.out.println("UPDATE USER " + attributeName + " RESULT = " + result);
-        });
     }
 
     // Validation Major Methods

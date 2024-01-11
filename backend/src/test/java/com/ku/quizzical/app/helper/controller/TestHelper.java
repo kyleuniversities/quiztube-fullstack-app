@@ -1,10 +1,13 @@
 package com.ku.quizzical.app.helper.controller;
 
+import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.quiz.QuizAddRequest;
 import com.ku.quizzical.app.controller.quiz.QuizDto;
+import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserDto;
 import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
@@ -33,6 +36,16 @@ public class TestHelper {
                     // Cleanup
                     QuizTestHelper.deleteQuizById(quiz.id(), container);
                 });
+    }
+
+    /**
+     * Performs a test after creating a list of realized users
+     */
+    public static void testWithNewRealizedUsers(TestRestTemplate restTemplate,
+            StringFunction toFullUrl, Consumer<List<User>> action) {
+        TestRestTemplateContainer container =
+                TestRestTemplateContainer.newInstance(restTemplate, toFullUrl);
+        IntegrationTestHelper.testWithRealizedUsers(container, action);
     }
 
     /**

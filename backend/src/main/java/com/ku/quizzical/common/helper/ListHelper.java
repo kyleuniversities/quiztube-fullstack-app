@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -184,6 +185,17 @@ public final class ListHelper {
     public static <T, U> List<U> map(List<T> list, Function<T, U> mapping) {
         List<U> mapped = ListHelper.newArrayList(list.size());
         ListHelper.forEach(list, (T item) -> mapped.add(mapping.apply(item)));
+        return mapped;
+    }
+
+    /**
+     * Maps the values of a List to a Map
+     */
+    public static <T, K, V> Map<K, V> mapToMap(List<T> list, Function<T, K> keyMapping,
+            Function<T, V> valueMapping) {
+        Map<K, V> mapped = MapHelper.newLinkedHashMap();
+        ListHelper.forEach(list,
+                (T item) -> mapped.put(keyMapping.apply(item), valueMapping.apply(item)));
         return mapped;
     }
 
