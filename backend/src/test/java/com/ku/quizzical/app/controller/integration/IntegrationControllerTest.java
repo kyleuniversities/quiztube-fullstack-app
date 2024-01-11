@@ -107,12 +107,12 @@ public class IntegrationControllerTest {
                     QuestionTestHelper.getById(quiz.getId(), question.getId(), container);
             assertThat(quizDto.id()).isEqualTo(null);
             assertThat(questionDto.id()).isEqualTo(null);
-            AuthenticationTestHelper.logOut(container);
         });
     }
 
     /**
-     * Test Cascading Quiz Delete
+     * 
+
      */
     @Test
     void integrationCascadingQuizDeleteTest() throws Exception {

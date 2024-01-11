@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.helper.controller.AuthenticationTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.helper.controller.UserTestHelper;
@@ -33,8 +34,8 @@ public class UserControllerTest {
     @Test
     void userPostTest() throws Exception {
         // Set up test user variablees
-        UserRegistrationRequest request = UserTestHelper.newRandomRegistrationRequest();
-        String username = request.username();
+        UserRegistrationRequest registrationRequest = UserTestHelper.newRandomRegistrationRequest();
+        String username = registrationRequest.username();
 
         // Set up template container
         TestRestTemplateContainer container =
@@ -46,7 +47,7 @@ public class UserControllerTest {
         // Test POST method
         List<UserDto> users1 = UserTestHelper.getAllUsers(container);
         boolean exists1 = UserTestHelper.userByUsernameExists(username, container).value();
-        UserDto user = UserTestHelper.saveUser(request, container);
+        UserDto user = UserTestHelper.saveUser(registrationRequest, container);
         List<UserDto> users2 = UserTestHelper.getAllUsers(container);
         boolean exists2 = UserTestHelper.userByUsernameExists(username, container).value();
         assertThat(exists1).isFalse();
@@ -54,7 +55,11 @@ public class UserControllerTest {
         assertThat(users1.size() + 1).isEqualTo(users2.size());
 
         // Cleanup
+        AuthenticationRequest loginRequest = AuthenticationTestHelper
+                .newLoginRequest(registrationRequest.username(), registrationRequest.password());
+        AuthenticationTestHelper.logIn(loginRequest, container);
         UserTestHelper.deleteUserById(user.id(), container);
+        AuthenticationTestHelper.logOut(container);
     }
 
     // READ Method Test

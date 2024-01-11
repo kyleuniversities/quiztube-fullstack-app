@@ -3,6 +3,7 @@ package com.ku.quizzical.app.helper.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
@@ -20,11 +21,10 @@ public class IntegrationTestHelper {
      */
     public static void testWithRealizedUsers(TestRestTemplateContainer container,
             Consumer<List<User>> action) {
-        List<User> realizedUsers =
-                MapHelper.toValueList(RealizedTestUserMaker.newInstance().perform(container, 2));
-        action.accept(realizedUsers);
-        ListHelper.forEach(realizedUsers,
-                (User user) -> UserTestHelper.deleteUserById(user.getId(), container));
+        IntegrationTestHelper.testWithRealizedUsers(container,
+                (TestRestTemplateContainer enteredContainer,
+                        Map<String, UserRegistrationRequest> registrationRequests,
+                        List<User> users) -> action.accept(users));
     }
 
     /**
@@ -38,8 +38,13 @@ public class IntegrationTestHelper {
         Map<String, UserRegistrationRequest> registrationRequests =
                 realizedTestUserMaker.getUserRegistrationRequests();
         action.accept(container, registrationRequests, realizedUsers);
-        ListHelper.forEach(realizedUsers,
-                (User user) -> UserTestHelper.deleteUserById(user.getId(), container));
+        ListHelper.forEach(realizedUsers, (User user) -> {
+            AuthenticationRequest request = new AuthenticationRequest(user.getUsername(),
+                    registrationRequests.get(user.getUsername()).password());
+            AuthenticationTestHelper.logIn(request, container);
+            UserTestHelper.deleteUserById(user.getId(), container);
+            AuthenticationTestHelper.logOut(container);
+        });
     }
 
     /**
