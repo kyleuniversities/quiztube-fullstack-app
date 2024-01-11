@@ -53,6 +53,10 @@ public final class RealizedTestUserMaker {
     }
 
     // Accessor Methods
+    public Map<String, UserRegistrationRequest> getUserRegistrationRequests() {
+        return MapHelper.clone(this.userRegistrationRequests);
+    }
+
     public Map<String, Question> getQuestions() {
         return MapHelper.clone(this.questions);
     }

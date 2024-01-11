@@ -1,6 +1,7 @@
 package com.ku.quizzical.app.helper.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -43,6 +44,17 @@ public class TestHelper {
      */
     public static void testWithNewRealizedUsers(TestRestTemplate restTemplate,
             StringFunction toFullUrl, Consumer<List<User>> action) {
+        TestRestTemplateContainer container =
+                TestRestTemplateContainer.newInstance(restTemplate, toFullUrl);
+        IntegrationTestHelper.testWithRealizedUsers(container, action);
+    }
+
+    /**
+     * Performs a test after creating a list of realized users
+     */
+    public static void testWithNewRealizedUsers(TestRestTemplate restTemplate,
+            StringFunction toFullUrl,
+            TriConsumer<TestRestTemplateContainer, Map<String, UserRegistrationRequest>, List<User>> action) {
         TestRestTemplateContainer container =
                 TestRestTemplateContainer.newInstance(restTemplate, toFullUrl);
         IntegrationTestHelper.testWithRealizedUsers(container, action);

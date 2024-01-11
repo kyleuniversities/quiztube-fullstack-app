@@ -2,6 +2,7 @@ package com.ku.quizzical.app.controller.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
@@ -11,17 +12,26 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import com.ku.quizzical.app.controller.auth.AuthenticationRequest;
 import com.ku.quizzical.app.controller.like.LikeAddRequest;
 import com.ku.quizzical.app.controller.like.LikeDto;
 import com.ku.quizzical.app.controller.question.Question;
+import com.ku.quizzical.app.controller.question.QuestionDto;
 import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.controller.quiz.QuizDto;
 import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserDto;
+import com.ku.quizzical.app.controller.user.UserRegistrationRequest;
 import com.ku.quizzical.app.helper.NullValueHelper;
+import com.ku.quizzical.app.helper.controller.AuthenticationTestHelper;
 import com.ku.quizzical.app.helper.controller.LikeTestHelper;
+import com.ku.quizzical.app.helper.controller.QuestionTestHelper;
+import com.ku.quizzical.app.helper.controller.QuizTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
+import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.util.function.TriConsumer;
 
 /**
  * Test Class for integration Controller
@@ -77,6 +87,52 @@ public class IntegrationControllerTest {
         });
     }
 
+    /**
+     * Test Cascading User Delete
+     */
+    @Test
+    void integrationCascadingUserDeleteTest() throws Exception {
+        this.testWithNewRealizedUsers((TestRestTemplateContainer container,
+                Map<String, UserRegistrationRequest> registrationRequests, List<User> users) -> {
+            User user = ListHelper.getRandomValue(users);
+            Quiz quiz = ListHelper.getRandomValue(user.getQuizzes());
+            Question question = ListHelper.getRandomValue(quiz.getQuestions());
+            AuthenticationRequest request = new AuthenticationRequest(user.getUsername(),
+                    registrationRequests.get(user.getUsername()).password());
+            AuthenticationTestHelper.logIn(request, container);
+            UserTestHelper.deleteUserById(user.getId(), container);
+            QuizDto quizDto = QuizTestHelper.getById(quiz.getId(), container);
+            QuestionDto questionDto =
+                    QuestionTestHelper.getById(quiz.getId(), question.getId(), container);
+            assertThat(quizDto.id()).isEqualTo(null);
+            assertThat(questionDto.id()).isEqualTo(null);
+            AuthenticationTestHelper.logOut(container);
+        });
+    }
+
+    /**
+     * Test Cascading Quiz Delete
+     */
+    @Test
+    void integrationCascadingQuizDeleteTest() throws Exception {
+        this.testWithNewRealizedUsers((TestRestTemplateContainer container,
+                Map<String, UserRegistrationRequest> registrationRequests, List<User> users) -> {
+            User user = ListHelper.getRandomValue(users);
+            Quiz quiz = ListHelper.getRandomValue(user.getQuizzes());
+            Question question = ListHelper.getRandomValue(quiz.getQuestions());
+            AuthenticationRequest request = new AuthenticationRequest(user.getUsername(),
+                    registrationRequests.get(user.getUsername()).password());
+            AuthenticationTestHelper.logIn(request, container);
+            QuizTestHelper.deleteQuizById(quiz.getId(), container);
+            QuizDto quizDto = QuizTestHelper.getById(quiz.getId(), container);
+            QuestionDto questionDto =
+                    QuestionTestHelper.getById(quiz.getId(), question.getId(), container);
+            assertThat(quizDto.id()).isEqualTo(null);
+            assertThat(questionDto.id()).isEqualTo(null);
+            AuthenticationTestHelper.logOut(container);
+        });
+    }
+
     // Method to test operation with a registered user
     private void testWithNewUser(BiConsumer<UserDto, TestRestTemplateContainer> action) {
         TestHelper.testWithNewUser(this.restTemplate, this::toFullUrl, action);
@@ -84,6 +140,12 @@ public class IntegrationControllerTest {
 
     // Method to test operation with new realized users
     private void testWithNewRealizedUsers(Consumer<List<User>> action) {
+        TestHelper.testWithNewRealizedUsers(this.restTemplate, this::toFullUrl, action);
+    }
+
+    // Method to test operation with new realized users
+    private void testWithNewRealizedUsers(
+            TriConsumer<TestRestTemplateContainer, Map<String, UserRegistrationRequest>, List<User>> action) {
         TestHelper.testWithNewRealizedUsers(this.restTemplate, this::toFullUrl, action);
     }
 
