@@ -20,6 +20,11 @@ import com.ku.quizzical.common.util.string.StringFunction;
  */
 public class TestHelper {
     /**
+     * Constant for the original number of users
+     */
+    public static final int NUMBER_OF_USERS = 15;
+
+    /**
      * Performs a test after registering and logging in with a new user and creating a new quiz
      */
     public static void testWithNewQuiz(TestRestTemplate restTemplate, StringFunction toFullUrl,
