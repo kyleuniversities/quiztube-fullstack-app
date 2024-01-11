@@ -3,6 +3,7 @@ package com.ku.quizzical.app.controller.like;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.helper.NullValueHelper;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
@@ -55,7 +56,8 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
                 """;
         List<LikeDto> likes = this.jdbcTemplate.query(sql, this.dtoRowMapper, quizId, userId);
         if (ListHelper.isEmpty(likes)) {
-            return new LikeDto("#null", "#null", "#null");
+            return new LikeDto(NullValueHelper.NULL_TEXT, NullValueHelper.NULL_TEXT,
+                    NullValueHelper.NULL_TEXT);
         }
         return ListHelper.get(likes, 0);
     }

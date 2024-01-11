@@ -14,10 +14,8 @@ public class LikeTestHelper {
     /**
      * Checks if a like exists
      */
-    public static LikeDto deleteLike(String quizId, String id,
-            TestRestTemplateContainer container) {
-        return container.getObject(String.format("/quizzes/%s/likes/%s", quizId, id),
-                LikeDto.class);
+    public static void deleteLike(String quizId, String id, TestRestTemplateContainer container) {
+        container.delete(String.format("/quizzes/%s/likes/%s", quizId, id));
     }
 
     /**

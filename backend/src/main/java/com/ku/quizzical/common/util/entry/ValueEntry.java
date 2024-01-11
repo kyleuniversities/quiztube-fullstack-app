@@ -16,10 +16,12 @@ public abstract class ValueEntry<K, V> implements Entry<K, V> {
     }
 
     // Accessor Methods
+    @Override
     public final K getKey() {
         return this.key;
     }
 
+    @Override
     public final V getValue() {
         return this.value;
     }

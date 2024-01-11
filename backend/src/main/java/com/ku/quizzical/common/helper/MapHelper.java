@@ -20,7 +20,7 @@ public final class MapHelper {
      */
     public static <K, V> Map<K, V> clone(Map<K, V> map) {
         Map<K, V> clone = MapHelper.newLinkedHashMap();
-        MapHelper.forEach(map, (K key, V value) -> MapHelper.put(map, key, value));
+        MapHelper.forEach(map, (K key, V value) -> MapHelper.put(clone, key, value));
         return clone;
     }
 

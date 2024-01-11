@@ -98,7 +98,6 @@ public final class RealizedTestUserMaker {
 
     private void compileTestQuizDtos() {
         this.quizDtos = this.makeTestQuizDtos();
-        PrintHelper.printMap("QUIZ_DTOS", this.quizDtos);
     }
 
     private void compileTestQuizzes() {
