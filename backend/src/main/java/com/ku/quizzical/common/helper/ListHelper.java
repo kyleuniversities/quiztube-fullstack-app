@@ -41,6 +41,14 @@ public final class ListHelper {
     }
 
     /**
+     * Clears a List and adds multiple elements
+     */
+    public static <T> void clearInitialize(List<T> list, Collection<? extends T> collection) {
+        ListHelper.clear(list);
+        ListHelper.addAll(list, collection);
+    }
+
+    /**
      * Clones a List
      */
     public static <T> List<T> clone(List<T> list) {
