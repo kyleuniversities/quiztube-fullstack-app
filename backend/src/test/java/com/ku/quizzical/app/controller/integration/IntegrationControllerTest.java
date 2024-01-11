@@ -13,6 +13,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import com.ku.quizzical.app.controller.like.LikeAddRequest;
 import com.ku.quizzical.app.controller.like.LikeDto;
+import com.ku.quizzical.app.controller.question.Question;
 import com.ku.quizzical.app.controller.quiz.Quiz;
 import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserDto;
@@ -39,7 +40,15 @@ public class IntegrationControllerTest {
      */
     @Test
     void integrationRealizedUsersTest() throws Exception {
-        // this.testWithNewRealizedUsers((List<User> users) -> FunctionHelper.doNothing());
+        this.testWithNewRealizedUsers((List<User> users) -> {
+            assertThat(users.size()).isGreaterThan(0);
+            ListHelper.forEach(users, (User user) -> {
+                List<Quiz> quizzes = user.getQuizzes();
+                assertThat(quizzes.size()).isGreaterThan(0);
+                ListHelper.forEach(quizzes,
+                        (Quiz quiz) -> assertThat(quiz.getQuestions().size()).isGreaterThan(0));
+            });
+        });
     }
 
     /**
