@@ -101,6 +101,7 @@ public class IntegrationControllerTest {
                     registrationRequests.get(user.getUsername()).password());
             AuthenticationTestHelper.logIn(request, container);
             UserTestHelper.deleteUserById(user.getId(), container);
+            AuthenticationTestHelper.logOut(container);
             QuizDto quizDto = QuizTestHelper.getById(quiz.getId(), container);
             QuestionDto questionDto =
                     QuestionTestHelper.getById(quiz.getId(), question.getId(), container);
