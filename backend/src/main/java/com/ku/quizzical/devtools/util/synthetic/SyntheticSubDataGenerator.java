@@ -1,7 +1,7 @@
 package com.ku.quizzical.devtools.util.synthetic;
 
-import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.file.FileHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.util.string.StringList;
 

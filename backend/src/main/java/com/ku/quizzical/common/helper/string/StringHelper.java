@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.FunctionHelper;
 import com.ku.quizzical.common.helper.IterationHelper;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.util.string.StringList;
 import com.ku.quizzical.common.util.string.StringMap;
 import com.ku.quizzical.common.util.string.StringSet;
@@ -221,8 +221,8 @@ public final class StringHelper {
      */
     public static List<Integer> listIndices(String text, char target) {
         List<Integer> indices = ListHelper.newArrayList();
-        StringHelper.forEach(text,
-                (Integer i, Character ch) -> ConditionalHelper.ifThen(target == ch, () -> indices.add(i)));
+        StringHelper.forEach(text, (Integer i, Character ch) -> ConditionalHelper
+                .ifThen(target == ch, () -> indices.add(i)));
         return indices;
     }
 
@@ -290,8 +290,7 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text from the lengths of target texts depicting the
-     * last from the
+     * Returns a substring of a text from the lengths of target texts depicting the last from the
      * endpoints to be removed.
      */
     public static String substringFromEndpointTexts(String text, String startText,
@@ -300,8 +299,7 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the start of the
-     * string, the amount to
+     * Returns a substring of a text removing characters from the start of the string, the amount to
      * be removed depicted by the length of a specified string
      */
     public static String substringFromStartText(String text, String startText) {
@@ -309,8 +307,7 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the end of the string,
-     * the amount to
+     * Returns a substring of a text removing characters from the end of the string, the amount to
      * be removed depicted by the length of a specified string
      */
     public static String substringFromUpToText(String text, String upToText) {
@@ -318,8 +315,7 @@ public final class StringHelper {
     }
 
     /**
-     * Returns a substring of a text removing characters from the end of the string,
-     * the amount to
+     * Returns a substring of a text removing characters from the end of the string, the amount to
      * be removed depicted by a specified length
      */
     public static String substringFromUpToTextLength(String text, int upToTextLength) {

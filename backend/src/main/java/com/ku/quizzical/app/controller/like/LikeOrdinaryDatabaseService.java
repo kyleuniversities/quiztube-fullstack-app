@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.helper.NullValueHelper;
 import com.ku.quizzical.app.util.dto.IntegerDto;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
 /**

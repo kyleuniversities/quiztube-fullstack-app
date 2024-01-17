@@ -2,7 +2,7 @@ package com.ku.quizzical.app.helper;
 
 import java.util.List;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Helper class for User Operations

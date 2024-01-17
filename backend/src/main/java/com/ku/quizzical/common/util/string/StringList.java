@@ -2,8 +2,7 @@ package com.ku.quizzical.common.util.string;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 /**

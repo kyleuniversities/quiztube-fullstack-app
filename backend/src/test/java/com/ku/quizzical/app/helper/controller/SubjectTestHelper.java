@@ -4,7 +4,7 @@ import java.util.List;
 import com.ku.quizzical.app.controller.subject.SubjectDto;
 import com.ku.quizzical.app.controller.subject.SubjectDtoList;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Helper class for Subject Test Operations

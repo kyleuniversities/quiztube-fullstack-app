@@ -1,4 +1,4 @@
-package com.ku.quizzical.common.helper;
+package com.ku.quizzical.common.helper.list;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +13,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import com.ku.quizzical.common.helper.ArrayHelper;
+import com.ku.quizzical.common.helper.ConditionalHelper;
+import com.ku.quizzical.common.helper.FunctionHelper;
+import com.ku.quizzical.common.helper.IterableHelper;
+import com.ku.quizzical.common.helper.IterationHelper;
+import com.ku.quizzical.common.helper.MapHelper;
+import com.ku.quizzical.common.helper.RandomHelper;
 import com.ku.quizzical.common.helper.number.IntegerHelper;
 import com.ku.quizzical.common.util.list.ListBinarySearcher;
 

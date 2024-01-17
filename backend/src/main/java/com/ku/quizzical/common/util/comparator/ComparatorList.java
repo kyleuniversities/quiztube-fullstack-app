@@ -2,7 +2,7 @@ package com.ku.quizzical.common.util.comparator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.util.wrapper.IntegerWrapper;
 
 /**
