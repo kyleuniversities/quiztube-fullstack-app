@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.util.list.ListInsertionSorter;
+import com.ku.quizzical.common.util.list.ListMergeSorter;
 import com.ku.quizzical.common.util.list.ListQuickSorter;
 
 /**
@@ -30,6 +31,27 @@ public final class ListSorterHelper {
     public static <T> void insertionSort(List<T> list, int start, int upTo,
             Comparator<T> comparator) {
         ListInsertionSorter.newInstance().sort(list, start, upTo, comparator);
+    }
+
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T extends Comparable<? super T>> void mergeSort(List<T> list) {
+        ListSorterHelper.mergeSort(list, ComparatorHelper::compare);
+    }
+
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T> void mergeSort(List<T> list, Comparator<T> comparator) {
+        ListSorterHelper.mergeSort(list, 0, list.size(), comparator);
+    }
+
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T> void mergeSort(List<T> list, int start, int upTo, Comparator<T> comparator) {
+        ListMergeSorter.newInstance().sort(list, start, upTo, comparator);
     }
 
     /**

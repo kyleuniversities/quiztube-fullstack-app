@@ -37,6 +37,11 @@ public class ListHelperTest {
         this.sortTest(ListSorterHelper::insertionSort);
     }
 
+    @Test
+    void mergeSortTest() throws Exception {
+        this.sortTest(ListSorterHelper::mergeSort);
+    }
+
     // Private Helper Methods
     private void sortTest(Consumer<List<Integer>> sorter) throws Exception {
         final int LIST_SIZE = 30;
