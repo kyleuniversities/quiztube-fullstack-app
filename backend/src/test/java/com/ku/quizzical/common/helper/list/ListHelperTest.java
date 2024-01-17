@@ -2,6 +2,7 @@ package com.ku.quizzical.common.helper.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,13 +29,23 @@ public class ListHelperTest {
 
     @Test
     void quickSortTest() throws Exception {
+        this.sortTest(ListSorterHelper::quickSort);
+    }
+
+    @Test
+    void insertionSortTest() throws Exception {
+        this.sortTest(ListSorterHelper::insertionSort);
+    }
+
+    // Private Helper Methods
+    private void sortTest(Consumer<List<Integer>> sorter) throws Exception {
         final int LIST_SIZE = 30;
         IterationHelper.forEach(100, () -> {
             List<Integer> list = ListHelper.newArrayList();
             IterationHelper.forEach(LIST_SIZE, () -> {
                 list.add(RandomHelper.nextInt(40));
             });
-            ListSorterHelper.quickSort(list);
+            sorter.accept(list);
             IterationHelper.forEach(LIST_SIZE - 1, (Integer i) -> {
                 assertThat(list.get(i)).isLessThanOrEqualTo(list.get(i + 1));
             });

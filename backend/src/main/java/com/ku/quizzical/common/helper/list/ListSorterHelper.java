@@ -3,12 +3,35 @@ package com.ku.quizzical.common.helper.list;
 import java.util.Comparator;
 import java.util.List;
 import com.ku.quizzical.common.helper.ComparatorHelper;
+import com.ku.quizzical.common.util.list.ListInsertionSorter;
 import com.ku.quizzical.common.util.list.ListQuickSorter;
 
 /**
  * Helper class for List Sorting Operations
  */
 public final class ListSorterHelper {
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T extends Comparable<? super T>> void insertionSort(List<T> list) {
+        ListSorterHelper.insertionSort(list, ComparatorHelper::compare);
+    }
+
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T> void insertionSort(List<T> list, Comparator<T> comparator) {
+        ListSorterHelper.insertionSort(list, 0, list.size(), comparator);
+    }
+
+    /**
+     * Insertion Sorts a List
+     */
+    public static <T> void insertionSort(List<T> list, int start, int upTo,
+            Comparator<T> comparator) {
+        ListInsertionSorter.newInstance().sort(list, start, upTo, comparator);
+    }
+
     /**
      * Quick Sorts a List
      */
