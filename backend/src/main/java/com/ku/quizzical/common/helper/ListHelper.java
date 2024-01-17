@@ -14,6 +14,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import com.ku.quizzical.common.helper.number.IntegerHelper;
+import com.ku.quizzical.common.util.list.ListBinarySearcher;
 
 /**
  * Helper class for List Operations
@@ -157,6 +158,31 @@ public final class ListHelper {
             }
         }
         return -1;
+    }
+
+    /**
+     * Returns the first found index of a query with binary search
+     */
+    public static <T extends Comparable<? super T>> int indexOfWithBinarySearch(List<T> list,
+            T target) {
+        return ListHelper.indexOfWithBinarySearch(list, 0, list.size(), target);
+    }
+
+    /**
+     * Returns the first found index of a query with binary search
+     */
+    public static <T extends Comparable<? super T>> int indexOfWithBinarySearch(List<T> list,
+            int start, int upTo, T target) {
+        return ListHelper.indexOfWithBinarySearchComparator(list, start, upTo,
+                (T item) -> target.compareTo(item));
+    }
+
+    /**
+     * Returns the first found index of a query with binary search
+     */
+    public static <T> int indexOfWithBinarySearchComparator(List<T> list, int start, int upTo,
+            Function<T, Integer> comparator) {
+        return ListBinarySearcher.newInstance().search(list, start, upTo, comparator);
     }
 
     /**
