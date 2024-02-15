@@ -8,16 +8,6 @@ the frontend and Spring Boot for the backend.
 
 &nbsp;
 
-# Publicly Deployed
-
-QuizTube is a publicly deployed full stack application, which can be found here:
-
-[https://quiztube.io/](https://quiztube.io/)
-
-&nbsp;
-
-&nbsp;
-
 # Frontend Technologies Utilized
 
 Throughout the development of this website, I incorporated various frontend technologies including:
