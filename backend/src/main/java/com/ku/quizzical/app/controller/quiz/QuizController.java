@@ -68,6 +68,13 @@ public final class QuizController {
         }
 
         // READ Method
+        // Gets the quiz catalog
+        @GetMapping("/quiz-catalog")
+        public QuizCatalogDto getQuizCatalog(@RequestParam("limit") Optional<String> limit) {
+                return this.service.getQuizCatalog(this.parseLimit(limit));
+        }
+
+        // READ Method
         // Gets all Quizzes from User
         @GetMapping("/users/{userId}/quizzes")
         public List<QuizDto> getAllQuizzesByUserId(@PathVariable String userId,
