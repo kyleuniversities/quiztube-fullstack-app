@@ -1,10 +1,10 @@
-import { Card, Icon } from 'semantic-ui-react';
-import { useColorize } from '../../context/AppContextManager';
-import { Link } from 'react-router-dom';
-import { MultilineBreak } from '../../MultilineBreak';
-import { QuizUserThumbnailText } from './QuizUserThumbnailText';
-import { ConditionalContent } from '../../ConditionalContent';
-import { useEffect, useState } from 'react';
+import { Card, Container, Icon, Loader } from "semantic-ui-react";
+import { useColorize } from "../../context/AppContextManager";
+import { Link } from "react-router-dom";
+import { MultilineBreak } from "../../MultilineBreak";
+import { QuizUserThumbnailText } from "./QuizUserThumbnailText";
+import { ConditionalContent } from "../../ConditionalContent";
+import { useEffect, useState } from "react";
 
 /**
  * Type for quiz attribute updater
@@ -16,7 +16,7 @@ export type Updater = (item: any) => void;
  */
 export type LoadQuizzesFunction = (
   setQuizPosts: (quizPosts: any) => void,
-  setIsLoading: (isLoaded: any) => void
+  setIsLoading: (isLoaded: any) => void,
 ) => void;
 
 /**
@@ -69,7 +69,7 @@ export const ViewQuizzesContainer = (props: {
 const ViewQuizzesHeader = (props: { colorize: any; title: string }) => {
   return (
     <h1>
-      <div className={props.colorize('quizGroupTitle')}>{props.title}</div>
+      <div className={props.colorize("quizGroupTitle")}>{props.title}</div>
     </h1>
   );
 };
@@ -106,7 +106,11 @@ const EmptyQuizListContainer = (props: {
         <p>{props.absentText}</p>
       </ConditionalContent>
       <ConditionalContent condition={!props.isLoaded}>
-        Loading...
+        <Container fluid className="centralLoader">
+          <Loader active inline>
+            Loading...
+          </Loader>
+        </Container>
       </ConditionalContent>
     </>
   );
@@ -120,7 +124,7 @@ const QuizCardContainer = (props: { colorize: any; quizPost: any }) => {
     <div className="quizCardWrappingContainer">
       <Link to={`/quizzes/${props.quizPost.id}`}>
         <Card className="quizCard">
-          <div className={props.colorize('quizCardContent')}>
+          <div className={props.colorize("quizCardContent")}>
             <h3 className="quizPostTitle">{props.quizPost.title}</h3>
             <p className="quizPostDescription">{props.quizPost.description}</p>
           </div>
@@ -131,7 +135,7 @@ const QuizCardContainer = (props: { colorize: any; quizPost: any }) => {
                 quiz={props.quizPost}
               />
             </span>
-            <span className={props.colorize('quizLikesText')}>
+            <span className={props.colorize("quizLikesText")}>
               <Icon name="heart" /> {props.quizPost.numberOfLikes}
             </span>
           </div>
