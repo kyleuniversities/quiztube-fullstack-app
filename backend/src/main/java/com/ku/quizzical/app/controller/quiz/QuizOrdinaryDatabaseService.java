@@ -1,6 +1,7 @@
 package com.ku.quizzical.app.controller.quiz;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +10,7 @@ import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
+import com.ku.quizzical.common.helper.MapHelper;
 import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
@@ -59,6 +61,26 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
                 .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizDto::numberOfLikes))
                 .limit(limit).toList());
         return q;
+    }
+
+    @Override
+    public QuizCatalogDto getQuizCatalog(int limit) {
+        List<QuizDto> allQuizzes = ListHelper.toArrayList(ListHelper
+                .shuffleWithFallthrough(this.repository.findAll()).stream()
+                .map(this.dtoMapper::apply)
+                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizDto::numberOfLikes))
+                .toList());
+        List<QuizDto> popularQuizzes = ListHelper.subList(allQuizzes, 0, limit);
+        Map<String, List<QuizDto>> subjectQuizzes = MapHelper.newLinkedHashMap();
+        ListHelper.forEach(allQuizzes, (QuizDto quiz) -> {
+            String subject = quiz.subjectId();
+            List<QuizDto> subjectQuizList = MapHelper.getInitialize(subjectQuizzes, subject,
+                    () -> ListHelper.newArrayList());
+            ConditionalHelper.ifThen(subjectQuizList.size() < limit,
+                    () -> ListHelper.add(subjectQuizList, quiz));
+        });
+        QuizCatalogDto catalog = new QuizCatalogDto(popularQuizzes, subjectQuizzes, allQuizzes);
+        return catalog;
     }
 
     @Override

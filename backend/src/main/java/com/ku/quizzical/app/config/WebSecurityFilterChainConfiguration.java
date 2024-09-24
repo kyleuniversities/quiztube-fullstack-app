@@ -40,6 +40,7 @@ public class WebSecurityFilterChainConfiguration {
                 .requestMatchers(HttpMethod.GET, "/file/image/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/likes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/quiz-catalog/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/quizzes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/subjects/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/test").permitAll()

@@ -70,7 +70,7 @@
 }
 
 .siteHeaderSegmentLight {
-    background-color: rgb(255,255,255);
+    background-color: rgb(252, 255, 252);
     padding-left: 5px;
     color: rgb(0, 128, 0);
     border-color: rgb(0, 128, 0);
@@ -109,7 +109,7 @@
 }
 
 .siteHeaderUserButtonLight {
-    background-color: rgb(255,255,255);
+    background-color: rgb(248, 255, 248);
     color: rgb(0, 128, 0);
     padding-left: 8px;
     padding-right: 8px;
@@ -148,7 +148,7 @@
 
 .siteHeaderUserDropdownLight {
     color: black;
-    background-color: white;
+    background-color: rgb(248, 255, 248);
 }
 
 .siteHeaderUserThumbnailImage {
@@ -181,7 +181,7 @@
 }
 
 .sitePageLight {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(248, 255, 248);
     min-height: 100vh;
     color: rgb(0, 128, 0);
 }

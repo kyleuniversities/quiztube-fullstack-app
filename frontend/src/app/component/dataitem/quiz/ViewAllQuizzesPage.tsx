@@ -1,16 +1,16 @@
-import { SitePage } from '../../SitePage';
-import { useEffect, useState } from 'react';
-import { MultilineBreak } from '../../MultilineBreak';
-import { loadSubjectsRequest } from '../../../service/entity/subject';
+import { SitePage } from "../../SitePage";
+import { useEffect, useState } from "react";
+import { MultilineBreak } from "../../MultilineBreak";
+import { loadSubjectsRequest } from "../../../service/entity/subject";
 import {
   DEFAULT_QUIZ_LIMIT_VALUE,
   NO_LIMIT_VALUE,
   loadQuizzesFromSubjectRequest,
   loadQuizzesRequest,
-} from '../../../service/entity/quiz';
-import { useColorize } from '../../context/AppContextManager';
-import { Updater, ViewQuizzesContainer } from './ViewQuizzesContainer';
-import { QuizSearchContainer } from './QuizSearchContainer';
+} from "../../../service/entity/quiz";
+import { useColorize } from "../../context/AppContextManager";
+import { Updater, ViewQuizzesContainer } from "./ViewQuizzesContainer";
+import { QuizSearchContainer } from "./QuizSearchContainer";
 
 /**
  * Page to View All Quizzes
@@ -30,7 +30,7 @@ export const ViewAllQuizzesPage = () => {
   // Return component
   return (
     <SitePage>
-      <div id={colorize('viewQuizzesContainerContainer')}>
+      <div id={colorize("viewQuizzesContainerContainer")}>
         <QuizSearchContainer />
         <MultilineBreak lines={3} />
         <ViewAllQuizzesMostPopularContainer />
@@ -51,7 +51,7 @@ const ViewAllQuizzesMostPopularContainer = () => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
-    setIsLoaded: Updater
+    setIsLoaded: Updater,
   ): void => {
     loadQuizzesRequest(DEFAULT_QUIZ_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   };
@@ -74,13 +74,13 @@ const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
-    setIsLoaded: Updater
+    setIsLoaded: Updater,
   ): void => {
     loadQuizzesFromSubjectRequest(
       props.subject.id,
       DEFAULT_QUIZ_LIMIT_VALUE,
       setQuizPosts,
-      setIsLoaded
+      setIsLoaded,
     );
   };
 
@@ -102,7 +102,7 @@ const ViewAllQuizzesContainer = () => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
-    setIsLoaded: Updater
+    setIsLoaded: Updater,
   ): void => {
     loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   };

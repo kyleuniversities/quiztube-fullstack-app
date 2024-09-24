@@ -7,6 +7,8 @@ public interface QuizDatabaseService {
 
     List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery, int limit);
 
+    QuizCatalogDto getQuizCatalog(int limit);
+
     QuizDto getQuiz(String id);
 
     QuizDto updateQuiz(String id, QuizUpdateRequest quiz);
