@@ -5,7 +5,6 @@ import { loadSubjectsRequest } from "../../../service/entity/subject";
 import {
   DEFAULT_QUIZ_LIMIT_VALUE,
   NO_LIMIT_VALUE,
-  loadQuizCatalogRequest,
   loadQuizzesFromSubjectRequest,
   loadQuizzesRequest,
 } from "../../../service/entity/quiz";
@@ -14,16 +13,10 @@ import { Updater, ViewQuizzesContainer } from "./ViewQuizzesContainer";
 import { QuizSearchContainer } from "./QuizSearchContainer";
 
 /**
- * Loading Timing Constant
- */
-const LOAD_TIMING_CONSTANT = 500;
-
-/**
  * Page to View All Quizzes
  */
 export const ViewAllQuizzesPage = () => {
   // Set up subject section data
-  const [quizCatalog, setQuizCatalog] = useState(null);
   const [subjects, setSubjects] = useState([]);
 
   // Set up color data
@@ -32,7 +25,6 @@ export const ViewAllQuizzesPage = () => {
   // Load subjects
   useEffect(() => {
     loadSubjectsRequest(setSubjects);
-    loadQuizCatalogRequest(5, setQuizCatalog);
   }, []);
 
   // Return component
@@ -41,21 +33,12 @@ export const ViewAllQuizzesPage = () => {
       <div id={colorize("viewQuizzesContainerContainer")}>
         <QuizSearchContainer />
         <MultilineBreak lines={3} />
-        <ViewAllQuizzesMostPopularContainer quizCatalog={quizCatalog} />
-        {subjects.map((subject: any, index: number) => {
-          return (
-            <ViewAllQuizzesSubContainer
-              quizCatalog={quizCatalog}
-              subject={subject}
-              subjectIndex={index}
-            />
-          );
+        <ViewAllQuizzesMostPopularContainer />
+        {subjects.map((subject: any) => {
+          return <ViewAllQuizzesSubContainer subject={subject} />;
         })}
         <MultilineBreak lines={3} />
-        <ViewAllQuizzesContainer
-          quizCatalog={quizCatalog}
-          subjects={subjects}
-        />
+        <ViewAllQuizzesContainer />
       </div>
     </SitePage>
   );
@@ -64,16 +47,13 @@ export const ViewAllQuizzesPage = () => {
 /**
  * Sub Container to View Quizzes that are the most popular
  */
-const ViewAllQuizzesMostPopularContainer = (props: { quizCatalog: any }) => {
+const ViewAllQuizzesMostPopularContainer = () => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
     setIsLoaded: Updater,
   ): void => {
-    if (props.quizCatalog) {
-      setQuizPosts(props.quizCatalog.popularQuizzes);
-      setIsLoaded(true);
-    }
+    loadQuizzesRequest(DEFAULT_QUIZ_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   };
 
   // Return component
@@ -90,32 +70,18 @@ const ViewAllQuizzesMostPopularContainer = (props: { quizCatalog: any }) => {
 /**
  * Sub Container to View Quizzes from a Subject
  */
-const ViewAllQuizzesSubContainer = (props: {
-  quizCatalog: any;
-  subject: any;
-  subjectIndex: number;
-}) => {
+const ViewAllQuizzesSubContainer = (props: { subject: any }) => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
     setIsLoaded: Updater,
   ): void => {
-    if (props.quizCatalog) {
-      setTimeout(
-        () => {
-          const subjectQuizzes = props.quizCatalog.subjectQuizzes;
-          const keys = Object.keys(subjectQuizzes);
-          for (let key of keys) {
-            if (key === props.subject.id) {
-              setQuizPosts(subjectQuizzes[key]);
-              setIsLoaded(true);
-              return;
-            }
-          }
-        },
-        (props.subjectIndex + 1) * LOAD_TIMING_CONSTANT,
-      );
-    }
+    loadQuizzesFromSubjectRequest(
+      props.subject.id,
+      DEFAULT_QUIZ_LIMIT_VALUE,
+      setQuizPosts,
+      setIsLoaded,
+    );
   };
 
   // Return component
@@ -132,24 +98,13 @@ const ViewAllQuizzesSubContainer = (props: {
 /**
  * Sub Container to All Quizzes
  */
-const ViewAllQuizzesContainer = (props: {
-  quizCatalog: any;
-  subjects: any;
-}) => {
+const ViewAllQuizzesContainer = () => {
   // Set up load quizzes function
   const loadQuizzesFunction = (
     setQuizPosts: Updater,
     setIsLoaded: Updater,
   ): void => {
-    if (props.quizCatalog && props.subjects) {
-      setTimeout(
-        () => {
-          setQuizPosts(props.quizCatalog.allQuizzes);
-          setIsLoaded(true);
-        },
-        (props.subjects.length + 1) * LOAD_TIMING_CONSTANT,
-      );
-    }
+    loadQuizzesRequest(NO_LIMIT_VALUE, setQuizPosts, setIsLoaded);
   };
 
   // Return component

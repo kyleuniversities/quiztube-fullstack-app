@@ -1,4 +1,11 @@
-import { Card, Container, Icon, Loader } from "semantic-ui-react";
+import {
+  Card,
+  Container,
+  Icon,
+  Loader,
+  Transition,
+  TransitionGroup,
+} from "semantic-ui-react";
 import { useColorize } from "../../context/AppContextManager";
 import { Link } from "react-router-dom";
 import { MultilineBreak } from "../../MultilineBreak";
@@ -31,6 +38,7 @@ export const ViewQuizzesContainer = (props: {
   // Set up quiz data
   const [quizPosts, setQuizPosts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isTransitionVisible, setIsTransitionVisible] = useState(false);
 
   // Set up use effect data
   const loadQuizzesFunction = props.loadQuizzesFunction;
@@ -42,6 +50,15 @@ export const ViewQuizzesContainer = (props: {
     loadQuizzesFunction(setQuizPosts, setIsLoaded);
   }, [loadQuizzesFunction, loadQuizzesFunctionDependencyArray]);
 
+  // Is Transition Visible
+  useEffect(() => {
+    if (isLoaded) {
+      setTimeout(() => {
+        setIsTransitionVisible(true);
+      }, 0);
+    }
+  }, [isLoaded]);
+
   // Set up color data
   const colorize = useColorize();
 
@@ -50,7 +67,15 @@ export const ViewQuizzesContainer = (props: {
     <div className="viewAllQuizzesContainer">
       <ViewQuizzesHeader colorize={colorize} title={props.title} />
       <ConditionalContent condition={quizPosts.length > 0}>
-        <QuizCardGroupContainer colorize={colorize} quizPosts={quizPosts} />
+        <Transition
+          animation="fade left"
+          duration={450}
+          visible={isTransitionVisible}
+        >
+          <Container fluid>
+            <QuizCardGroupContainer colorize={colorize} quizPosts={quizPosts} />
+          </Container>
+        </Transition>
       </ConditionalContent>
       <ConditionalContent condition={quizPosts.length === 0}>
         <EmptyQuizListContainer
