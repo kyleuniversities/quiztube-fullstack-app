@@ -21,9 +21,9 @@ import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
 import com.ku.quizzical.common.helper.FunctionHelper;
 import com.ku.quizzical.common.helper.IterationHelper;
-import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.MapHelper;
 import com.ku.quizzical.common.helper.PrintHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Function class for creating test users

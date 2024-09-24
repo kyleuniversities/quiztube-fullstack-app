@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.ku.quizzical.app.controller.comment.Comment;
 import com.ku.quizzical.app.controller.like.Like;
 import com.ku.quizzical.app.controller.quiz.Quiz;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 @Component
 public class UserRowMapper implements RowMapper<User> {

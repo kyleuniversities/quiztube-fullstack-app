@@ -2,7 +2,7 @@ package com.ku.quizzical.devtools.util.synthetic;
 
 import java.util.List;
 import com.ku.quizzical.common.helper.IterationHelper;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 import com.ku.quizzical.common.helper.string.StringReplacementHelper;
 

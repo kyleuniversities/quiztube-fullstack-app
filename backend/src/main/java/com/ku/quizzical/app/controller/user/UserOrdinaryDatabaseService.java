@@ -8,7 +8,7 @@ import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
 import com.ku.quizzical.app.helper.UserHelper;
 import com.ku.quizzical.app.util.dto.BooleanDto;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.number.IdHelper;
 
 /**

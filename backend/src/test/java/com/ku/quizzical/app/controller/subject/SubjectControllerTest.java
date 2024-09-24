@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import com.ku.quizzical.app.helper.controller.SubjectTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Test Class for Subject Controller

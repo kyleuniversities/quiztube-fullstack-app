@@ -30,7 +30,7 @@ import com.ku.quizzical.app.helper.controller.QuizTestHelper;
 import com.ku.quizzical.app.helper.controller.TestHelper;
 import com.ku.quizzical.app.helper.controller.UserTestHelper;
 import com.ku.quizzical.app.util.TestRestTemplateContainer;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.util.function.TriConsumer;
 
 /**
@@ -112,7 +112,7 @@ public class IntegrationControllerTest {
 
     /**
      * 
-
+    
      */
     @Test
     void integrationCascadingQuizDeleteTest() throws Exception {

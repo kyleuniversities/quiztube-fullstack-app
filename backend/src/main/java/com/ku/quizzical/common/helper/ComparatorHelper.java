@@ -9,6 +9,13 @@ import java.util.function.Predicate;
  */
 public final class ComparatorHelper {
     /**
+     * Compares to comparable items
+     */
+    public static <T extends Comparable<? super T>> int compare(T item1, T item2) {
+        return item1.compareTo(item2);
+    }
+
+    /**
      * Returns a comparator of two items by applying a comparison of the aforementioned items mapped
      * to comparables
      */

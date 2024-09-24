@@ -5,7 +5,7 @@ import java.util.function.Function;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.common.helper.ConditionalHelper;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Service class for Service Database related operations

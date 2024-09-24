@@ -2,7 +2,7 @@ package com.ku.quizzical.common.util.string;
 
 import java.util.LinkedHashSet;
 import com.ku.quizzical.common.helper.IterableHelper;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringCodeHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 

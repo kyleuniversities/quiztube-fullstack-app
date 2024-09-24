@@ -2,7 +2,7 @@ package com.ku.quizzical.devtools.util.synthetic;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 final class SyntheticUserDataGenerator extends SyntheticSubDataGenerator {

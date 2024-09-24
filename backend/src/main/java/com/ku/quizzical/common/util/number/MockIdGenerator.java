@@ -3,9 +3,9 @@ package com.ku.quizzical.common.util.number;
 import java.util.List;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.IterationHelper;
-import com.ku.quizzical.common.helper.ListHelper;
 import com.ku.quizzical.common.helper.RandomHelper;
 import com.ku.quizzical.common.helper.TimeHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 public class MockIdGenerator {

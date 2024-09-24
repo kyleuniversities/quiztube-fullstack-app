@@ -1,6 +1,6 @@
 package com.ku.quizzical.devtools.util.synthetic;
 
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
 final class SyntheticSubjectDataGenerator extends SyntheticSubDataGenerator {

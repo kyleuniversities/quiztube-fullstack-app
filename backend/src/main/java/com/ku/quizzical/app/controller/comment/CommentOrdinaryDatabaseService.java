@@ -3,7 +3,7 @@ package com.ku.quizzical.app.controller.comment;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 
 /**
  * Service class for Comment Database related operations

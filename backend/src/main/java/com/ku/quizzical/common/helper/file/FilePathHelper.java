@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.IterationHelper;
-import com.ku.quizzical.common.helper.ListHelper;
+import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.number.IntegerHelper;
 import com.ku.quizzical.common.helper.string.StringDeleterHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
