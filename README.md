@@ -1,8 +1,27 @@
-# QuizTube v1.0.0
+# QuizTube v1.1.0
 
 The QuizTube Application (formerly called Quizzical) is a Spring Boot web application designed for users to be able to quiz
 themselves by making their own quizzes. The app was developed using TypeScript React for
 the frontend and Spring Boot for the backend.
+
+&nbsp;
+
+&nbsp;
+
+# Release 1.1.0
+
+Updated QuizTube Homepage quiz card UI.  Loading interface is smoother and quiz card UI interact on hover.  Utilized fade
+left Transitions and Semantic UI React Loaders.  
+
+&nbsp;
+
+&nbsp;
+
+## Note 1.1.0
+
+Conducted a performance test on multiple API requests for homepage quizzes vs a singular request for a quiz catalog.  The
+singular request performed slower than the original multiple API requests (an unexpected result).  More investigation will
+be performed in future releases.
 
 &nbsp;
 
@@ -83,6 +102,14 @@ Throughout this project, I definitely learned a lot about deployment technologie
 
 &nbsp;
 
+## Note 1.1.0
+
+For cost optimization, the following CI / CD pipeline is deprecated.  The following CI / CD is used for released 1.0.0. 
+
+&nbsp;
+
+&nbsp;
+
 ## My CI/CD Pipeline
 
 The step-by-step process for which my CI/CD pipeline is as follows:
@@ -127,7 +154,7 @@ This project was, admittedly, the first time I had used Jenkins. I definitely ha
 
 ## Overall
 
-There were several other challenges to this project as well, but fortunately I was able to pull through and deliver this website as QuizTube v1.0.0! Overall, I learned a lot from this project, and hope to help deploy good products in the future!
+There were several other challenges to this project as well, but fortunately I was able to pull through and deliver this website as QuizTube v1.1.0! Overall, I learned a lot from this project, and hope to help deploy good products in the future!
 
 &nbsp;
 
