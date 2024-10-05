@@ -34,6 +34,7 @@ CREATE TABLE `quiz` (
   `title` varchar(255) NOT NULL,
   `subject_id` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
+  `number_of_likes` int DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `FK2bn6jb1u6wox8j2oh77k4vyp4` (`subject_id`),
   KEY `FK1tofsm1qynhakggx7ttqh8ihu` (`user_id`),

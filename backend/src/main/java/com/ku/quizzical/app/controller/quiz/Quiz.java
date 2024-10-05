@@ -69,7 +69,7 @@ public final class Quiz {
     // To String Method
     @Override
     public String toString() {
-        return String.format("Quiz(\"%s\", \"%s\", \"%s\", \"%s\")", this.title, this.description,
-                this.id, this.getUserId());
+        return String.format("Quiz(\"%s\", \"%s\", \"%d\", \"%s\", \"%s\")", this.title,
+                this.description, this.numberOfLikes, this.id, this.getUserId());
     }
 }

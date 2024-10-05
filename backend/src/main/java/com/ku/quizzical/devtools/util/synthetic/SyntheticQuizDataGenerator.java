@@ -36,7 +36,7 @@ final class SyntheticQuizDataGenerator extends SyntheticSubDataGenerator {
     public void appendSqlLines() {
         this.reset();
         this.addLine(
-                "INSERT INTO development.quiz (id, title, description, picture, thumbnail, user_id, subject_id)");
+                "INSERT INTO development.quiz (id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes)");
         this.addLine("VALUES");
         ListHelper.forEach(this.staticData.getUsernames(), (Integer i, String username) -> {
             String userId = this.idHolder.getUserIds().get(i);
@@ -65,8 +65,8 @@ final class SyntheticQuizDataGenerator extends SyntheticSubDataGenerator {
                 "\'", "\\\'");
         String pictureText = "static/quiz/quiz-picture-" + subjectTag + ".png";
         String thumbnailText = "static/quiz/quiz-picture-" + subjectTag + "_T.png";
-        String recordText = StringHelper.format("('%s', '%s', '%s', '%s', '%s', '%s', '%s'),", id,
-                title, description, pictureText, thumbnailText, userId, subjectId);
+        String recordText = StringHelper.format("('%s', '%s', '%s', '%s', '%s', '%s', '%s', %d),",
+                id, title, description, pictureText, thumbnailText, userId, subjectId, 0);
         this.addLine(recordText);
     }
 

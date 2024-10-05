@@ -64,7 +64,7 @@ public final class SyntheticDataGenerator {
             ListHelper.addAll(lines, query);
             ListHelper.add(lines, "");
         });
-        FileHelper.exportStringList(lines, outputFolderPath + "/_populate.sql");
+        FileHelper.exportStringList(lines, this.outputFolderPath + "/_populate.sql");
     }
 
     // Initialization Methods

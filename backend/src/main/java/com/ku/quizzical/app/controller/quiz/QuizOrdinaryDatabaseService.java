@@ -40,12 +40,13 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     public QuizDto saveQuiz(QuizAddRequest quiz) {
         this.validateAddQuizRequest(quiz);
         String id = this.nextId();
-        var sql = """
-                INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """;
+        var sql =
+                """
+                        INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """;
         int result = this.jdbcTemplate.update(sql, id, quiz.title(), quiz.description(),
-                quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId());
+                quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId(), 0);
         System.out.println("POST QUIZ RESULT = " + result);
         return this.dtoMapper.apply(this.repository.findById(id).get());
     }

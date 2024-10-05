@@ -1,7 +1,9 @@
 package com.ku.quizzical.devtools.util.synthetic;
 
 import java.util.List;
+import java.util.Map;
 import com.ku.quizzical.common.helper.IterationHelper;
+import com.ku.quizzical.common.helper.MapHelper;
 import com.ku.quizzical.common.helper.list.ListHelper;
 import com.ku.quizzical.common.helper.string.StringHelper;
 
@@ -9,6 +11,7 @@ final class SyntheticLikeDataGenerator extends SyntheticSubDataGenerator {
     // Instance fields
     private int likeIndex;
     private List<Integer> indexList;
+    private Map<String, Integer> quizLikeCountMap;
 
     // New Instance Method
     public static SyntheticLikeDataGenerator newInstance(SyntheticDataGenerator generator,
@@ -32,6 +35,12 @@ final class SyntheticLikeDataGenerator extends SyntheticSubDataGenerator {
     @Override
     public void appendSqlLines() {
         this.reset();
+        this.appendLikeSqlLines();
+        this.appendQuizSqlLines();
+    }
+
+    // Major Methods
+    private void appendLikeSqlLines() {
         this.addLine("INSERT INTO development._like (id, quiz_id, user_id)");
         this.addLine("VALUES");
         ListHelper.forEach(this.staticData.getUsernames(), (Integer i, String username) -> {
@@ -43,6 +52,8 @@ final class SyntheticLikeDataGenerator extends SyntheticSubDataGenerator {
                 String likeId = this.idHolder.getLikeIds().get(this.likeIndex++);
                 String recordText =
                         StringHelper.format("('%s', '%s', '%s'),", likeId, quizId, userId);
+                MapHelper.put(this.quizLikeCountMap, quizId,
+                        MapHelper.getInitialize(this.quizLikeCountMap, quizId, () -> 0) + 1);
                 this.addLine(recordText);
             });
         });
@@ -50,9 +61,18 @@ final class SyntheticLikeDataGenerator extends SyntheticSubDataGenerator {
         this.appendLastCharacters(";");
     }
 
+    private void appendQuizSqlLines() {
+        MapHelper.forEach(this.quizLikeCountMap, (String quizId, Integer numberOfLikes) -> {
+            this.addLine(StringHelper.format(
+                    "UPDATE development.quiz SET number_of_likes = %d WHERE id = '%s';",
+                    numberOfLikes, quizId));
+        });
+    }
+
     // Initialization Methods
     private void reset() {
         this.likeIndex = 0;
         this.indexList = ListHelper.newIndexList(75);
+        this.quizLikeCountMap = MapHelper.newLinkedHashMap();
     }
 }
