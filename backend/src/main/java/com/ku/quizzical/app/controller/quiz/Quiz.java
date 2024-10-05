@@ -42,7 +42,7 @@ public final class Quiz {
     private String thumbnail;
 
     @Column(name = "number_of_likes", nullable = false)
-    private String numberOfLikes;
+    private int numberOfLikes;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
