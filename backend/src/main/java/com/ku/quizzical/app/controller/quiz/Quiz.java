@@ -41,6 +41,9 @@ public final class Quiz {
     @Column(name = "thumbnail", nullable = false)
     private String thumbnail;
 
+    @Column(name = "number_of_likes", nullable = false)
+    private String numberOfLikes;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     public User user;

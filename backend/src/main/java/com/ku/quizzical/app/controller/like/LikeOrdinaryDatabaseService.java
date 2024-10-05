@@ -3,6 +3,8 @@ package com.ku.quizzical.app.controller.like;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import com.ku.quizzical.app.controller.quiz.Quiz;
+import com.ku.quizzical.app.controller.quiz.QuizRepository;
 import com.ku.quizzical.app.helper.NullValueHelper;
 import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.list.ListHelper;
@@ -16,12 +18,15 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
     // Instance Fields
     private final JdbcTemplate jdbcTemplate;
     private final LikeDtoRowMapper dtoRowMapper;
+    private final QuizRepository quizRepository;
 
     // Constructor Method
-    public LikeOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, LikeDtoRowMapper dtoRowMapper) {
+    public LikeOrdinaryDatabaseService(JdbcTemplate jdbcTemplate, LikeDtoRowMapper dtoRowMapper,
+            QuizRepository quizRepository) {
         super();
         this.jdbcTemplate = jdbcTemplate;
         this.dtoRowMapper = dtoRowMapper;
+        this.quizRepository = quizRepository;
     }
 
     // Interface Methods
@@ -34,6 +39,8 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
         String id = IdHelper.nextMockId();
         int result = this.jdbcTemplate.update(sql, id, likeDto.quizId(), likeDto.userId());
         System.out.println("POST LIKE RESULT = " + result);
+        Quiz quiz = this.quizRepository.findById(quizId).get();
+        quiz.setNumberOfLikes(quiz.getLikes().size());
         return new LikeDto(id, likeDto.quizId(), likeDto.userId());
     }
 
@@ -90,6 +97,8 @@ public class LikeOrdinaryDatabaseService implements LikeDatabaseService {
                 WHERE id = ?
                 """;
         int result = this.jdbcTemplate.update(sql, id);
+        Quiz quiz = this.quizRepository.findById(quizId).get();
+        quiz.setNumberOfLikes(quiz.getLikes().size());
         System.out.println("DELETE LIKE RESULT = " + result);
     }
 }
