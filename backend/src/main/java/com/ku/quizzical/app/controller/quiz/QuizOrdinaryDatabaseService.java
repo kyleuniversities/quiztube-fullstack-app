@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
@@ -53,15 +56,10 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
 
     @Override
     public List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery,
-            int limit) {
-        List<QuizDto> q = ListHelper.toArrayList(ListHelper
-                .shuffleWithFallthrough(this.repository.findAll()).stream()
-                .filter(this.makeQuizUserIdFilter(userId))
-                .filter(this.makeQuizSubjectIdFilter(subjectId))
-                .filter(this.makeQuizTitleQueryFilter(titleQuery)).map(this.dtoMapper::apply)
-                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizDto::numberOfLikes))
-                .limit(limit).toList());
-        return q;
+            int limit, int offset) {
+        return ListHelper.map(this.repository.findAll(
+                PageRequest.of(offset / limit, limit, Sort.by("numberOfLikes").descending()))
+                .toList(), this.dtoMapper::apply);
     }
 
     @Override

@@ -5,7 +5,8 @@ import java.util.List;
 public interface QuizDatabaseService {
     QuizDto saveQuiz(QuizAddRequest quiz);
 
-    List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery, int limit);
+    List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery, int limit,
+            int offset);
 
     QuizCatalogDto getQuizCatalog(int limit);
 

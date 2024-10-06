@@ -60,11 +60,12 @@ public final class QuizController {
         public List<QuizDto> getAllQuizzes(@RequestParam("userId") Optional<String> userId,
                         @RequestParam("subjectId") Optional<String> subjectId,
                         @RequestParam("titleQuery") Optional<String> titleQuery,
-                        @RequestParam("limit") Optional<String> limit) {
+                        @RequestParam("limit") Optional<String> limit,
+                        @RequestParam("offset") Optional<String> offset) {
                 return this.service.getAllQuizzes(OptionalHelper.getApparentValue(userId),
                                 OptionalHelper.getApparentValue(subjectId),
-                                OptionalHelper.getApparentValue(titleQuery),
-                                this.parseLimit(limit));
+                                OptionalHelper.getApparentValue(titleQuery), this.parseLimit(limit),
+                                this.parseOffset(offset));
         }
 
         // READ Method
@@ -78,16 +79,20 @@ public final class QuizController {
         // Gets all Quizzes from User
         @GetMapping("/users/{userId}/quizzes")
         public List<QuizDto> getAllQuizzesByUserId(@PathVariable String userId,
-                        @RequestParam("limit") Optional<String> limit) {
-                return this.service.getAllQuizzes(userId, null, null, this.parseLimit(limit));
+                        @RequestParam("limit") Optional<String> limit,
+                        @RequestParam("offset") Optional<String> offset) {
+                return this.service.getAllQuizzes(userId, null, null, this.parseLimit(limit),
+                                this.parseOffset(offset));
         }
 
         // READ Method
         // Gets all Quizzes from Subject
         @GetMapping("/subjects/{subjectId}/quizzes")
         public List<QuizDto> getAllQuizzesBySubjectId(@PathVariable String subjectId,
-                        @RequestParam("limit") Optional<String> limit) {
-                return this.service.getAllQuizzes(null, subjectId, null, this.parseLimit(limit));
+                        @RequestParam("limit") Optional<String> limit,
+                        @RequestParam("offset") Optional<String> offset) {
+                return this.service.getAllQuizzes(null, subjectId, null, this.parseLimit(limit),
+                                this.parseOffset(offset));
         }
 
         // READ Method
@@ -129,5 +134,10 @@ public final class QuizController {
         private int parseLimit(Optional<String> limit) {
                 return ConditionalHelper.newTernaryOperation(limit.isPresent(),
                                 () -> Integer.parseInt(limit.get()), () -> Integer.MAX_VALUE);
+        }
+
+        private int parseOffset(Optional<String> offset) {
+                return ConditionalHelper.newTernaryOperation(offset.isPresent(),
+                                () -> Integer.parseInt(offset.get()), () -> 0);
         }
 }
