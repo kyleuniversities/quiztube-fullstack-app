@@ -119,11 +119,9 @@ public final class RealizedTestUserMaker {
 
     // Minor Methods
     private Map<String, UserRegistrationRequest> makeTestUserRegistrationRequests() {
-        Map<String, UserRegistrationRequest> userRegistrationRequests =
-                MapHelper.newLinkedHashMap();
+        Map<String, UserRegistrationRequest> userRegistrationRequests = MapHelper.newLinkedHashMap();
         IterationHelper.forEach(this.numberOfUsers, (Integer i) -> {
-            UserRegistrationRequest request =
-                    UserTestHelper.newRandomRegistrationRequest("testrxx" + i);
+            UserRegistrationRequest request = UserTestHelper.newRandomRegistrationRequest("testrxx" + i);
             MapHelper.put(userRegistrationRequests, request.username(), request);
         });
         return userRegistrationRequests;
@@ -162,8 +160,7 @@ public final class RealizedTestUserMaker {
         MapHelper.forEach(this.userDtos, (String userId, UserDto userDto) -> {
             this.logIn(userDto);
             IterationHelper.forEach(5, () -> {
-                QuizAddRequest request =
-                        QuizTestHelper.newRandomQuizAddRequest(userId, this.container);
+                QuizAddRequest request = QuizTestHelper.newRandomQuizAddRequest(userId, this.container);
                 QuizDto quizDto = QuizTestHelper.saveQuiz(request, this.container);
                 MapHelper.put(quizDtos, quizDto.id(), quizDto);
             });
@@ -177,7 +174,7 @@ public final class RealizedTestUserMaker {
             User user = this.users.get(quizDto.userId());
             Subject subject = this.subjects.get(quizDto.subjectId());
             Quiz quiz = new Quiz(quizDto.id(), quizDto.title(), quizDto.description(),
-                    quizDto.picture(), quizDto.thumbnail(), user, subject,
+                    quizDto.picture(), quizDto.thumbnail(), 0, user, subject,
                     ListHelper.newArrayList(), ListHelper.newArrayList(),
                     ListHelper.newArrayList());
             ListHelper.add(user.getQuizzes(), quiz);
@@ -195,8 +192,7 @@ public final class RealizedTestUserMaker {
             IterationHelper.forEach(5, () -> {
                 QuestionAddRequest request = QuestionTestHelper.newRandomQuestionAddRequest(quizId,
                         quizDto.userId(), this.container);
-                QuestionDto questionDto =
-                        QuestionTestHelper.saveQuestion(quizId, request, this.container);
+                QuestionDto questionDto = QuestionTestHelper.saveQuestion(quizId, request, this.container);
                 MapHelper.put(questionDtos, questionDto.id(), questionDto);
             });
             this.logOut();

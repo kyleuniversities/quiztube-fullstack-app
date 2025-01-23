@@ -45,11 +45,10 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     public QuizDto saveQuiz(QuizAddRequest quiz) {
         this.validateAddQuizRequest(quiz);
         String id = this.nextId();
-        var sql =
-                """
-                        INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                        """;
+        var sql = """
+                INSERT INTO quiz(id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
         int result = this.jdbcTemplate.update(sql, id, quiz.title(), quiz.description(),
                 quiz.picture(), quiz.thumbnail(), quiz.userId(), quiz.subjectId(), 0);
         System.out.println("POST QUIZ RESULT = " + result);
@@ -59,12 +58,14 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     @Override
     public List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery,
             int limit, int offset) {
-        var sql =
-                """
-                        SELECT id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes
-                        FROM quiz
-                        WHERE id = ?
-                        """;
+        List<QuizDto> q = ListHelper.toArrayList(ListHelper
+                .shuffleWithFallthrough(this.repository.findAll()).stream()
+                .filter(this.makeQuizUserIdFilter(userId))
+                .filter(this.makeQuizSubjectIdFilter(subjectId))
+                .filter(this.makeQuizTitleQueryFilter(titleQuery)).map(this.dtoMapper::apply)
+                .sorted(ComparatorHelper.newReversedOrdinalComparator(QuizDto::numberOfLikes))
+                .limit(limit).toList());
+        return q;
     }
 
     @Override
