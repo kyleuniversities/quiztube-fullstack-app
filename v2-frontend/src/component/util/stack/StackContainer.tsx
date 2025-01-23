@@ -2,8 +2,8 @@
 import { CSSProperties, ReactNode } from "react";
 import styles from "./StackContainer.module.css";
 
-// Props Interface
-interface StackContainerProps {
+// Parameters Interface
+interface StackContainerParameters {
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -14,7 +14,7 @@ export default function StackContainer({
   className = "",
   style = {},
   children,
-}: StackContainerProps) {
+}: StackContainerParameters) {
   return (
     <>
       <div

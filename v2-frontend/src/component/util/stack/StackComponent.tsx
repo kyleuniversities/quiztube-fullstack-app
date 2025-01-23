@@ -2,8 +2,8 @@
 import { CSSProperties, ReactNode } from "react";
 import styles from "./StackComponent.module.css";
 
-// Props Interface
-interface StackContainerProps {
+// Parameters Interface
+interface StackContainerParameters {
   zIndex: number;
   className?: string;
   style?: CSSProperties;
@@ -16,12 +16,12 @@ export default function StackComponent({
   className = "",
   style = { zIndex },
   children,
-}: StackContainerProps) {
+}: StackContainerParameters) {
   return (
     <>
       <div
         className={`${styles["stack-component"]} ${className}}`}
-        style={{ position: "relative", ...style }}
+        style={{ ...style }}
       >
         {children}
       </div>
