@@ -18,6 +18,7 @@ import com.ku.quizzical.app.controller.user.User;
 import com.ku.quizzical.app.controller.user.UserRepository;
 import com.ku.quizzical.app.helper.AuthorizationValidationHelper;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
+import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.OptionalHelper;
 
@@ -66,6 +67,17 @@ public final class QuizController {
                                 OptionalHelper.getApparentValue(subjectId),
                                 OptionalHelper.getApparentValue(titleQuery), this.parseLimit(limit),
                                 this.parseOffset(offset));
+        }
+
+        // READ Method
+        // Gets the number of quizzes
+        @GetMapping("/quizzes-count")
+        public IntegerDto getNumberOfQuizzes(@RequestParam("userId") Optional<String> userId,
+                        @RequestParam("subjectId") Optional<String> subjectId,
+                        @RequestParam("titleQuery") Optional<String> titleQuery) {
+                return this.service.getNumberOfQuizzes(OptionalHelper.getApparentValue(userId),
+                                OptionalHelper.getApparentValue(subjectId),
+                                OptionalHelper.getApparentValue(titleQuery));
         }
 
         // READ Method

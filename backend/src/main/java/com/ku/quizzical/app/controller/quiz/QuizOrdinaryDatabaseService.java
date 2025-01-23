@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.ku.quizzical.app.helper.DatabaseValidationHelper;
 import com.ku.quizzical.app.helper.TextValidationHelper;
+import com.ku.quizzical.app.util.dto.IntegerDto;
 import com.ku.quizzical.common.helper.ComparatorHelper;
 import com.ku.quizzical.common.helper.ConditionalHelper;
 import com.ku.quizzical.common.helper.MapHelper;
@@ -57,9 +59,17 @@ public class QuizOrdinaryDatabaseService implements QuizDatabaseService {
     @Override
     public List<QuizDto> getAllQuizzes(String userId, String subjectId, String titleQuery,
             int limit, int offset) {
-        return ListHelper.map(this.repository.findAll(
-                PageRequest.of(offset / limit, limit, Sort.by("numberOfLikes").descending()))
-                .toList(), this.dtoMapper::apply);
+        var sql =
+                """
+                        SELECT id, title, description, picture, thumbnail, user_id, subject_id, number_of_likes
+                        FROM quiz
+                        WHERE id = ?
+                        """;
+    }
+
+    @Override
+    public IntegerDto getNumberOfQuizzes(String userId, String subjectId, String titleQuery) {
+        return new IntegerDto(3);
     }
 
     @Override
